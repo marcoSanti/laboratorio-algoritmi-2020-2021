@@ -8,6 +8,7 @@ void BinaryInsertionSort(int *array , int arrayLength){
         position = BinarySearchPosition(array, tmp, 1, i);
         
         //memcpy( &array[position+1], &array[position], i-position);
+
         for(int k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -28,15 +29,3 @@ int BinarySearchPosition(int *array, int x, int i, int j){
     }
 };
 
-int main(int argc, char* argv[]) {
-    int array[] = {9,8,7,6};
-    for(int i=0; i<4;i++){
-        printf(" [%d] ", array[i]);
-    }
-    printf("\n"); 
-    BinaryInsertionSort(array, 4);
-    for(int i=0; i<4;i++){
-        printf(" [%d] ", array[i]);
-    } 
-    printf("\n");   
-}
