@@ -20,7 +20,7 @@ void BinaryInsertionSort(int *array , int arrayLength){
 int BinarySearchPosition(int *array, int x, int i, int j){
     int m = (i+j)/2;
     
-    if(array[m] >= x && array[m-1] <= x){
+    if((array[m] >= x && array[m-1] <= x) || (m== 0 && x < array[0])) {
         return m;
     }else if(x>array[m]) {
         return BinarySearchPosition(array, x, m+1, j);
