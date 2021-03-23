@@ -1,14 +1,11 @@
-
 #include "BinarySort.h"
 
 void BinaryInsertionSort(int *array , int arrayLength){
     int i, position, tmp;
 
     for(i=1;i<arrayLength; i++){
-
-        position = BinarySearchPosition(array, array[i], 0, i);
         tmp = array[i];
-        printf("got here at %i\n", i);
+        position = BinarySearchPosition(array, tmp, 1, i);
         memcpy( &array[position+1], &array[position], i-position);
         array[position] = tmp;
     }
@@ -16,22 +13,24 @@ void BinaryInsertionSort(int *array , int arrayLength){
 
 int BinarySearchPosition(int *array, int x, int i, int j){
     int m = (i+j)/2;
-    
-    if(array[m] == x) {
-        return m;
-    } 
-    if(array[m] > x) {
+    if(array[m+1] >= x && array[m] < x) {
+        return x;
+    } else if(array[m] > x) {
         return BinarySearchPosition(array, x, i, m-1);
+    } else {
+        return BinarySearchPosition(array, x, m+1, j);
     }
-    return BinarySearchPosition(array, x, m+1, j);
 };
 
 int main(int argc, char* argv[]) {
-    int array[] = {9,8,7,6,5,4,3,2,1,0};
-    
-    BinaryInsertionSort(array, 10);
-    for(int i=0; i<10;i++){
-        printf(" %d ", array[i]);
+    int array[] = {9,8,7,6};
+    for(int i=0; i<4;i++){
+        printf(" [%d] ", array[i]);
+    }
+    printf("\n"); 
+    BinaryInsertionSort(array, 4);
+    for(int i=0; i<4;i++){
+        printf(" [%d] ", array[i]);
     } 
     printf("\n");   
 }
