@@ -13,12 +13,13 @@ void BinaryInsertionSort(int *array , int arrayLength){
 
 int BinarySearchPosition(int *array, int x, int i, int j){
     int m = (i+j)/2;
-    if(array[m+1] >= x && array[m] < x) {
-        return x;
-    } else if(array[m] > x) {
-        return BinarySearchPosition(array, x, i, m-1);
-    } else {
+    
+    if(array[m] >= x && array[m-1] <= x){
+        return m;
+    }else if(x>array[m]) {
         return BinarySearchPosition(array, x, m+1, j);
+    }else{
+        return BinarySearchPosition(array, x, i, m-1);
     }
 };
 
