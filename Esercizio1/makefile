@@ -18,5 +18,3 @@ debug: Headers/BinarySort.h SortLibrary/BinarySort.c SortLibrary/main.c
 	$(COMPILER) Build/BinarySort.o Build/main.o -o Build/BinarySortMainExec
 	gdb Build/BinarySortMainExec
 
-clear:
-	$(RM) -rf Build/*

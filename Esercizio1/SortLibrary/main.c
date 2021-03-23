@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]) {
     int i;
-    int arr1[] = {11,10,9,8,7};
+    int arr1[] = {11,10,9,8,7,6};
     int array[] = {9,8,7,6};
 
     
@@ -19,13 +19,13 @@ int main(int argc, char* argv[]) {
 
     
     
-    for(i=0; i<5;i++){
+    for(i=0; i<6;i++){
         printf(" [%d] ", arr1[i]);
     }
     printf("\n"); 
-    BinaryInsertionSort(arr1, 5);
+    BinaryInsertionSort(arr1, 6);
     
-    for(i=0; i<5;i++){
+    for(i=0; i<6;i++){
         printf(" [%d] ", arr1[i]);
     } 
     printf("\n");
