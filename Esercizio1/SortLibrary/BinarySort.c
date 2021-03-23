@@ -3,9 +3,12 @@
 
 void BinaryInsertionSort(int *array , int arrayLength){
     int i, position, tmp;
+
     for(i=1;i<arrayLength; i++){
+
         position = BinarySearchPosition(array, array[i], 0, i);
         tmp = array[i];
+        printf("got here at %i\n", i);
         memcpy( &array[position+1], &array[position], i-position);
         array[position] = tmp;
     }
@@ -24,8 +27,11 @@ int BinarySearchPosition(int *array, int x, int i, int j){
 };
 
 int main(int argc, char* argv[]) {
-    int array[] = {2, 3, 4, 5 ,6 ,7 ,9};
-    int numberToBeFound = 9;
-    int numberFound = BinarySearchPosition(array, numberToBeFound, 0, 7); 
-    printf("Position of the number in the array: %d\n", numberFound);   
+    int array[] = {9,8,7,6,5,4,3,2,1,0};
+    
+    BinaryInsertionSort(array, 10);
+    for(int i=0; i<10;i++){
+        printf(" %d ", array[i]);
+    } 
+    printf("\n");   
 }
