@@ -7,4 +7,4 @@
 
 void BinaryInsertionSort(int *array, int arrayLength);
 
-int BinarySearchPosition(int array, int x, int i, int j); 
+int BinarySearchPosition(int *array, int x, int i, int j); 
