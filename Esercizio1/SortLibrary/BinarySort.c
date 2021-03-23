@@ -1,11 +1,11 @@
 #include "BinarySort.h"
 
-void BinaryInsertionSort(int *Array , int ArrayLength){
-    int i;
-    int position;
-    int tmp;
-    for(i=1;i<ArrayLength, i++){
-        position = BinarySearchPosition(Array, Array[i], 0, i);
-        tmp = 
+void BinaryInsertionSort(int *array , int arrayLength){
+    int i, position, tmp;
+    for(i=1;i<arrayLength, i++){
+        position = BinarySearchPosition(array, array[i], 0, i);
+        tmp = array[i];
+        memcpy( &A[position+1], &A[position], i-positition);
+        array[position] = tmp;
     }
 }
