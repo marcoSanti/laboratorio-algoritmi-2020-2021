@@ -6,7 +6,12 @@ void BinaryInsertionSort(int *array , int arrayLength){
     for(i=1;i<arrayLength; i++){
         tmp = array[i];
         position = BinarySearchPosition(array, tmp, 1, i);
-        memcpy( &array[position+1], &array[position], i-position);
+        
+        //memcpy( &array[position+1], &array[position], i-position);
+        for(int k = i; k>position; k--){
+            array[k] = array[k-1];
+        }
+        
         array[position] = tmp;
     }
 };
