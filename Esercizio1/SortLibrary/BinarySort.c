@@ -1,14 +1,14 @@
 #include "BinarySort.h"
 
 void BinaryInsertionSort(int *array , int arrayLength){
-    int i, position, tmp;
+    int i, position, tmp,k;
 
     for(i=1;i<arrayLength; i++){
             
         tmp = array[i];
         position = BinarySearchPosition(array, tmp, 1, i);
     
-        for(int k = i; k>position; k--){
+        for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
         
