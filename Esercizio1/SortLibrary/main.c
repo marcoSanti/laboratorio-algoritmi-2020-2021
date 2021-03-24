@@ -29,6 +29,18 @@ int main(int argc, char* argv[]) {
         printf(" [%d] ", arr1[i]);
     } 
     printf("\n");
+
+
+    int A[] = {5, 9, 4, 1, 3, 7, 2}; 
+   
+    for(int i=0; i<sizeof(A)/sizeof(A[0]); i++)
+        printf("%d ", A[i]);
+
+    MergeSort(A, 0, sizeof(A)/sizeof(A[0])-1 );
+
+    printf("\n"); 
+    for(int i=0; i<sizeof(A)/sizeof(A[0]); i++)
+        printf("%d ", A[i]);
     
     
     return 0;
