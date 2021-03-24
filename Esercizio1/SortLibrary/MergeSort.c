@@ -1,12 +1,11 @@
-#include <stdio.h>
+#include "BinarySort.h"
 #include "MergeSort.h"
 
 void MergeSort(int A[] ,int i,int j){  //i = 0, j=len(A) - 1
     int k=2;
     int m;
     if (j-i+1 < k){ // len(A) = j-i+1
-      //  BinaryInsertionSort(A, i, j);
-      
+      BinaryInsertionSort(A, i, j);
     }
     else{    
         m = (i+j)/2;
@@ -14,7 +13,7 @@ void MergeSort(int A[] ,int i,int j){  //i = 0, j=len(A) - 1
         MergeSort(A, m+1, j);  
         Merge(A, i ,m , j);
     }
-  
+
 }
 
 void Merge(int A[],int i,int m,int j){
@@ -34,7 +33,7 @@ void Merge(int A[],int i,int m,int j){
     }
 
     while(c < j){
-        if(L[a] < R[b]){
+        if(a < n1 && L[a] < R[b]){
             A[c] = L[a];
             a++;
         }
