@@ -1,4 +1,5 @@
 #include "BinarySort.h"
+#include "MergeSort.h"
 
 int main(int argc, char* argv[]) {
     int i;
