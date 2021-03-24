@@ -18,7 +18,8 @@ Build/main.o: Headers/BinarySort.h SortLibrary/main.c
 debug: Headers/BinarySort.h SortLibrary/BinarySort.c SortLibrary/main.c
 	$(COMPILER) $(FLAGS) -g -c SortLibrary/main.c -o Build/main.o
 	$(COMPILER) $(FLAGS) -g -c SortLibrary/BinarySort.c -o Build/BinarySort.o
-	$(COMPILER) Build/BinarySort.o Build/main.o -o Build/BinarySortMainExec
+	$(COMPILER) $(FLAGS) -g -c SortLibrary/MergeSort.c -o Build/MergeSort.o
+	$(COMPILER) Build/BinarySort.o Build/main.o Build/MergeSort.o -o Build/BinarySortMainExec
 	gdb Build/BinarySortMainExec
 
 UnityTest/unity.o: UnityTest/unity.c UnityTest/unity.h

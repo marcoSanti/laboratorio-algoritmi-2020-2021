@@ -1,62 +1,58 @@
 #include "BinarySort.h"
 #include "MergeSort.h"
 
-void MergeSort(int A[] ,int i,int j){  //i = 0, j=len(A) - 1
-    int k=2;
-    int m;
-    if (j-i+1 < k){ // len(A) = j-i+1
-      BinaryInsertionSort(A, i, j);
+void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
+     if(l>=r){
+        return;//returns recursively
     }
-    else{    
-        m = (i+j)/2;
-        MergeSort(A, i, m); 
-        MergeSort(A, m+1, j);  
-        Merge(A, i ,m , j);
-    }
-
+    int m =l+ (r-l)/2;
+    MergeSort(A,l,m);
+    MergeSort(A,m+1,r);
+    Merge(A,l,m,r);
 }
 
-void Merge(int A[],int i,int m,int j){
-    int n1 = m-i+1;
-    int n2 =j-m; 
-    int L[n1];
-    int R[n2];
-    int a = 0; //posizione su L
-    int b = 0; //posizione su R
-    int c = i; //posizione su arrSupporto
-
-    for(int a=0; a<n1; a++){
-        L[a] = A[i + a];
-    }
-    for(int b=0; b<n2; b++){
-        R[b] = A[m + 1 + b];
+void Merge(int A[],int l,int m,int r){ // 0 5 11
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int i, j, k = l;
+ 
+    int L[n1], R[n2];
+ 
+    for (i = 0; i < n1; i++){
+        L[i] = A[l + i];
     }
 
-    while(c < j){
-        if(a < n1 && L[a] < R[b]){
-            A[c] = L[a];
-            a++;
+    for (j = 0; j < n2; j++){
+        R[j] = A[m + 1 + j];
+    }
+ 
+
+    i = 0;
+    j = 0;
+ 
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            A[k] = L[i];
+            i++;
         }
-        else{
-            A[c] = R[b]; 
-            b++;
+        else {
+            A[k] = R[j];
+            j++;
         }
-        c++;
+        k++;
     }
-
-  /*  while(a < n1){
-        A[c] = L[a];
-        a++;
-        c++; 
+ 
+    while (i < n1) {
+        A[k] = L[i];
+        i++;
+        k++;
     }
-
-    while(b < n2){
-        A[c] = R[b]; 
-        b++; 
-        c++;
-    }*/
-        
-    
+ 
+    while (j < n2) {
+        A[k] = R[j];
+        j++;
+        k++;
+    }
 }
 
 

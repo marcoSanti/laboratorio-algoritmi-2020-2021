@@ -2,15 +2,12 @@
 
 void BinaryInsertionSort(int *array , int startingIndex, int arrayLength){
     int i, position, tmp, k;
-
     for(i=startingIndex+1;i<arrayLength; i++){
         tmp = array[i];
         position = BinarySearchPosition(array, tmp, startingIndex, i);
-    
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
-        
         array[position] = tmp;
     }
 };

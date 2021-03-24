@@ -5,5 +5,5 @@
     #include <strings.h>
 #endif
 
-void MergeSort(int A[], int i, int j);
-void Merge(int A[], int i, int m, int j); 
+void MergeSort(int A[], int l, int r);
+void Merge(int A[], int l, int m, int r); 
