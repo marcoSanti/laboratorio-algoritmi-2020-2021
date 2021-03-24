@@ -1,14 +1,23 @@
 #include "BinarySort.h"
 #include "MergeSort.h"
+#define K 4
 
 void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
+    
      if(l>=r){
-        return;//returns recursively
+        return;
     }
-    int m =l+ (r-l)/2;
-    MergeSort(A,l,m);
-    MergeSort(A,m+1,r);
-    Merge(A,l,m,r);
+    
+    int m =(r+l)/2;
+    
+    if(r-l < K){
+        BinaryInsertionSort(A, l, l-r+1);
+    }else{
+        MergeSort(A,l,m);
+        MergeSort(A,m+1,r);
+        Merge(A,l,m,r);
+    }
+    
 }
 
 void Merge(int A[],int l,int m,int r){ // 0 5 11
@@ -19,12 +28,12 @@ void Merge(int A[],int l,int m,int r){ // 0 5 11
     int L[n1], R[n2];
  
     for (i = 0; i < n1; i++){
-        L[i] = A[l + i];
+      L[i] = A[l + i];   
     }
-
     for (j = 0; j < n2; j++){
         R[j] = A[m + 1 + j];
     }
+        
  
 
     i = 0;
