@@ -1,6 +1,6 @@
 #include "BinarySort.h"
 #include "MergeSort.h"
-#define K 4
+#define K 3
 
 void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
     
@@ -22,7 +22,7 @@ void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
 
 void Merge(int A[],int l,int m,int r){ // 0 5 11
     int n1 = m - l + 1;
-    int n2 = r - m;
+    int n2 = r - m - 1;
     int i, j, k = l;
  
     int L[n1], R[n2];
@@ -34,7 +34,6 @@ void Merge(int A[],int l,int m,int r){ // 0 5 11
         R[j] = A[m + 1 + j];
     }
         
- 
 
     i = 0;
     j = 0;

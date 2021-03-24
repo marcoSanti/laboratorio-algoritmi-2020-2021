@@ -9,7 +9,8 @@ int main(int argc, char* argv[]) {
         printf("[%d]", arr1[i]);
     }
     printf("\n");
-    MergeSort(arr1, 0, 10);
+    MergeSort(arr1, 0, 11);
+    //BinaryInsertionSort(arr1, 0, 11);
     for(i=0; i<11; i++) {
         printf("[%d]", arr1[i]);
     }
