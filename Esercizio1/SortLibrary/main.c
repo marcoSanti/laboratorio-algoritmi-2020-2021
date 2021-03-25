@@ -1,5 +1,4 @@
-#include "BinarySort.h"
-#include "MergeSort.h"
+#include "MergeBinaryInsertionSort.h"
 
 int main(int argc, char* argv[]) {
     int i;
@@ -9,7 +8,7 @@ int main(int argc, char* argv[]) {
         printf("[%d]", arr1[i]);
     }
     printf("\n");
-    MergeSort(arr1, 0, 20);
+    MergeBinaryInsertionSort(arr1, 0, 20);
     for(i=0; i<20; i++) {
         printf("[%d]", arr1[i]);
     }

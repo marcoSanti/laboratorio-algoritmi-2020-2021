@@ -1,11 +1,12 @@
-#include "BinarySort.h"
+#include "MergeBinaryInsertionSort.h"
 
 void BinaryInsertionSort(int *array , int startingIndex, int arrayLength){
     int i, position, tmp, k;
     
-    for(i=startingIndex;i<startingIndex + arrayLength+1; i++){
+    for(i=startingIndex+1;i<startingIndex + arrayLength; i++){
         tmp = array[i];
         position = BinarySearchPosition(array, tmp, startingIndex, i);
+
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -14,18 +15,27 @@ void BinaryInsertionSort(int *array , int startingIndex, int arrayLength){
 };
 
 
-int BinarySearchPosition(int *array, int x, int i, int j){
+int BinarySearchPosition(int *array, int x, int l, int r){
+    
+    int mid = (l + r) / 2;
 
-    int m = (i+j)/2;
-
-    if(j==1){
-        return i;
-    }else if((array[m] >= x && array[m-1] <= x) || (m== 0 && x < array[0]) || (i==j)) {
-        return m;
-    }else if(x>array[m]) {
-        return BinarySearchPosition(array, x, m-1, j);
+    if (r <= l){
+        if(x > array[l]){
+            return l+1;
+        } 
+        else return l;
+    } 
+ 
+ 
+    if (x == array[mid]){
+        return mid + 1;
+    } 
+ 
+    if (x > array[mid]){
+        return BinarySearchPosition(array, x, mid + 1, r);
     }else{
-        return BinarySearchPosition(array, x, i, m);
-    }
+        return BinarySearchPosition(array, x, l, mid - 1);
+    } 
+
 };
 

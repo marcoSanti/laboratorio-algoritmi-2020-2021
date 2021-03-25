@@ -1,8 +1,7 @@
-#include "BinarySort.h"
 #include "MergeSort.h"
-#define K 3
 
-void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
+
+void MergeBinaryInsertionSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
     
      if(l>=r){
         return;
