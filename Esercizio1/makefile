@@ -2,11 +2,11 @@ COMPILER=gcc
 FLAGS=-I Headers/ 
 FLAGSTEST= $(FLAGS) -I UnityTest/
 
-BinarySortMain: Build/BinarySort.o Build/main.o Build/MergeSort.h
+BinarySortMain: Build/BinarySort.o Build/main.o Build/MergeBinaryInsertionSort.h
 	$(COMPILER) Build/BinarySort.o Build/main.o Build/MergeSort.o -o Build/BinarySortMainExec
 	Build/BinarySortMainExec
 
-Build/MergeSort.h: Headers/MergeSort.h SortLibrary/MergeSort.c
+Build/MergeBinaryInsertionSort.h: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeSort.c
 	$(COMPILER) $(FLAGS) -c SortLibrary/MergeSort.c -o Build/MergeSort.o
 
 Build/BinarySort.o: Headers/BinarySort.h SortLibrary/BinarySort.c

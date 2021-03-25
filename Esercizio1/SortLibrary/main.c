@@ -2,13 +2,13 @@
 
 int main(int argc, char* argv[]) {
     int i;
-    int arr1[] = {11,10,9,8,7,6,5,4,3,2,1,20,19,18,17,16,15,14,13,12};
+    int arr1[] = {20,17,12,15,11,10,8,6,4,1,2,3,5,7,9,13,14,16,18,19};
     
     for(i=0; i<20; i++) {
         printf("[%d]", arr1[i]);
     }
     printf("\n");
-    MergeBinaryInsertionSort(arr1, 0, 20);
+    MergeBinaryInsertionSort(arr1, 0, 19);
     for(i=0; i<20; i++) {
         printf("[%d]", arr1[i]);
     }

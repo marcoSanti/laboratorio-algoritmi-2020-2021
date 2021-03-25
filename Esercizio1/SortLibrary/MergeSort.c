@@ -1,4 +1,4 @@
-#include "MergeSort.h"
+#include "MergeBinaryInsertionSort.h"
 
 
 void MergeBinaryInsertionSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
@@ -12,8 +12,8 @@ void MergeBinaryInsertionSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
    if(r-l < K){
         BinaryInsertionSort(A, l, r-l);
     }else{
-        MergeSort(A,l,m);
-        MergeSort(A,m+1,r);
+        MergeBinaryInsertionSort(A,l,m);
+        MergeBinaryInsertionSort(A,m+1,r);
         Merge(A,l,m,r);
    }
     
