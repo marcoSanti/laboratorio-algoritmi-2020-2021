@@ -10,7 +10,7 @@ void MergeBinaryInsertionSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
     int m =(r+l)/2;
     
    if(r-l < K){
-        BinaryInsertionSort(A, l, r-l);
+        BinaryInsertionSort(A, l, r);
     }else{
         MergeBinaryInsertionSort(A,l,m);
         MergeBinaryInsertionSort(A,m+1,r);
@@ -33,7 +33,6 @@ void Merge(int A[],int l,int m,int r){ // 0 5 11
         R[j] = A[m + 1 + j];
     }
         
-
     i = 0;
     j = 0;
  
@@ -60,6 +59,4 @@ void Merge(int A[],int l,int m,int r){ // 0 5 11
         j++;
         k++;
     }
-}
-
-
+};

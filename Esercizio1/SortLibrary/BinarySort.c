@@ -1,11 +1,13 @@
 #include "MergeBinaryInsertionSort.h"
 
-void BinaryInsertionSort(int *array , int startingIndex, int arrayLength){
+void BinaryInsertionSort(int *array , int l, int r){
+    
     int i, position, tmp, k;
     
-    for(i=startingIndex+1;i<startingIndex + arrayLength; i++){
+    for(i=l+1;i<=r; i++){
+
         tmp = array[i];
-        position = BinarySearchPosition(array, tmp, startingIndex, i);
+        position = BinarySearchPosition(array, tmp, l, i);
 
         for(k = i; k>position; k--){
             array[k] = array[k-1];
@@ -20,21 +22,18 @@ int BinarySearchPosition(int *array, int x, int l, int r){
     int mid = (l + r) / 2;
 
     if (r <= l){
-        if(x > array[l]){
-            return l+1;
-        } 
-        else return l;
+        return l;
     } 
  
  
-    if (x == array[mid]){
-        return mid + 1;
+    if (array[mid-1] <= x && array[mid]> x){
+        return mid;
     } 
  
     if (x > array[mid]){
         return BinarySearchPosition(array, x, mid + 1, r);
     }else{
-        return BinarySearchPosition(array, x, l, mid - 1);
+        return BinarySearchPosition(array, x, l, mid);
     } 
 
 };
