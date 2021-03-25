@@ -10,19 +10,19 @@ void MergeSort(int A[] ,int l,int r){  //i = 0, j=len(A) - 1
     
     int m =(r+l)/2;
     
-    if(r-l < K){
-        BinaryInsertionSort(A, l, l-r+1);
+   if(r-l < K){
+        BinaryInsertionSort(A, l, r-l);
     }else{
         MergeSort(A,l,m);
         MergeSort(A,m+1,r);
         Merge(A,l,m,r);
-    }
+   }
     
 }
 
 void Merge(int A[],int l,int m,int r){ // 0 5 11
     int n1 = m - l + 1;
-    int n2 = r - m - 1;
+    int n2 = r - m;
     int i, j, k = l;
  
     int L[n1], R[n2];
