@@ -2,24 +2,20 @@ COMPILER=gcc
 FLAGS=-I Headers/ 
 FLAGSTEST= $(FLAGS) -I UnityTest/
 
-BinarySortMain: Build/BinarySort.o Build/main.o Build/MergeBinaryInsertionSort.h
-	$(COMPILER) Build/BinarySort.o Build/main.o Build/MergeSort.o -o Build/BinarySortMainExec
+BinarySortMain: Build/main.o Build/MergeBinaryInsertionSort.o
+	$(COMPILER) Build/main.o Build/MergeBinaryInsertionSort.o -o Build/BinarySortMainExec
 	Build/BinarySortMainExec
 
-Build/MergeBinaryInsertionSort.h: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeSort.c
-	$(COMPILER) $(FLAGS) -c SortLibrary/MergeSort.c -o Build/MergeSort.o
+Build/MergeBinaryInsertionSort.o: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeBinaryInsertionSort.c
+	$(COMPILER) $(FLAGS) -c SortLibrary/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
 
-Build/BinarySort.o: Headers/BinarySort.h SortLibrary/BinarySort.c
-	$(COMPILER) $(FLAGS) -c SortLibrary/BinarySort.c -o Build/BinarySort.o
-
-Build/main.o: Headers/BinarySort.h SortLibrary/main.c
+Build/main.o: Headers/MergeBinaryInsertionSort.h SortLibrary/main.c
 	$(COMPILER) $(FLAGS) -c SortLibrary/main.c -o Build/main.o
 
-debug: Headers/BinarySort.h SortLibrary/BinarySort.c SortLibrary/main.c
+debug: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeBinaryInsertionSort.c SortLibrary/main.c
 	$(COMPILER) $(FLAGS) -g -c SortLibrary/main.c -o Build/main.o
-	$(COMPILER) $(FLAGS) -g -c SortLibrary/BinarySort.c -o Build/BinarySort.o
-	$(COMPILER) $(FLAGS) -g -c SortLibrary/MergeSort.c -o Build/MergeSort.o
-	$(COMPILER) Build/BinarySort.o Build/main.o Build/MergeSort.o -o Build/BinarySortMainExec
+	$(COMPILER) $(FLAGS) -g -c SortLibrary/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
+	$(COMPILER) Build/MergeBinaryInsertionSort.o Build/main.o -o Build/BinarySortMainExec
 	gdb Build/BinarySortMainExec
 
 UnityTest/unity.o: UnityTest/unity.c UnityTest/unity.h
