@@ -4,19 +4,12 @@
     #include <stdlib.h>
     #include <strings.h>
     #include <sys/types.h>
+    #include <errno.h>
     #include <unistd.h>
-
     //Length of sub array at wich point merge sort is swapped with binary insertion sort
     #define K 2
-
 #endif
 
-
-
-//data structure to store a single element of the input file
-typedef struct {
-    int firstNumber;
-} record;
 
 /*
     This function implements the algoritm Merge - Binary insertion sort, by using the 
@@ -26,7 +19,7 @@ typedef struct {
         -l : the lower index bound of the element. When the function is called for the first time, it should be 0
         -r : the upper boundaries of the indexes of my array. When the function is called for the first time it should be the last valid index of the array (array.length -1)
 */
-void MergeBinaryInsertionSort(record array[], int l, int r);
+void MergeBinaryInsertionSort(void** array, int l, int r);
 
 /*
     This method proceed to merge two Sub arrays into a single array.
@@ -39,7 +32,7 @@ void MergeBinaryInsertionSort(record array[], int l, int r);
 
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void Merge(record array[], int l, int m, int r); 
+void Merge(void** array, int l, int m, int r);
 
 /*
     This method implements an insertion sort algorithm with a binary search for the position in wich to insert the new element
@@ -49,7 +42,7 @@ void Merge(record array[], int l, int m, int r);
         -r : the end of the array to be sorted
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void BinaryInsertionSort(record *array , int l, int r);
+void BinaryInsertionSort(void** array , int l, int r);
 
 /*
     This method returns the position in wich the new element shall be inserted by using the binary dicotomic search algoritm.
@@ -60,4 +53,4 @@ void BinaryInsertionSort(record *array , int l, int r);
         -j : the end of the array to be sorted
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-int BinarySearchPosition(record *array, record x, int i, int j); 
+int BinarySearchPosition(void** array, int x, int i, int j); 
