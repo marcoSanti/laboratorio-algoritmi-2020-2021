@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     int id;
     int secondNumber;
     float thirdNumber;    
-    while(line != 2000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         record* singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
 
@@ -40,14 +40,14 @@ int main(int argc, char* argv[]) {
     sizeOfArray = line;
     fclose(myFile);
     int i;
-    for(i = 0; i < sizeOfArray; i++) {
-            printf("%d\n", myRecord[i]->numberInt);
-    }
-    printf("-------\n");
+    // for(i = 0; i < sizeOfArray; i++) {
+    //         printf("%d\n", myRecord[i]->numberInt);
+    // }
+    // printf("-------\n");
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1);
-    for(i = 0; i < sizeOfArray; i++) {
-            printf("%d\n", myRecord[i]->numberInt);
-    }
+    // for(i = 0; i < sizeOfArray; i++) {
+    //         printf("%d\n", myRecord[i]->numberInt);
+    // }
 
     for(i = 1; i < sizeOfArray; i++) {
         if(myRecord[i]->numberInt < myRecord[i-1]->numberInt ) {

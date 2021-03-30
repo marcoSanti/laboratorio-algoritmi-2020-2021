@@ -32,22 +32,17 @@ void BinaryInsertionSort(void** array , int l, int r){
 
 
 int BinarySearchPosition(void** array, int x, int l, int r){
-    int mid = (l + r) / 2;
-     
-    if (r <= l){
-        return l;
-    } 
- 
-    if(toint(array[mid]) <= x && toint(array[mid+1]) > x){
-        return mid;
-    } 
- 
-    if(x > toint(array[mid])) {
-        return BinarySearchPosition(array, x, mid + 1, r);
-    }else{
-        return BinarySearchPosition(array, x, l, mid);
-    } 
-    return 0;
+    int m;
+    while(l<=r){
+        m = (l+r)/2;
+        if(x<toint(array[m])){
+            r--;
+        }else{
+            l++;
+        }
+
+    }
+    return l;
 };
 
 
