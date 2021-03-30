@@ -12,7 +12,7 @@ void printElement2(record* record, int conta) {
     fprintf(stdout, "%d-%d\n", record->numberInt, conta);
 };
 
-int toInt(record* record) {
+int toint(record* record) {
     return record->numberInt;
 };
 
@@ -22,7 +22,7 @@ void BinaryInsertionSort(void** array , int l, int r){
 
     for(i=l+1;i<=r; i++){
         tmp = array[i];
-        position = BinarySearchPosition(array, toInt(tmp), l, i);
+        position = BinarySearchPosition(array, toint(tmp), l, i);
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -70,7 +70,7 @@ void Merge(void** array,int l,int m,int r){
     j=0;
     while(i < n1 && j < n2) {
         // Qui ci dovra' essere un puntatore alla funzione compareInt che viene passato come parametro alla funzione
-        if(compareInt(arrayLeft[i], arrayRight[j]) <= 0) {
+        if(toint(arrayLeft[i]) <= toint(arrayRight[j])) {
             array[k] = arrayLeft[i];
             i++;
         } else {
@@ -97,7 +97,7 @@ void MergeBinaryInsertionSort(void** array ,int l,int r){  //i = 0, j=len(A) - 1
     }
     int m = (r + l) / 2;
     if(r - l < K) {
-        BinaryInsertionSort( array, l, r-1);
+        BinaryInsertionSort( array, l, r);
      } else {
         MergeBinaryInsertionSort(array, l, m);
         MergeBinaryInsertionSort(array, m+1, r);
