@@ -7,7 +7,7 @@
     #include <errno.h>
     #include <unistd.h>
     //Length of sub array at wich point merge sort is swapped with binary insertion sort
-    #define K 2
+    #define K 5
 #endif
 
 typedef struct {

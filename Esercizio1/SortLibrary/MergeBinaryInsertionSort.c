@@ -38,11 +38,11 @@ int BinarySearchPosition(void** array, int x, int l, int r){
         return l;
     } 
  
-    if (compareInt2(array[mid-1], -x) <= 0 && compareInt2(array[mid], -x) > 0){
+    if(toint(array[mid]) <= x && toint(array[mid+1]) > x){
         return mid;
     } 
  
-    if (0 > compareInt2(array[mid], -x)) {
+    if(x > toint(array[mid])) {
         return BinarySearchPosition(array, x, mid + 1, r);
     }else{
         return BinarySearchPosition(array, x, l, mid);
@@ -61,7 +61,7 @@ void Merge(void** array,int l,int m,int r){
     void* arrayRight[n2];
 
     for(i = 0; i < n1; i++) {
-        arrayLeft[i] = array[l + 1];
+        arrayLeft[i] = array[l + i];
     }
     for(j = 0; j < n2; j++) {
         arrayRight[j] = array[m + j + 1];
