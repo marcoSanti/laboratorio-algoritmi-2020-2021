@@ -59,6 +59,6 @@ int main(int argc, char* argv[]) {
     fprintf(stderr, "Ordinato\n");
 
     freeElements((void**) myRecord, sizeOfArray-1);
-    free(myRecord);
+    //free(myRecord);
     return 0;
 }
