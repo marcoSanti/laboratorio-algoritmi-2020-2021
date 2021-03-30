@@ -11,11 +11,10 @@
 int sizeOfArray;
 
 void printElement(record* record, int conta) {
-    fprintf(stdout, "%d-%d\n", record->numberInt, conta);
+    printf("%d-%d\n", record->numberInt, conta);
 };
 
 void freeElements(void** myArrayOfRecords, int size) {
-    
     while(size > 0){
         printElement(myArrayOfRecords[size], size);
         free(myArrayOfRecords[size]);
@@ -49,12 +48,17 @@ int main(int argc, char* argv[]) {
     } 
     sizeOfArray = line;
     fclose(myFile);
-    // for(int i = 0; i < sizeOfArray; i++) {
-    //     printElement(myRecord[i], i);
-    // }
-    MergeBinaryInsertionSort((void**) myRecord, 0, sizeOfArray-1);
-    freeElements((void**) myRecord, sizeOfArray);
-    free(myRecord);
+    int i;
+    for(i = 0; i < sizeOfArray; i++) {
+        printElement(myRecord[i], i);
+    }
+    printf("--------\n");
+    BinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1);
+    for(i = 0; i < sizeOfArray; i++) {
+        printElement(myRecord[i], i);
+    }
+    // freeElements((void**) myRecord, sizeOfArray);
+    // free(myRecord);
 
     return 0;
 }

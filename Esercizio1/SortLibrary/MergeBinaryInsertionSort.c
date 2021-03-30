@@ -4,46 +4,53 @@ int compareInt(record* firstRecord, record* secondRecord) {
     return firstRecord->numberInt - secondRecord->numberInt;
 };
 
+int compareInt2(record* firstRecord, int number) {
+    return firstRecord->numberInt - number;
+}
+
 void printElement2(record* record, int conta) {
     fprintf(stdout, "%d-%d\n", record->numberInt, conta);
 };
 
+int toint(record* record) {
+    return record->numberInt;
+}
+
 void BinaryInsertionSort(void** array , int l, int r){
     
-    // int i, position, k;
-    // record tmp;
+    int i, position, k;
+    void* tmp;
     
-    // for(i=l+1;i<=r; i++){
+    for(i=l+1;i<=r; i++){
 
-    //     tmp = array[i];
-    //     position = BinarySearchPosition(array, tmp, l, i);
+        tmp = array[i];
+        position = BinarySearchPosition(array, toint(tmp), l, i);
 
-    //     for(k = i; k>position; k--){
-    //         array[k] = array[k-1];
-    //     }
-    //     array[position] = tmp;
-    // }
+        for(k = i; k>position; k--){
+            array[k] = array[k-1];
+        }
+        array[position] = tmp;
+    }
 };
 
 
 int BinarySearchPosition(void** array, int x, int l, int r){
     
-    // int mid = (l + r) / 2;
+    int mid = (l + r) / 2;
 
-    // if (r <= l){
-    //     return l;
-    // } 
+    if (r <= l){
+        return l;
+    } 
  
+    if (compareInt2(array[mid-1], x) <= 0 && compareInt2(array[mid], x) > 0){
+        return mid;
+    } 
  
-    // if (array[mid-1].firstNumber <= x.numberInt && array[mid].firstNumber> x.numberInt){
-    //     return mid;
-    // } 
- 
-    // if (x.numberInt > array[mid].numberInt){
-    //     return BinarySearchPosition(array, x, mid + 1, r);
-    // }else{
-    //     return BinarySearchPosition(array, x, l, mid);
-    // } 
+    if (0 > compareInt2(array[mid], -x)) {
+        return BinarySearchPosition(array, x, mid + 1, r);
+    }else{
+        return BinarySearchPosition(array, x, l, mid);
+    } 
     return 0;
 };
 
