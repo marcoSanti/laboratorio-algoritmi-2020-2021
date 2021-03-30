@@ -12,7 +12,8 @@ typedef struct {
     int numberInt;
     float numberFloat;
 } record;
-int sizeOfArray, q = 0;
+
+int sizeOfArray;
 
 int compareInt(record* firstRecord, record* secondRecord) {
     return firstRecord->numberInt - secondRecord->numberInt;
@@ -43,9 +44,8 @@ int main(int argc, char* argv[]) {
     int id;
     int secondNumber;
     float thirdNumber;    
-    while(!feof(myFile)) {
+    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         record* singleElement = (record*) malloc(sizeof(record));
-        int n = fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber);
         singleElement->id = id;
         singleElement->string = strndup(stringInFile, MAX_LEN);
         singleElement->numberInt = secondNumber;
@@ -56,9 +56,10 @@ int main(int argc, char* argv[]) {
     } 
     sizeOfArray = line;
     fclose(myFile);
-    for(int p = 0; p < sizeOfArray; p++) {
-        printElement(myRecord[p], p);
-    }
+    // for(int p = 0; p < sizeOfArray; p++) {
+    //     printElement(myRecord[p], p);
+    // }
+    MergeBinaryInsertionSort((void **) myRecord, 0, sizeOfArray-1);
     freeElements((void**) myRecord, sizeOfArray);
     return 0;
 }
