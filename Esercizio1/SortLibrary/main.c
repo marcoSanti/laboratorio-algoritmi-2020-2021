@@ -6,10 +6,12 @@
 int sizeOfArray;
 
 void freeElements(void** myArrayOfRecords, int size) {
-    while(size > 0){
+    while(size >= 0){
         free(myArrayOfRecords[size]);
         size--;
     } 
+
+    free(myArrayOfRecords);
 };
 
 int main(int argc, char* argv[]) {
@@ -23,9 +25,12 @@ int main(int argc, char* argv[]) {
     char stringInFile[MAX_LEN];
     int id;
     int secondNumber;
-    float thirdNumber;    
+    float thirdNumber;
+    record* singleElement; 
+
+    printf("Starting read from file...\n");
     while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
-        record* singleElement = (record*) malloc(sizeof(record));
+        singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
 
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);
@@ -36,29 +41,28 @@ int main(int argc, char* argv[]) {
         line++;        
         myRecord = (record**) realloc(myRecord, sizeof(record*)*line);
         myRecord[line-1] = singleElement;
+        
     } 
     sizeOfArray = line;
     fclose(myFile);
     int i;
-    // for(i = 0; i < sizeOfArray; i++) {
-    //         printf("%d\n", myRecord[i]->numberInt);
-    // }
-    // printf("-------\n");
+    
+    printf("Read complete...\nStarting sorting...\n");
+    
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1);
-    // for(i = 0; i < sizeOfArray; i++) {
-    //         printf("%d\n", myRecord[i]->numberInt);
-    // }
+
+    printf("Sorting complete...\nStarting Verification...\n");    
 
     for(i = 1; i < sizeOfArray; i++) {
         if(myRecord[i]->numberInt < myRecord[i-1]->numberInt ) {
-            fprintf(stderr, "NON E' ORDINATO\n");
+            fprintf(stderr, "\n================\nNOT SORTED\n================\n");
             exit(EXIT_FAILURE);
         }
     }
     
-    fprintf(stderr, "Ordinato\n");
+    fprintf(stderr, "Sorted!\n");
+    
+    free(myRecord);
 
-    freeElements((void**) myRecord, sizeOfArray-1);
-    //free(myRecord);
     return 0;
 }
