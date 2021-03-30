@@ -40,14 +40,22 @@ int main(int argc, char* argv[]) {
     sizeOfArray = line;
     fclose(myFile);
     int i;
-    BinaryInsertionSort((void** )myRecord, 1, sizeOfArray-1);
+
+    MergeBinaryInsertionSort((void** )myRecord, 1, sizeOfArray-1);
+
+    for(i = 1; i < sizeOfArray-1; i++) 
+        printf("%d\n", myRecord[i]->numberInt);
+
     for(i = 1; i < sizeOfArray-1; i++) {
+        printf("%d\n", myRecord[i]->numberInt);
         if(myRecord[i]->numberInt > myRecord[i+1]->numberInt ) {
-            fprintf(stderr, "NON E' ORDINATO");
+            fprintf(stderr, "NON E' ORDINATO\n");
             exit(EXIT_FAILURE);
         }
     }
-    fprintf(stderr, "Ordinato");
+    fprintf(stderr, "Ordinato\n");
+    
+
     freeElements((void**) myRecord, sizeOfArray-1);
     free(myRecord);
 

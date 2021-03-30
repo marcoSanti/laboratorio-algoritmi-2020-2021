@@ -5,8 +5,6 @@ int compareInt(record* firstRecord, record* secondRecord) {
 };
 
 int compareInt2(record* firstRecord, int number) {
-    // fprintf(stderr, "numberInt: %d\nnumber: %d\n", firstRecord->numberInt, number);
-    // fprintf(stderr, "risultato: %d\n", firstRecord->numberInt - number);
     return firstRecord->numberInt + number;
 };
 
@@ -14,7 +12,7 @@ void printElement2(record* record, int conta) {
     fprintf(stdout, "%d-%d\n", record->numberInt, conta);
 };
 
-int toint(record* record) {
+int toInt(record* record) {
     return record->numberInt;
 };
 
@@ -24,7 +22,7 @@ void BinaryInsertionSort(void** array , int l, int r){
 
     for(i=l+1;i<=r; i++){
         tmp = array[i];
-        position = BinarySearchPosition(array, toint(tmp), l, i);
+        position = BinarySearchPosition(array, toInt(tmp), l, i);
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -98,11 +96,11 @@ void MergeBinaryInsertionSort(void** array ,int l,int r){  //i = 0, j=len(A) - 1
         return;
     }
     int m = (r + l) / 2;
-    // if(r - l < K) {
-    //     //BinaryInsertionSort
-    // } else {
+    if(r - l < K) {
+        BinaryInsertionSort( array, l, r-1);
+     } else {
         MergeBinaryInsertionSort(array, l, m);
         MergeBinaryInsertionSort(array, m+1, r);
         Merge(array, l, m, r);
-    // }
+    }
 }
