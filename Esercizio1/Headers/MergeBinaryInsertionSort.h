@@ -10,6 +10,12 @@
     #define K 2
 #endif
 
+typedef struct {
+    int id;
+    char* string;
+    int numberInt;
+    float numberFloat;
+} record;
 
 /*
     This function implements the algoritm Merge - Binary insertion sort, by using the 

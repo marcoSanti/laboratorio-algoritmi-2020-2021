@@ -1,6 +1,12 @@
 #include "MergeBinaryInsertionSort.h"
 
+int compareInt(record* firstRecord, record* secondRecord) {
+    return firstRecord->numberInt - secondRecord->numberInt;
+};
 
+void printElement2(record* record, int conta) {
+    fprintf(stdout, "%d-%d\n", record->numberInt, conta);
+};
 
 void BinaryInsertionSort(void** array , int l, int r){
     
@@ -61,7 +67,7 @@ void Merge(void** array,int l,int m,int r){
     j=0;
     while(i < n1 && j < n2) {
         // Qui ci dovra' essere un puntatore alla funzione compareInt che viene passato come parametro alla funzione
-        if(/*compareInt(arrayLeft[i], arrayRight[j]) <= 0*/0) {
+        if(compareInt(arrayLeft[i], arrayRight[j]) <= 0) {
             array[k] = arrayLeft[i];
             i++;
         } else {

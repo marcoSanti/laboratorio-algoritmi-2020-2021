@@ -6,25 +6,18 @@
 /* 
     Declaring global scope variables
  */
-typedef struct {
-    int id;
-    char* string;
-    int numberInt;
-    float numberFloat;
-} record;
+
 
 int sizeOfArray;
-
-int compareInt(record* firstRecord, record* secondRecord) {
-    return firstRecord->numberInt - secondRecord->numberInt;
-};
 
 void printElement(record* record, int conta) {
     fprintf(stdout, "%d-%d\n", record->numberInt, conta);
 };
 
 void freeElements(void** myArrayOfRecords, int size) {
+    
     while(size > 0){
+        printElement(myArrayOfRecords[size], size);
         free(myArrayOfRecords[size]);
         size--;
     } 
@@ -44,7 +37,7 @@ int main(int argc, char* argv[]) {
     int id;
     int secondNumber;
     float thirdNumber;    
-    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(line != 10 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         record* singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = strndup(stringInFile, MAX_LEN);
@@ -56,10 +49,12 @@ int main(int argc, char* argv[]) {
     } 
     sizeOfArray = line;
     fclose(myFile);
-    // for(int p = 0; p < sizeOfArray; p++) {
-    //     printElement(myRecord[p], p);
+    // for(int i = 0; i < sizeOfArray; i++) {
+    //     printElement(myRecord[i], i);
     // }
-    MergeBinaryInsertionSort((void **) myRecord, 0, sizeOfArray-1);
+    MergeBinaryInsertionSort((void**) myRecord, 0, sizeOfArray-1);
     freeElements((void**) myRecord, sizeOfArray);
+    free(myRecord);
+
     return 0;
 }
