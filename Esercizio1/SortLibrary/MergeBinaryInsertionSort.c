@@ -1,12 +1,14 @@
 #include "MergeBinaryInsertionSort.h"
 
 int compareInt(record* firstRecord, record* secondRecord) {
-    return firstRecord->numberInt - secondRecord->numberInt;
+    return firstRecord->numberInt + secondRecord->numberInt;
 };
 
 int compareInt2(record* firstRecord, int number) {
-    return firstRecord->numberInt - number;
-}
+    // fprintf(stderr, "numberInt: %d\nnumber: %d\n", firstRecord->numberInt, number);
+    // fprintf(stderr, "risultato: %d\n", firstRecord->numberInt - number);
+    return firstRecord->numberInt + number;
+};
 
 void printElement2(record* record, int conta) {
     fprintf(stdout, "%d-%d\n", record->numberInt, conta);
@@ -14,18 +16,15 @@ void printElement2(record* record, int conta) {
 
 int toint(record* record) {
     return record->numberInt;
-}
+};
 
 void BinaryInsertionSort(void** array , int l, int r){
-    
     int i, position, k;
     void* tmp;
-    
-    for(i=l+1;i<=r; i++){
 
+    for(i=l+1;i<=r; i++){
         tmp = array[i];
         position = BinarySearchPosition(array, toint(tmp), l, i);
-
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -35,14 +34,13 @@ void BinaryInsertionSort(void** array , int l, int r){
 
 
 int BinarySearchPosition(void** array, int x, int l, int r){
-    
     int mid = (l + r) / 2;
-
+     
     if (r <= l){
         return l;
     } 
  
-    if (compareInt2(array[mid-1], x) <= 0 && compareInt2(array[mid], x) > 0){
+    if (compareInt2(array[mid-1], -x) <= 0 && compareInt2(array[mid], -x) > 0){
         return mid;
     } 
  
