@@ -1,16 +1,5 @@
 #include "MergeBinaryInsertionSort.h"
 
-int compareInt(record* firstRecord, record* secondRecord) {
-    return firstRecord->numberInt + secondRecord->numberInt;
-};
-
-int compareInt2(record* firstRecord, int number) {
-    return firstRecord->numberInt + number;
-};
-
-void printElement2(record* record, int conta) {
-    fprintf(stdout, "%d-%d\n", record->numberInt, conta);
-};
 
 int toint(record* record) {
     return record->numberInt;
