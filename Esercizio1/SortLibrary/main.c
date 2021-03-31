@@ -24,13 +24,15 @@ int main(int argc, char* argv[]) {
     int line = 0;
     char stringInFile[MAX_LEN];
     int id;
+    int i;
+    int contatorePerTest=0;
     int secondNumber;
     float thirdNumber;
     record* singleElement; 
 
     printf("Starting read from file...\n");
     //a 8mln400mila il programma crasha
-    while(line != 8400000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
 
@@ -45,7 +47,7 @@ int main(int argc, char* argv[]) {
     } 
     sizeOfArray = line;
     fclose(myFile);
-    int i;
+    
     
     printf("Read complete...\nStarting sorting...\n");
     
@@ -58,9 +60,10 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "\n================\nNOT SORTED\n================\n");
             exit(EXIT_FAILURE);
         }
+        contatorePerTest++;
     }
     
-    fprintf(stderr, "Sorted!\n");
+    fprintf(stderr, "Sorted %d items!\n", contatorePerTest);
     
     free(myRecord);
 
