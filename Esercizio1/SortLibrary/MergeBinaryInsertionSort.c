@@ -9,7 +9,7 @@ void BinaryInsertionSort(void** array , int l, int r){
     int i, position, k;
     void* tmp;
 
-    for(i=l+1;i<=r; i++){
+    for(i=l+1;i<=r; i++) {
         tmp = array[i];
         position = BinarySearchPosition(array, toint(tmp), l, i);
         for(k = i; k>position; k--){
@@ -29,7 +29,6 @@ int BinarySearchPosition(void** array, int x, int l, int r){
         }else{
             l++;
         }
-
     }
     return l;
 };
@@ -81,7 +80,7 @@ void MergeBinaryInsertionSort(void** array ,int l,int r){  //i = 0, j=len(A) - 1
     }
     int m = (r + l) / 2;
     if(r - l < K) {
-        BinaryInsertionSort( array, l, r);
+        BinaryInsertionSort(array, l, r);
      } else {
         MergeBinaryInsertionSort(array, l, m);
         MergeBinaryInsertionSort(array, m+1, r);

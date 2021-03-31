@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
     record* singleElement; 
 
     printf("Starting read from file...\n");
-    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    //a 8mln400mila il programma crasha
+    while(line != 8400000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
 
@@ -41,7 +42,6 @@ int main(int argc, char* argv[]) {
         line++;        
         myRecord = (record**) realloc(myRecord, sizeof(record*)*line);
         myRecord[line-1] = singleElement;
-        
     } 
     sizeOfArray = line;
     fclose(myFile);
