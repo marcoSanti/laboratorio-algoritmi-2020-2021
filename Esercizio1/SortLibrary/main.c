@@ -1,7 +1,7 @@
 #include "MergeBinaryInsertionSort.h"
 
 #define MAX_LEN 128
-int sizeOfArray;
+#define TIME_LIM 600
 
 /*
     Struct with the pointer to the function that will be used inside the ordering functions
@@ -27,7 +27,6 @@ void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompa
         }
         intSortedElements++;
     }
-    fprintf(stderr, "Sorted %d items!\n", intSortedElements);
 }
  
 int compareTwoString(record* firstRecord, record* secondRecord){
@@ -37,8 +36,9 @@ int compareTwoString(record* firstRecord, record* secondRecord){
 int compareTwoFloats(record* firstRecord, record* secondRecord){
   if(firstRecord->numberFloat <= secondRecord->numberFloat){
     return 0;
+  } else {
+    return 1;
   }
-  return 1;
 }
 
 int compareTwoIntegers(record* firstRecord, record* secondRecord){  
@@ -48,33 +48,31 @@ int compareTwoIntegers(record* firstRecord, record* secondRecord){
 void signalHandler(int signal) {
   switch(signal) {
     case SIGALRM:
-      fprintf(stderr, "mmm... SNAIL\n");
+      fprintf(stderr, "mmm...Time's up, pack your things, we are leaving\n");
       exit(EXIT_FAILURE);
     break;
   }
 }
 
 int main(int argc, char* argv[]) {
-    int insertionModeUser, timeLimit = 600;
+    int insertionModeUser, sizeOfArray;
+    int line = 0, id, i;
     double duration; 
     clock_t start, stop;
+    char stringInFile[MAX_LEN];
+    int secondNumber;
+    float thirdNumber;
     record** myRecord = (record**) malloc(sizeof(record*));
+    sortingPreferences mySortingPreferences;
+    record* singleElement; 
     FILE* myFile = fopen("records.csv", "r");
     if(myFile == NULL) {
         fprintf(stderr, "Error: %s", strerror(errno));
         return 0;
     }
-    /* Setting up the pointer to the function that will be used to compare */
-    sortingPreferences mySortingPreferences;
-    /*Finished set up */
-    int line = 0;
-    char stringInFile[MAX_LEN];
-    int id;
-    int i;
-    int secondNumber;
-    float thirdNumber;
-    record* singleElement; 
     signal(SIGALRM, signalHandler);
+
+    /*=====================================Handle user inputs=======================================*/
     do {
       printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
       scanf("%d", &insertionModeUser);
@@ -91,10 +89,10 @@ int main(int argc, char* argv[]) {
         mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
       break;
     }
+    alarm(TIME_LIM);
 
-    alarm(timeLimit);
-    printf("Starting read from file...\n");
-    //a 8mln400mila il programma crasha
+    /*=====================================Reading from file=======================================*/
+    printf("Start reading from file...\n");
     while(line != 8000000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
@@ -108,13 +106,15 @@ int main(int argc, char* argv[]) {
     } 
     sizeOfArray = line;
     fclose(myFile);
+    printf("Read completed...\nStart sorting...\n");
 
-    printf("Read complete...\nStarting sorting...\n");
+    /*=====================================Sorting array=======================================*/
     start = clock();
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     stop = clock();
     printf("Sorting complete...\nStarting Verification...\n");    
     arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
+    /* The CLOCKS_PER_SEC MACRO is defined inside the time.h library */
     duration = ( double ) ( stop - start ) / CLOCKS_PER_SEC;
     fprintf(stdout, "Sorting completed in: %.2lf\n", duration);
     free(myRecord);
