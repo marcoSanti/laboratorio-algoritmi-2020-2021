@@ -44,6 +44,8 @@ int main(int argc, char* argv[]) {
         line++;        
         myRecord = (record**) realloc(myRecord, sizeof(record*)*line);
         myRecord[line-1] = singleElement;
+
+        if(line%1000000 == 0) printf("Read %d lines from file!\n", line);
     } 
     sizeOfArray = line;
     fclose(myFile);
