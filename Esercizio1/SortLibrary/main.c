@@ -46,8 +46,17 @@ int compareTwoIntegers(record* firstRecord, record* secondRecord){
   return firstRecord->numberInt - secondRecord->numberInt;
 }
 
+void signalHandler(int signal) {
+  switch(signal) {
+    case SIGALRM:
+      fprintf(stderr, "10 minutes passed SNAIL\n");
+      exit(EXIT_FAILURE);
+    break;
+  }
+}
+
 int main(int argc, char* argv[]) {
-    int insertionModeUser; 
+    int insertionModeUser, timeLimit = 600; 
     record** myRecord = (record**) malloc(sizeof(record*));
     FILE* myFile = fopen("records.csv", "r");
     if(myFile == NULL) {
@@ -64,7 +73,7 @@ int main(int argc, char* argv[]) {
     int secondNumber;
     float thirdNumber;
     record* singleElement; 
-
+    signal(SIGALRM, signalHandler);
     do {
       printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
       scanf("%d", &insertionModeUser);
@@ -82,9 +91,11 @@ int main(int argc, char* argv[]) {
       break;
     }
 
+    alarm(timeLimit);
+
     printf("Starting read from file...\n");
     //a 8mln400mila il programma crasha
-    while(line != 800000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(line != 8000000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);
@@ -99,7 +110,6 @@ int main(int argc, char* argv[]) {
     fclose(myFile);
 
     printf("Read complete...\nStarting sorting...\n");
-    
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     
     printf("Sorting complete...\nStarting Verification...\n");    
