@@ -3,6 +3,7 @@
 #define MAX_LEN 128
 int sizeOfArray;
 
+
 /*
     Struct with the pointer to the function that will be used inside the ordering functions
 */
@@ -17,6 +18,20 @@ typedef struct {
     float numberFloat;
 } record;
 
+void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction) {
+  int intSortedElements=0;
+
+  for(int i = 0; i < size-1; i++) {
+        if(mySortingCompareFunction(array[i], array[i+1]) > 0) {
+            fprintf(stderr, "\n================\nNOT SORTED\n================\n");
+            exit(EXIT_FAILURE);
+        }
+        intSortedElements++;
+    }
+    
+    fprintf(stderr, "Sorted %d items!\n", intSortedElements);
+}
+ 
 int compareTwoString(record* firstRecord, record* secondRecord){
   return strcmp(firstRecord -> string, secondRecord -> string); 
 }
@@ -29,7 +44,6 @@ int compareTwoFloats(record* firstRecord, record* secondRecord){
 }
 
 int compareTwoIntegers(record* firstRecord, record* secondRecord){  
-    fprintf(stderr, "Valore di x: %d\n", firstRecord->numberInt);  
   return firstRecord->numberInt - secondRecord->numberInt;
 }
 
@@ -42,20 +56,19 @@ int main(int argc, char* argv[]) {
     }
     /* Setting up the pointer to the function that will be used to compare */
     sortingPreferences mySortingPreferences;
-    mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoIntegers;
+    mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
     /*Finished set up */
     int line = 0;
     char stringInFile[MAX_LEN];
     int id;
     int i;
-    int contatorePerTest=0;
     int secondNumber;
     float thirdNumber;
     record* singleElement; 
 
     printf("Starting read from file...\n");
     //a 8mln400mila il programma crasha
-    while(line != 10 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(line != 80 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);
@@ -72,19 +85,10 @@ int main(int argc, char* argv[]) {
     printf("Read complete...\nStarting sorting...\n");
     
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
-
+    
     printf("Sorting complete...\nStarting Verification...\n");    
 
-    for(i = 1; i < sizeOfArray; i++) {
-        // if(myRecord[i]->numberFloat < myRecord[i-1]->numberFloat ) {
-        //     fprintf(stderr, "\n================\nNOT SORTED\n================\n");
-        //     exit(EXIT_FAILURE);
-        // }
-        fprintf(stderr, "%d\n", myRecord[i]->numberInt);
-        contatorePerTest++;
-    }
-    
-    fprintf(stderr, "Sorted %d items!\n", contatorePerTest);
+    arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
     free(myRecord);
     return 0;
 }

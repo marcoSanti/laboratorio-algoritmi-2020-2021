@@ -4,7 +4,7 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
     int i, position, k;
 
     for(i=l+1;i<=r; i++) {
-        void* tmp = array[i];
+        void* tmp = (void* )array[i];
         position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction);
         for(k = i; k>position; k--){
             array[k] = array[k-1];
@@ -17,7 +17,7 @@ int BinarySearchPosition(void** array, void* x, int l, int r, sortingCompareFunc
     int m;
     while(l<=r) {
         m = (l+r)/2;
-        if(mySortingCompareFunction(x, array[m]) < 0) {
+        if(mySortingCompareFunction(x, array[m]) <= 0) {
             r--;
         }else{
             l++;
@@ -71,14 +71,11 @@ void MergeBinaryInsertionSort(void** array ,int l,int r, sortingCompareFunction 
         return;
     }
     int m = (r + l) / 2;
-    // if(r - l < K) {
+    if(r - l < K) {
         BinaryInsertionSort(array, l, r, mySortingCompareFunction);
-    //  } else {
-    //     MergeBinaryInsertionSort(array, l, m, mySortingCompareFunction);
-    //     MergeBinaryInsertionSort(array, m+1, r, mySortingCompareFunction);
-    //     Merge(array, l, m, r, mySortingCompareFunction);
-    // }
-    // for(int i = 0; i < 10000; i++) {
-    //     mySortingCompareFunction(array[i], array[r]);
-    // }
+     } else {
+        MergeBinaryInsertionSort(array, l, m, mySortingCompareFunction);
+        MergeBinaryInsertionSort(array, m+1, r, mySortingCompareFunction);
+        Merge(array, l, m, r, mySortingCompareFunction);
+    }
 }

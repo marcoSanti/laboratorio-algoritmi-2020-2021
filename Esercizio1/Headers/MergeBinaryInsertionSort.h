@@ -9,6 +9,7 @@
     //Length of sub array at wich point merge sort is swapped with binary insertion sort
     #define K 45
 #endif
+
 typedef int (*sortingCompareFunction)(void*, void*);
 
 /*
