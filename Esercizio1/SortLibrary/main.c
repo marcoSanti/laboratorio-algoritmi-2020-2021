@@ -49,7 +49,7 @@ int compareTwoIntegers(record* firstRecord, record* secondRecord){
 void signalHandler(int signal) {
   switch(signal) {
     case SIGALRM:
-      fprintf(stderr, "10 minutes passed SNAIL\n");
+      fprintf(stderr, "mmm... ten minutes have passed\nbut notting has happend...\nJust to be shure I am going to kill myself...\n");
       exit(EXIT_FAILURE);
     break;
   }
