@@ -1,17 +1,11 @@
 #include "MergeBinaryInsertionSort.h"
 
-
-int toint(record* record) {
-    return record->numberInt;
-};
-
-void BinaryInsertionSort(void** array , int l, int r){
+void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction){
     int i, position, k;
-    void* tmp;
 
     for(i=l+1;i<=r; i++) {
-        tmp = array[i];
-        position = BinarySearchPosition(array, toint(tmp), l, i);
+        void* tmp = array[i];
+        position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction);
         for(k = i; k>position; k--){
             array[k] = array[k-1];
         }
@@ -19,12 +13,11 @@ void BinaryInsertionSort(void** array , int l, int r){
     }
 };
 
-
-int BinarySearchPosition(void** array, int x, int l, int r){
+int BinarySearchPosition(void** array, void* x, int l, int r, sortingCompareFunction mySortingCompareFunction){
     int m;
-    while(l<=r){
+    while(l<=r) {
         m = (l+r)/2;
-        if(x<toint(array[m])){
+        if(mySortingCompareFunction(x, array[m]) < 0) {
             r--;
         }else{
             l++;
@@ -33,8 +26,7 @@ int BinarySearchPosition(void** array, int x, int l, int r){
     return l;
 };
 
-
-void Merge(void** array,int l,int m,int r){ 
+void Merge(void** array,int l,int m,int r, sortingCompareFunction mySortingCompareFunction){ 
 
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -53,7 +45,7 @@ void Merge(void** array,int l,int m,int r){
     j=0;
     while(i < n1 && j < n2) {
         // Qui ci dovra' essere un puntatore alla funzione compareInt che viene passato come parametro alla funzione
-        if(toint(arrayLeft[i]) <= toint(arrayRight[j])) {
+        if(mySortingCompareFunction(arrayLeft[i], arrayRight[j]) <= 0) { 
             array[k] = arrayLeft[i];
             i++;
         } else {
@@ -74,16 +66,19 @@ void Merge(void** array,int l,int m,int r){
     }
 };
 
-void MergeBinaryInsertionSort(void** array ,int l,int r){  //i = 0, j=len(A) - 1
+void MergeBinaryInsertionSort(void** array ,int l,int r, sortingCompareFunction mySortingCompareFunction){  //i = 0, j=len(A) - 1
     if(l >= r) {
         return;
     }
     int m = (r + l) / 2;
-    if(r - l < K) {
-        BinaryInsertionSort(array, l, r);
-     } else {
-        MergeBinaryInsertionSort(array, l, m);
-        MergeBinaryInsertionSort(array, m+1, r);
-        Merge(array, l, m, r);
-    }
+    // if(r - l < K) {
+        BinaryInsertionSort(array, l, r, mySortingCompareFunction);
+    //  } else {
+    //     MergeBinaryInsertionSort(array, l, m, mySortingCompareFunction);
+    //     MergeBinaryInsertionSort(array, m+1, r, mySortingCompareFunction);
+    //     Merge(array, l, m, r, mySortingCompareFunction);
+    // }
+    // for(int i = 0; i < 10000; i++) {
+    //     mySortingCompareFunction(array[i], array[r]);
+    // }
 }
