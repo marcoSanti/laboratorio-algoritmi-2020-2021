@@ -6,6 +6,7 @@
     #include <sys/types.h>
     #include <errno.h>
     #include <unistd.h>
+    #include <time.h>
     //Length of sub array at wich point merge sort is swapped with binary insertion sort
     #define K 45
 #endif

@@ -3,7 +3,6 @@
 #define MAX_LEN 128
 int sizeOfArray;
 
-
 /*
     Struct with the pointer to the function that will be used inside the ordering functions
 */
@@ -49,14 +48,16 @@ int compareTwoIntegers(record* firstRecord, record* secondRecord){
 void signalHandler(int signal) {
   switch(signal) {
     case SIGALRM:
-      fprintf(stderr, "mmm... ten minutes have passed\nbut notting has happend...\nJust to be shure I am going to kill myself...\n");
+      fprintf(stderr, "mmm... SNAIL\n");
       exit(EXIT_FAILURE);
     break;
   }
 }
 
 int main(int argc, char* argv[]) {
-    int insertionModeUser, timeLimit = 600; 
+    int insertionModeUser, timeLimit = 600;
+    double duration; 
+    clock_t start, stop;
     record** myRecord = (record**) malloc(sizeof(record*));
     FILE* myFile = fopen("records.csv", "r");
     if(myFile == NULL) {
@@ -92,7 +93,6 @@ int main(int argc, char* argv[]) {
     }
 
     alarm(timeLimit);
-
     printf("Starting read from file...\n");
     //a 8mln400mila il programma crasha
     while(line != 8000000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
@@ -110,11 +110,13 @@ int main(int argc, char* argv[]) {
     fclose(myFile);
 
     printf("Read complete...\nStarting sorting...\n");
+    start = clock();
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
-    
+    stop = clock();
     printf("Sorting complete...\nStarting Verification...\n");    
-
     arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
+    duration = ( double ) ( stop - start ) / CLOCKS_PER_SEC;
+    fprintf(stdout, "Sorting completed in: %.2lf\n", duration);
     free(myRecord);
     return 0;
 }
