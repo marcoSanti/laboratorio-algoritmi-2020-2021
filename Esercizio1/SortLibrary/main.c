@@ -19,16 +19,15 @@ typedef struct {
 } record;
 
 void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction) {
-  int intSortedElements=0;
+  int i, intSortedElements=0;
 
-  for(int i = 0; i < size-1; i++) {
+  for(i = 0; i < size-1; i++) {
         if(mySortingCompareFunction(array[i], array[i+1]) > 0) {
             fprintf(stderr, "\n================\nNOT SORTED\n================\n");
             exit(EXIT_FAILURE);
         }
         intSortedElements++;
     }
-    
     fprintf(stderr, "Sorted %d items!\n", intSortedElements);
 }
  
@@ -48,6 +47,7 @@ int compareTwoIntegers(record* firstRecord, record* secondRecord){
 }
 
 int main(int argc, char* argv[]) {
+    int insertionModeUser; 
     record** myRecord = (record**) malloc(sizeof(record*));
     FILE* myFile = fopen("records.csv", "r");
     if(myFile == NULL) {
@@ -56,7 +56,6 @@ int main(int argc, char* argv[]) {
     }
     /* Setting up the pointer to the function that will be used to compare */
     sortingPreferences mySortingPreferences;
-    mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
     /*Finished set up */
     int line = 0;
     char stringInFile[MAX_LEN];
@@ -66,9 +65,26 @@ int main(int argc, char* argv[]) {
     float thirdNumber;
     record* singleElement; 
 
+    do {
+      printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
+      scanf("%d", &insertionModeUser);
+    } while(insertionModeUser!=1 && insertionModeUser!=2 && insertionModeUser!=3);
+
+    switch(insertionModeUser) {
+      case 1:
+        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoIntegers;
+      break;
+      case 2:
+        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoFloats;
+      break;
+      case 3:
+        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
+      break;
+    }
+
     printf("Starting read from file...\n");
     //a 8mln400mila il programma crasha
-    while(line != 80 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(line != 800000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);
