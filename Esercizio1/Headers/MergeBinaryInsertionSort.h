@@ -7,10 +7,15 @@
     #include <errno.h>
     #include <unistd.h>
     #include <time.h>
-    //Length of sub array at wich point merge sort is swapped with binary insertion sort
-    #define K 45
+    #define K 45 //Length of sub array at wich point merge sort is swapped with binary insertion sort
 #endif
 
+/*
+    This typedef is here to be able to pass the pointer to the function which will be doing the comparison.
+    This way, the algoritm will be able to work with whatever data structure you would think of as long as you define
+    a compare function for the data structure you have implemented.
+
+*/
 typedef int (*sortingCompareFunction)(void*, void*);
 
 /*
@@ -20,6 +25,7 @@ typedef int (*sortingCompareFunction)(void*, void*);
         - array: a pointer to an array of records to be sorted
         -l : the lower index bound of the element. When the function is called for the first time, it should be 0
         -r : the upper boundaries of the indexes of my array. When the function is called for the first time it should be the last valid index of the array (array.length -1)
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
 */
 void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction mySortingCompareFunction);
 
@@ -31,6 +37,7 @@ void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction
         -l: the begin index of the first sub array to be merged
         -m : the mid point wich both function as last index for the first sub array and the begon index for the second sub array
         -r : the upper bound of the second sub array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
 
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
@@ -42,6 +49,7 @@ void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCo
         -array: a pointer to the array in wich the sub arrays should be taken
         -l : the beggining index of the array 
         -r : the end of the array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
 void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction);
@@ -53,6 +61,7 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
         -x the element that needs to be inserte
         -i : the beggining index of the array 
         -j : the end of the array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
 int BinarySearchPosition(void** array, void* x, int i, int j, sortingCompareFunction mySortingCompareFunction); 
