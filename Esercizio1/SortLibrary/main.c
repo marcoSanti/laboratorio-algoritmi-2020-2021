@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
 
     /*=====================================Reading from file=======================================*/
     printf("Start reading from file...\n");
-    while(line != 8000000 && fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);
@@ -137,15 +137,16 @@ int main(int argc, char* argv[]) {
     start = clock();
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     stop = clock();
+    
+    /* The CLOCKS_PER_SEC MACRO is defined inside the time.h library */
+    duration = ( double ) ( stop - start ) / CLOCKS_PER_SEC;
 
-    printf("Sorting complete...\nStarting Verification...\n");    
+    printf("Sorting complete in: %.2lf seconds...\nStarting Verification...\n", duration);    
 
     arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
 
-    /* The CLOCKS_PER_SEC MACRO is defined inside the time.h library */
-    duration = ( double ) ( stop - start ) / CLOCKS_PER_SEC;
-    fprintf(stdout, "Sorting completed in: %.2lf\n", duration);
-    
+    printf("Verification completed. Array is sorted correctly\n");
+
     free(myRecord);
     return 0;
 }
