@@ -3,6 +3,8 @@
 #define MAX_LEN 128
 #define TIME_LIM 600
 
+int insertionOrder; 
+
 /*
     This struct keeps saved the preferences of the sorting algorithm. It saves the pointer to the function 
     that will be used to sort the array.
@@ -41,26 +43,37 @@ void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompa
   This method compares two strings and returns the distances between the two
 */
 int compareTwoString(record* firstRecord, record* secondRecord){
-  return strcmp(firstRecord -> string, secondRecord -> string); 
+  int result = strcmp(firstRecord -> string, secondRecord -> string); 
+  if(insertionOrder==1){
+    return result; 
+  }else{
+    return -result; 
+  }
 }
 
 /*
   this function compares two functions and tell whether the first number is smaller than the second
 */
 int compareTwoFloats(record* firstRecord, record* secondRecord){
-  if(firstRecord->numberFloat <= secondRecord->numberFloat){
-    return 0;
-  } else {
-    return 1;
+    if(firstRecord->numberFloat <= secondRecord->numberFloat){
+      if(insertionOrder==1) return 0;
+      else return 1;
   }
-}
+  if(insertionOrder==1) return 1;
+  else return 0;  
 
+}
 
 /*
   this function compares two integer and return the difference between the two numbers
 */
 int compareTwoIntegers(record* firstRecord, record* secondRecord){  
-  return firstRecord->numberInt - secondRecord->numberInt;
+  int result = firstRecord->numberInt - secondRecord->numberInt;
+  if(insertionOrder==1){
+       return result; 
+  }else{
+    return -result; 
+  }
 }
 
 /*
@@ -98,6 +111,11 @@ int main(int argc, char* argv[]) {
     signal(SIGALRM, signalHandler);
 
     /*=====================================Handle user inputs=======================================*/
+    do {
+      printf("Please select sorting order:\n\t1) Non decrescente;\n\t2) Decrescente;\nYour choice (1/2):");
+      scanf("%d", &insertionOrder);
+    } while(insertionOrder!=1 && insertionOrder!=2);
+
     do {
       printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
       scanf("%d", &insertionModeUser);
