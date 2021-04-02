@@ -15,9 +15,9 @@
     This typedef is here to be able to pass the pointer to the function which will be doing the comparison.
     This way, the algoritm will be able to work with whatever data structure you would think of as long as you define
     a compare function for the data structure you have implemented.
-
+    The first two elements are the ones wich the comparison will happen, while the third parameter is the one that is going t decide the sorting order
 */
-typedef int (*sortingCompareFunction)(void*, void*);
+typedef int (*sortingCompareFunction)(void*, void*, int);
 
 /*
     This function implements the algoritm Merge - Binary insertion sort, by using the 
@@ -27,8 +27,9 @@ typedef int (*sortingCompareFunction)(void*, void*);
         -l : the lower index bound of the element. When the function is called for the first time, it should be 0
         -r : the upper boundaries of the indexes of my array. When the function is called for the first time it should be the last valid index of the array (array.length -1)
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+        -sortingOrder: This parameter tells the order in which the sorting will occur (non decreasing or non increasing)
 */
-void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction mySortingCompareFunction);
+void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder);
 
 /*
     This method proceed to merge two Sub arrays into a single array.
@@ -39,10 +40,10 @@ void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction
         -m : the mid point wich both function as last index for the first sub array and the begon index for the second sub array
         -r : the upper bound of the second sub array to be sorted
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
-
+        -sortingOrder: This parameter tells the order in which the sorting will occur (non decreasing or non increasing)
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCompareFunction);
+void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder);
 
 /*
     This method implements an insertion sort algorithm with a binary search for the position in wich to insert the new element
@@ -51,9 +52,10 @@ void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCo
         -l : the beggining index of the array 
         -r : the end of the array to be sorted
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+        -sortingOrder: This parameter tells the order in which the sorting will occur (non decreasing or non increasing)
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction);
+void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder);
 
 /*
     This method returns the position in wich the new element shall be inserted by using the binary dicotomic search algoritm.
@@ -63,6 +65,7 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
         -i : the beggining index of the array 
         -j : the end of the array to be sorted
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+        -sortingOrder: This parameter tells the order in which the sorting will occur (non decreasing or non increasing)
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-int BinarySearchPosition(void** array, void* x, int i, int j, sortingCompareFunction mySortingCompareFunction); 
+int BinarySearchPosition(void** array, void* x, int i, int j, sortingCompareFunction mySortingCompareFunction, int sortingOrder); 

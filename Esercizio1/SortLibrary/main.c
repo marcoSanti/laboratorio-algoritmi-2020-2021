@@ -3,7 +3,7 @@
 #define MAX_LEN 128
 #define TIME_LIM 600
 
-int insertionOrder; 
+
 
 /*
     This struct keeps saved the preferences of the sorting algorithm. It saves the pointer to the function 
@@ -12,6 +12,7 @@ int insertionOrder;
 */
 typedef struct {
     sortingCompareFunction comparePreference;
+    int insertionOrder; 
 } sortingPreferences;
 
 /*
@@ -29,10 +30,10 @@ typedef struct {
   This function is used to chech wheter an array is sorted by a certain parameter wich is decided by the
   mySortingCompareFunction pointer to compare function. 
 */
-void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction) {
+void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction, int insertionOrder) {
   int i;
   for(i = 0; i < size-1; i++) {
-        if(mySortingCompareFunction(array[i], array[i+1]) > 0) {
+        if(mySortingCompareFunction(array[i], array[i+1],insertionOrder) > 0) {
             fprintf(stderr, "\n================\nNOT SORTED\n================\n");
             exit(EXIT_FAILURE);
         }
@@ -42,7 +43,7 @@ void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompa
 /*
   This method compares two strings and returns the distances between the two
 */
-int compareTwoString(record* firstRecord, record* secondRecord){
+int compareTwoString(record* firstRecord, record* secondRecord, int insertionOrder){
   int result = strcmp(firstRecord -> string, secondRecord -> string); 
   if(insertionOrder==1){
     return result; 
@@ -54,7 +55,7 @@ int compareTwoString(record* firstRecord, record* secondRecord){
 /*
   this function compares two functions and tell whether the first number is smaller than the second
 */
-int compareTwoFloats(record* firstRecord, record* secondRecord){
+int compareTwoFloats(record* firstRecord, record* secondRecord, int insertionOrder){
     if(firstRecord->numberFloat <= secondRecord->numberFloat){
       if(insertionOrder==1) return 0;
       else return 1;
@@ -67,7 +68,7 @@ int compareTwoFloats(record* firstRecord, record* secondRecord){
 /*
   this function compares two integer and return the difference between the two numbers
 */
-int compareTwoIntegers(record* firstRecord, record* secondRecord){  
+int compareTwoIntegers(record* firstRecord, record* secondRecord, int insertionOrder){  
   int result = firstRecord->numberInt - secondRecord->numberInt;
   if(insertionOrder==1){
        return result; 
@@ -102,9 +103,11 @@ int main(int argc, char* argv[]) {
 
     myRecord  = (record**) malloc(sizeof(record*));
 
-    myFile = fopen("records.csv", "r");
+    if(argc != 2) myFile = fopen("records.csv", "r");
+    else myFile = fopen(argv[1], "r");
+
     if(myFile == NULL) {
-        fprintf(stderr, "Error: %s", strerror(errno));
+        fprintf(stderr, "Error: Unable to open csv file. Error is: %s", strerror(errno));
         return 0;
     }
 
@@ -112,9 +115,9 @@ int main(int argc, char* argv[]) {
 
     /*=====================================Handle user inputs=======================================*/
     do {
-      printf("Please select sorting order:\n\t1) Non decrescente;\n\t2) Decrescente;\nYour choice (1/2):");
-      scanf("%d", &insertionOrder);
-    } while(insertionOrder!=1 && insertionOrder!=2);
+      printf("Please select sorting order:\n\t1) Not decreasing;\n\t2) Not increasing;\nYour choice (1/2):");
+      scanf("%d", &(mySortingPreferences.insertionOrder));
+    } while(mySortingPreferences.insertionOrder!=1 && mySortingPreferences.insertionOrder!=2);
 
     do {
       printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
@@ -153,7 +156,7 @@ int main(int argc, char* argv[]) {
 
     /*=====================================Sorting array=======================================*/
     start = clock();
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
     stop = clock();
     
     /* The CLOCKS_PER_SEC MACRO is defined inside the time.h library */
@@ -161,7 +164,7 @@ int main(int argc, char* argv[]) {
 
     printf("Sorting complete in: %.2lf seconds...\nStarting Verification...\n", duration);    
 
-    arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
+    arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
 
     printf("Verification completed. Array is sorted correctly\n");
 
