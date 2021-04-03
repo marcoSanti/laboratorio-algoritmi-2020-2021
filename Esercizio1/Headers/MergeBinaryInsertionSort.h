@@ -8,7 +8,7 @@
     #include <unistd.h>
     #include <time.h>
     #include <signal.h>
-    #define K 80 //Length of sub array at wich point merge sort is swapped with binary insertion sort
+    #define K 15 //Length of sub array at wich point merge sort is swapped with binary insertion sort
 #endif
 
 /*
