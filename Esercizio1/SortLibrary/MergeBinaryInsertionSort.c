@@ -32,8 +32,8 @@ void Merge(void** array,int l,int m,int r, sortingCompareFunction mySortingCompa
     int n2 = r - m;
     int i, j, k = l;
 
-    void* arrayLeft[n1];
-    void* arrayRight[n2];
+    void** arrayLeft = malloc(n1 * sizeof(void*));
+    void** arrayRight = malloc(n2 * sizeof(void*));
 
     for(i = 0; i < n1; i++) arrayLeft[i] = array[l + i];
     
@@ -58,6 +58,8 @@ void Merge(void** array,int l,int m,int r, sortingCompareFunction mySortingCompa
         array[k] = arrayRight[j];
         j++; k++;
     }
+    free(arrayLeft);
+    free(arrayRight);
 };
 
 void MergeBinaryInsertionSort(void** array ,int l,int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){  

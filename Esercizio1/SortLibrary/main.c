@@ -114,6 +114,7 @@ int main(int argc, char* argv[]) {
     signal(SIGALRM, signalHandler);
 
     /*=====================================Handle user inputs=======================================*/
+    
     do {
       printf("Please select sorting order:\n\t1) Not decreasing;\n\t2) Not increasing;\nYour choice (1/2):");
       scanf("%d", &(mySortingPreferences.insertionOrder));
@@ -134,11 +135,11 @@ int main(int argc, char* argv[]) {
       case 3:
         mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
       break;
-    }
+  }
     alarm(TIME_LIM);
-
     /*=====================================Reading from file=======================================*/
     printf("Start reading from file...\n");
+    line=0;
     while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
