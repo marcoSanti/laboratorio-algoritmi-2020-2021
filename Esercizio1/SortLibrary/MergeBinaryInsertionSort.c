@@ -32,6 +32,7 @@ void Merge(void** array,int l,int m,int r, sortingCompareFunction mySortingCompa
     int n2 = r - m;
     int i, j, k = l;
 
+    //this needs to be allocated into the hep otherwise it will exaust the available space into the stak
     void** arrayLeft = malloc(n1 * sizeof(void*));
     void** arrayRight = malloc(n2 * sizeof(void*));
 

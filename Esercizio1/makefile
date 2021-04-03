@@ -19,11 +19,11 @@ debug: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeBinaryInsertionSort.c
 	gdb Build/BinarySortMainExec
 
 UnityTest/unity.o: UnityTest/unity.c UnityTest/unity.h
-	$(COMPILER) $(FLAGSTEST) -c UnityTest/unity.c -o UnityTest/unity.o
+	$(COMPILER) $(FLAGSTEST) -c UnityTest/unity.c -o Build/unity.o
 
-unitTest: Headers/BinarySort.h SortLibrary/unitTest.c Build/BinarySort.o UnityTest/unity.o
+unitTest: Headers/MergeBinaryInsertionSort.h SortLibrary/unitTest.c Build/MergeBinaryInsertionSort.o UnityTest/unity.o
 	$(COMPILER) $(FLAGSTEST) -c SortLibrary/unitTest.c -o Build/unitTest.o
-	$(COMPILER) Build/BinarySort.o Build/unitTest.o UnityTest/unity.o -o Build/BinarySortUnitTest
+	$(COMPILER) Build/MergeBinaryInsertionSort.o Build/unity.o Build/unitTest.o -o Build/BinarySortUnitTest
 	Build/BinarySortUnitTest
 
 clear:
