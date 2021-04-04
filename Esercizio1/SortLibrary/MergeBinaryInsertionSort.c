@@ -1,7 +1,7 @@
 #include "MergeBinaryInsertionSort.h"
 
 void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){
-    int i, position, k;
+    int i, position;
 
     for(i=l+1;i<=r; i++) {
         void* tmp = (void* )array[i];
