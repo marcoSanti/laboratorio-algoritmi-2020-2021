@@ -6,9 +6,10 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
     for(i=l+1;i<=r; i++) {
         void* tmp = (void* )array[i];
         position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction, sortingOrder);
-        for(k = i; k>position; k--){
-            array[k] = array[k-1];
-        }
+
+
+        memcpy(array+position+1, array+position, (i-position)*sizeof(void**) );
+        
         array[position] = tmp;
     }
 };
