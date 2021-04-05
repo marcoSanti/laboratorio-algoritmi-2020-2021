@@ -41,40 +41,39 @@ void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompa
 }
  
 /*
-  This method compares two strings and returns the distances between the two
+  The following tho methods compares two strings and returns the distances between the two
+  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
-int compareTwoString(record* firstRecord, record* secondRecord, int insertionOrder){
-  int result = strcmp(firstRecord -> string, secondRecord -> string); 
-  if(insertionOrder==1){
-    return result; 
-  }else{
-    return -result; 
-  }
+int compareTwoString(record* firstRecord, record* secondRecord){
+  return strcmp(firstRecord -> string, secondRecord -> string); 
+}
+
+int compareTwoStringReverserecord(record* firstRecord, record* secondRecord){
+  return -strcmp(firstRecord -> string, secondRecord -> string); 
+}
+
+
+/*
+  The following tho methods compares two functions and tell whether the first number is smaller than the second
+  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
+*/
+int compareTwoFloats(record* firstRecord, record* secondRecord){
+  return firstRecord->numberFloat <= secondRecord->numberFloat; 
+}
+int compareTwoFloatsReverse(record* firstRecord, record* secondRecord){
+   return firstRecord->numberFloat > secondRecord->numberFloat; 
 }
 
 /*
-  this function compares two functions and tell whether the first number is smaller than the second
+  The following tho methods compares two integer and return the difference between the two numbers
+  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
-int compareTwoFloats(record* firstRecord, record* secondRecord, int insertionOrder){
-    if(firstRecord->numberFloat <= secondRecord->numberFloat){
-      if(insertionOrder==1) return 0;
-      else return 1;
-  }
-  if(insertionOrder==1) return 1;
-  else return 0;  
-
+int compareTwoIntegers(record* firstRecord, record* secondRecord, register int insertionOrder){  
+   return firstRecord->numberInt - secondRecord->numberInt;
 }
 
-/*
-  this function compares two integer and return the difference between the two numbers
-*/
-int compareTwoIntegers(record* firstRecord, record* secondRecord, int insertionOrder){  
-  int result = firstRecord->numberInt - secondRecord->numberInt;
-  if(insertionOrder==1){
-       return result; 
-  }else{
-    return -result; 
-  }
+int compareTwoIntegersReverse(record* firstRecord, record* secondRecord, register int insertionOrder){  
+   return -(firstRecord->numberInt - secondRecord->numberInt);
 }
 
 /*
@@ -119,6 +118,7 @@ int main(int argc, char* argv[]) {
       printf("Please select sorting order:\n\t1) Not decreasing;\n\t2) Not increasing;\nYour choice (1/2):");
       scanf("%d", &(mySortingPreferences.insertionOrder));
     } while(mySortingPreferences.insertionOrder!=1 && mySortingPreferences.insertionOrder!=2);
+    
 
     do {
       printf("Please select sorting method:\n\t1) Integers;\n\t2) Float;\n\t3) String\nYour choice (1/2/3):");
@@ -127,13 +127,16 @@ int main(int argc, char* argv[]) {
 
     switch(insertionModeUser) {
       case 1:
-        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoIntegers;
+        if(mySortingPreferences.insertionOrder == 1) mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoIntegers;
+        else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoIntegersReverse;
       break;
       case 2:
-        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoFloats;
+        if(mySortingPreferences.insertionOrder == 1) mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoFloats;
+        else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoFloatsReverse;
       break;
       case 3:
-        mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
+        if(mySortingPreferences.insertionOrder == 1) mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
+        else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoStringReverserecord;
       break;
   }
     alarm(TIME_LIM);
