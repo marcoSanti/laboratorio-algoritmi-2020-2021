@@ -1,7 +1,7 @@
 #include "MergeBinaryInsertionSort.h"
 
 void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){
-    int i, position;
+    register int i, position;
 
     for(i=l+1;i<=r; i++) {
         void* tmp = (void* )array[i];
@@ -11,60 +11,59 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
     }
 };
 
-int BinarySearchPosition(void** array, void* x, int l, int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){
-    int m;
+int BinarySearchPosition(void** array, void* x, register int l,register int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){
+    register int m;
     while(l<=r) {
-        m = (l+r)/2;
+        m = (l+r)>>1;
         if(mySortingCompareFunction(x, array[m], sortingOrder) <= 0) {
-            r--;
+            --r;
         }else{
-            l++;
+            ++l;
         }
     }
     return l;
 };
 
-void Merge(void** array,int l,int m,int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){ 
+void Merge(void** array,register int l,register int m,register int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){ 
 
-    int n1 = m - l + 1;
-    int n2 = r - m;
-    int i, j, k = l;
+    register int n1 = m - l + 1;
+    register int n2 = r - m;
+    register int i=0, j=0, k = l;
 
-    //this needs to be allocated into the hep otherwise it will exaust the available space into the stak
     void** arrayLeft = malloc(n1 * sizeof(void*));
     void** arrayRight = malloc(n2 * sizeof(void*));
 
-    for(i = 0; i < n1; i++) arrayLeft[i] = array[l + i];
+    memcpy(arrayLeft, array+l, n1*sizeof(void*));
+    memcpy(arrayRight, array+m+1, n2* sizeof(void *));
     
-    for(j = 0; j < n2; j++) arrayRight[j] = array[m + j + 1];
-    
-    i=0;j=0;
+   
     while(i < n1 && j < n2) {
         if(mySortingCompareFunction(arrayLeft[i], arrayRight[j], sortingOrder) <= 0) { 
             array[k] = arrayLeft[i];
-            i++;
+            ++i;
         } else {
             array[k] = arrayRight[j];
-            j++;
+            ++j;
         }
-        k++;
+        ++k;
     }
-    while(i < n1) {
-        array[k] = arrayLeft[i];
-        i++; k++;
-    }
-    while(j < n2) {
-        array[k] = arrayRight[j];
-        j++; k++;
-    }
+    
+
+    memcpy(array+k, arrayLeft+i, (n1-i) * sizeof(void*));
+    k+=(n1-i);
+   
+    memcpy(array+k, arrayRight+j, (n2-j) * sizeof(void*));
+   
+    
     free(arrayLeft);
     free(arrayRight);
 };
 
-void MergeBinaryInsertionSort(void** array ,int l,int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){  
+void MergeBinaryInsertionSort(void** array ,register int l,register int r, sortingCompareFunction mySortingCompareFunction, int sortingOrder){  
     if(l >= r) return;
     
-    int m = (r + l) / 2;
+    register int m = (r + l) >> 1;
+
     if(r - l < K) {
         BinaryInsertionSort(array, l, r, mySortingCompareFunction, sortingOrder);
      } else {
