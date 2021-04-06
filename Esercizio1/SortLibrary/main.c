@@ -30,10 +30,10 @@ typedef struct {
   This function is used to chech wheter an array is sorted by a certain parameter wich is decided by the
   mySortingCompareFunction pointer to compare function. 
 */
-void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction, int insertionOrder) {
+void arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction) {
   int i;
   for(i = 0; i < size-1; i++) {
-        if(mySortingCompareFunction(array[i], array[i+1],insertionOrder) > 0) {
+        if(mySortingCompareFunction(array[i], array[i+1]) > 0) {
             fprintf(stderr, "\n================\nNOT SORTED\n================\n");
             exit(EXIT_FAILURE);
         }
@@ -48,7 +48,7 @@ int compareTwoString(record* firstRecord, record* secondRecord){
   return strcmp(firstRecord -> string, secondRecord -> string); 
 }
 
-int compareTwoStringReverserecord(record* firstRecord, record* secondRecord){
+int compareTwoStringReverse(record* firstRecord, record* secondRecord){
   return -strcmp(firstRecord -> string, secondRecord -> string); 
 }
 
@@ -136,7 +136,7 @@ int main(int argc, char* argv[]) {
       break;
       case 3:
         if(mySortingPreferences.insertionOrder == 1) mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoString;
-        else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoStringReverserecord;
+        else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoStringReverse;
       break;
   }
     alarm(TIME_LIM);
@@ -160,7 +160,7 @@ int main(int argc, char* argv[]) {
 
     /*=====================================Sorting array=======================================*/
     start = clock();
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     stop = clock();
     
     /* The CLOCKS_PER_SEC MACRO is defined inside the time.h library */
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
 
     printf("Sorting complete in: %.2lf seconds...\nStarting Verification...\n", duration);    
 
-    arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
+    arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference);
 
     printf("Verification completed. Array is sorted correctly\n");
 

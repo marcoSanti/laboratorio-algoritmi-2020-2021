@@ -33,6 +33,11 @@ void Merge(void** array,register int l,register int m,register int r, sortingCom
     void** arrayLeft = malloc(n1 * sizeof(void*));
     void** arrayRight = malloc(n2 * sizeof(void*));
 
+    if(arrayLeft == NULL || arrayRight==NULL){
+        printf("Unable to allocate memory for support array.\nExiting now...\n");
+        exit(EXIT_FAILURE);
+    }
+
     memcpy(arrayLeft, array+l, n1*sizeof(void*));
     memcpy(arrayRight, array+m+1, n2* sizeof(void *));
     
@@ -61,6 +66,7 @@ void Merge(void** array,register int l,register int m,register int r, sortingCom
 
 void MergeBinaryInsertionSort(void** array ,register int l,register int r, sortingCompareFunction mySortingCompareFunction){  
     if(l >= r) return;
+    if(array==NULL) return;
     
     register int m = (r + l) >> 1;
 

@@ -25,44 +25,41 @@ typedef struct {
 /*
   This method compares two strings and returns the distances between the two
 */
-int compareTwoString(record* firstRecord, record* secondRecord, int insertionOrder){
-  int result = strcmp(firstRecord -> string, secondRecord -> string); 
-  if(insertionOrder==1){
-    return result; 
-  }else{
-    return -result; 
-  }
+int compareTwoString(record* firstRecord, record* secondRecord){
+  return strcmp(firstRecord -> string, secondRecord -> string); 
+}
+
+int compareTwoStringReverse(record* firstRecord, record* secondRecord){
+  return -strcmp(firstRecord -> string, secondRecord -> string); 
 }
 
 /*
-  this function compares two functions and tell whether the first number is smaller than the second
+  The following tho methods compares two functions and tell whether the first number is smaller than the second
+  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
-int compareTwoFloats(record* firstRecord, record* secondRecord, int insertionOrder){
-    if(firstRecord->numberFloat <= secondRecord->numberFloat){
-      if(insertionOrder==1) return 0;
-      else return 1;
-  }
-  if(insertionOrder==1) return 1;
-  else return 0;  
-
+int compareTwoFloats(record* firstRecord, record* secondRecord){
+  return firstRecord->numberFloat <= secondRecord->numberFloat; 
+}
+int compareTwoFloatsReverse(record* firstRecord, record* secondRecord){
+   return firstRecord->numberFloat > secondRecord->numberFloat; 
 }
 
 /*
-  this function compares two integer and return the difference between the two numbers
+  The following tho methods compares two integer and return the difference between the two numbers
+  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
-int compareTwoIntegers(record* firstRecord, record* secondRecord, int insertionOrder){  
-  int result = firstRecord->numberInt - secondRecord->numberInt;
-  if(insertionOrder==1){
-       return result; 
-  }else{
-    return -result; 
-  }
+int compareTwoIntegers(record* firstRecord, record* secondRecord){  
+   return firstRecord->numberInt - secondRecord->numberInt;
 }
 
-int arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction, int insertionOrder) {
+int compareTwoIntegersReverse(record* firstRecord, record* secondRecord){  
+   return -(firstRecord->numberInt - secondRecord->numberInt);
+}
+
+int arrayIsSorted(void** array, int size, sortingCompareFunction mySortingCompareFunction) {
   int i;
   for(i = 0; i < size-1; i++) {
-        if(mySortingCompareFunction(array[i], array[i+1],insertionOrder) > 0) {
+        if(mySortingCompareFunction(array[i], array[i+1]) > 0) {
             return 0;
         }
     }
@@ -93,38 +90,34 @@ int main(int argc,char* argv[]){
         return 0;
     }
 
+    //NULL ARRAY TEST
     mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoString;
-    mySortingPreferences.insertionOrder = 1;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoStringReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    mySortingPreferences.insertionOrder = 2;
-
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
-
+    
     mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoIntegers;
-    mySortingPreferences.insertionOrder = 1;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoIntegersReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    mySortingPreferences.insertionOrder = 2;
-
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
-
+    
     mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoFloats;
-    mySortingPreferences.insertionOrder = 1;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoFloatsReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    mySortingPreferences.insertionOrder = 2;
 
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
 
 
     while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
@@ -141,15 +134,15 @@ int main(int argc,char* argv[]){
     sizeOfArray = line;
     fclose(myFile);
 
-    mySortingPreferences.insertionOrder = 1;
+    
+    //TEST OF NON NULL ARRAY
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoString;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
-
-    mySortingPreferences.insertionOrder = 2;
-
-    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder);
-    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference, mySortingPreferences.insertionOrder));
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoStringReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
 
   
