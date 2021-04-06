@@ -68,11 +68,11 @@ int compareTwoFloatsReverse(record* firstRecord, record* secondRecord){
   The following tho methods compares two integer and return the difference between the two numbers
   It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
-int compareTwoIntegers(record* firstRecord, record* secondRecord, register int insertionOrder){  
+int compareTwoIntegers(record* firstRecord, record* secondRecord){  
    return firstRecord->numberInt - secondRecord->numberInt;
 }
 
-int compareTwoIntegersReverse(record* firstRecord, record* secondRecord, register int insertionOrder){  
+int compareTwoIntegersReverse(record* firstRecord, record* secondRecord){  
    return -(firstRecord->numberInt - secondRecord->numberInt);
 }
 
