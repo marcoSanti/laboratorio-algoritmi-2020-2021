@@ -58,10 +58,10 @@ int compareTwoStringReverse(record* firstRecord, record* secondRecord){
   It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
 int compareTwoFloats(record* firstRecord, record* secondRecord){
-  return firstRecord->numberFloat <= secondRecord->numberFloat; 
+  return firstRecord->numberFloat > secondRecord->numberFloat; 
 }
 int compareTwoFloatsReverse(record* firstRecord, record* secondRecord){
-   return firstRecord->numberFloat > secondRecord->numberFloat; 
+   return firstRecord->numberFloat < secondRecord->numberFloat; 
 }
 
 /*
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
     sizeOfArray = line;
     fclose(myFile);
     printf("Read completed...\nStart sorting...\n");
-
+    
     /*=====================================Sorting array=======================================*/
     start = clock();
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);

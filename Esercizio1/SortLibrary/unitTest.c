@@ -38,11 +38,12 @@ int compareTwoStringReverse(record* firstRecord, record* secondRecord){
   It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
 */
 int compareTwoFloats(record* firstRecord, record* secondRecord){
-  return firstRecord->numberFloat <= secondRecord->numberFloat; 
+  return firstRecord->numberFloat > secondRecord->numberFloat; 
 }
 int compareTwoFloatsReverse(record* firstRecord, record* secondRecord){
-   return firstRecord->numberFloat > secondRecord->numberFloat; 
+   return firstRecord->numberFloat < secondRecord->numberFloat; 
 }
+
 
 /*
   The following tho methods compares two integer and return the difference between the two numbers
@@ -152,7 +153,6 @@ int main(int argc,char* argv[]){
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-    
     mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoFloats;
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
@@ -161,7 +161,5 @@ int main(int argc,char* argv[]){
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
-  
-
-
+    return 0;
 }

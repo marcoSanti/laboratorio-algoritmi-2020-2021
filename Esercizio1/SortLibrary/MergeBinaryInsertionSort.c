@@ -1,12 +1,16 @@
 #include "MergeBinaryInsertionSort.h"
 
 void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction){
-    register int i, position;
+    register int i, position, k;
 
     for(i=l+1;i<=r; i++) {
         void* tmp = (void* )array[i];
         position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction);
-        memcpy(array+position+1, array+position, (i-position)*sizeof(void**) );
+        //memcpy(&array[position+1], &array[position], (i-positionm)*sizeof(void**) );
+         for(k = i; k>position; k--){
+            array[k] = array[k-1];
+        }
+
         array[position] = tmp;
     }
 };
