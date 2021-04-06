@@ -144,6 +144,22 @@ int main(int argc,char* argv[]){
     MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
     TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoIntegers;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
+
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoIntegersReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
+
+    
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoFloats;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
+
+    mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoFloatsReverse;
+    MergeBinaryInsertionSort((void** )myRecord, 0, sizeOfArray-1, mySortingPreferences.comparePreference);
+    TEST_ASSERT_TRUE(arrayIsSorted((void**)myRecord, sizeOfArray, mySortingPreferences.comparePreference));
 
   
 
