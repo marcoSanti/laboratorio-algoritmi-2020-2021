@@ -45,7 +45,6 @@ void Merge(void** array,register int l,register int m,register int r, sortingCom
     memcpy(arrayLeft, array+l, n1*sizeof(void*));
     memcpy(arrayRight, array+m+1, n2* sizeof(void *));
     
-   
     while(i < n1 && j < n2) {
         if(mySortingCompareFunction(arrayLeft[i], arrayRight[j]) <= 0) { 
             array[k] = arrayLeft[i];
@@ -57,12 +56,21 @@ void Merge(void** array,register int l,register int m,register int r, sortingCom
         ++k;
     }
     
+    /*
+        while(i < n1) {
+            array[k] = arrayLeft[i];
+            i++; k++;
+        }
+        while(j < n2) {
+            array[k] = arrayRight[j];
+            j++; k++;
+            ++k;
+        }
 
+    */
     memcpy(array+k, arrayLeft+i, (n1-i) * sizeof(void*));
     k+=(n1-i);
-   
     memcpy(array+k, arrayRight+j, (n2-j) * sizeof(void*));
-   
     
     free(arrayLeft);
     free(arrayRight);
