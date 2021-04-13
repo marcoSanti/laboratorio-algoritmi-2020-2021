@@ -77,17 +77,19 @@ int compareTwoIntegersReverse(record* firstRecord, record* secondRecord){
 }
 
 /*
-  This function handles the signal.
+  This function handles the signal but only if OS is not windows
   in particular, when 10 minutes have elapsed, it will kill the process
 */
-void signalHandler(int signal) {
-  switch(signal) {
-    case SIGALRM:
-      fprintf(stderr, "mmm...Time's up, pack your things, we are leaving\n");
-      exit(EXIT_FAILURE);
-    break;
+#if !(defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
+  void signalHandler(int signal) {
+    switch(signal) {
+      case SIGALRM:
+        fprintf(stderr, "mmm...Time's up, pack your things, we are leaving\n");
+        exit(EXIT_FAILURE);
+      break;
+    }
   }
-}
+#endif
 
 int main(int argc, char* argv[]) {
     int insertionModeUser, sizeOfArray,line = 0, id, i, secondNumber;
@@ -110,9 +112,11 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+#if !(defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
     signal(SIGALRM, signalHandler);
+#endif
 
-    /*=====================================Handle user inputs=======================================*/
+    
     
     do {
       printf("Please select sorting order:\n\t1) Not decreasing;\n\t2) Not increasing;\nYour choice (1/2):");
@@ -139,8 +143,10 @@ int main(int argc, char* argv[]) {
         else mySortingPreferences.comparePreference = (sortingCompareFunction) compareTwoStringReverse;
       break;
   }
+
     alarm(TIME_LIM);
-    /*=====================================Reading from file=======================================*/
+
+
     printf("Start reading from file...\n");
     line=0;
     while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
