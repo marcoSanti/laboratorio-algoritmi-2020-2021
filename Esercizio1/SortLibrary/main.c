@@ -76,20 +76,6 @@ int compareTwoIntegersReverse(record* firstRecord, record* secondRecord){
    return -(firstRecord->numberInt - secondRecord->numberInt);
 }
 
-/*
-  This function handles the signal but only if OS is not windows
-  in particular, when 10 minutes have elapsed, it will kill the process
-*/
-#if !(defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
-  void signalHandler(int signal) {
-    switch(signal) {
-      case SIGALRM:
-        fprintf(stderr, "mmm...Time's up, pack your things, we are leaving\n");
-        exit(EXIT_FAILURE);
-      break;
-    }
-  }
-#endif
 
 int main(int argc, char* argv[]) {
     int insertionModeUser, sizeOfArray,line = 0, id, i, secondNumber;
@@ -112,9 +98,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-#if !(defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__))
-    signal(SIGALRM, signalHandler);
-#endif
+
 
     
     
@@ -144,12 +128,12 @@ int main(int argc, char* argv[]) {
       break;
   }
 
-    alarm(TIME_LIM);
+   
 
 
     printf("Start reading from file...\n");
     line=0;
-    while(fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
+    while( fscanf(myFile, "%d,%[^,],%d,%f\n", &id, stringInFile, &secondNumber, &thirdNumber) != EOF) {
         singleElement = (record*) malloc(sizeof(record));
         singleElement->id = id;
         singleElement->string = (char*) malloc(sizeof(char) * strlen(stringInFile) + 1);

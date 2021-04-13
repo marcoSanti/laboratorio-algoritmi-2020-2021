@@ -131,6 +131,7 @@ int main(int argc,char* argv[]){
     sizeOfArray = line;
     fclose(myFile);
 
+    //TEST DA FARE SU PICCOLI ELEMENTI AGGIORNARE... TEST SU ARRAY BANALI ARRAY DI UN ELEMENTO, NULL, 
     
     //TEST OF NON NULL ARRAY
     mySortingPreferences.comparePreference =(sortingCompareFunction) compareTwoString;
