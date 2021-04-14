@@ -1,3 +1,2 @@
 *.o
-BinarySortMainExec
-BinarySortUnitTest
+Binary*

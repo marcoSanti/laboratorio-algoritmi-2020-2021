@@ -26,7 +26,13 @@ unitTest: Headers/MergeBinaryInsertionSort.h SortLibrary/unitTest.c Build/MergeB
 	$(COMPILER) Build/MergeBinaryInsertionSort.o Build/unity.o Build/unitTest.o -o Build/BinarySortUnitTest
 	Build/BinarySortUnitTest
 
+verbose: Build/MergeBinaryInsertionSort.o
+	$(COMPILER) $(FLAGS) -c SortLibrary/main.c -o Build/mainVerbose.o -DVERBOSE
+	$(COMPILER) Build/mainVerbose.o Build/MergeBinaryInsertionSort.o -o Build/BinarySortMainExecVerbose
+	Build/BinarySortMainExecVerbose
+
 clear:
 	rm Build/*.o
 	rm Build/BinarySortMainExec
+	rm FloatSorted.csv IntegerSorted.csv StringSorted.csv
 	

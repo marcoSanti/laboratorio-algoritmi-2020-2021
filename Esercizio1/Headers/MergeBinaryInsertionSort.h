@@ -8,7 +8,7 @@
     #include <unistd.h>
     #include <time.h>
     #include <signal.h>
-    #define K 15 //Length of sub array at wich point merge sort is swapped with binary insertion sort
+#define K 15 //Length of sub array at wich point merge sort is swapped with binary insertion sort
 #endif
 
 /*
@@ -17,7 +17,7 @@
     a compare function for the data structure you have implemented.
     The first two elements are the ones wich the comparison will happen, while the third parameter is the one that is going t decide the sorting order
 */
-typedef int (*sortingCompareFunction)(void*, void*);
+typedef int (*sortingCompareFunction)(void *, void *);
 
 /*
     This function implements the algoritm Merge - Binary insertion sort, by using the 
@@ -28,7 +28,7 @@ typedef int (*sortingCompareFunction)(void*, void*);
         -r : the upper boundaries of the indexes of my array. When the function is called for the first time it should be the last valid index of the array (array.length -1)
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
 */
-void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction mySortingCompareFunction);
+void MergeBinaryInsertionSort(void **array, int l, int r, sortingCompareFunction mySortingCompareFunction);
 
 /*
     This method proceed to merge two Sub arrays into a single array.
@@ -41,7 +41,7 @@ void MergeBinaryInsertionSort(void** array, int l, int r, sortingCompareFunction
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCompareFunction);
+void Merge(void **array, int l, int m, int r, sortingCompareFunction mySortingCompareFunction);
 
 /*
     This method implements an insertion sort algorithm with a binary search for the position in wich to insert the new element
@@ -52,7 +52,7 @@ void Merge(void** array, int l, int m, int r, sortingCompareFunction mySortingCo
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction mySortingCompareFunction);
+void BinaryInsertionSort(void **array, int l, int r, sortingCompareFunction mySortingCompareFunction);
 
 /*
     This method returns the position in wich the new element shall be inserted by using the binary dicotomic search algoritm.
@@ -64,4 +64,4 @@ void BinaryInsertionSort(void** array , int l, int r, sortingCompareFunction myS
         -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
     BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
 */
-int BinarySearchPosition(void** array, void* x, int i, int j, sortingCompareFunction mySortingCompareFunction); 
+int BinarySearchPosition(void **array, void *x, int i, int j, sortingCompareFunction mySortingCompareFunction);
