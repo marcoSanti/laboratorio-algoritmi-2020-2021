@@ -1,38 +1,38 @@
 COMPILER=gcc
-FLAGS=-I Headers/ 
+FLAGS=-I Lib/ 
 FLAGSTEST= $(FLAGS) -I UnityTest/
 
 BinarySortMain: Build/main.o Build/MergeBinaryInsertionSort.o
 	$(COMPILER) Build/main.o Build/MergeBinaryInsertionSort.o -o Build/BinarySortMainExec
 	Build/BinarySortMainExec
 
-Build/MergeBinaryInsertionSort.o: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeBinaryInsertionSort.c
-	$(COMPILER) $(FLAGS) -c SortLibrary/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
+Build/MergeBinaryInsertionSort.o: Lib/MergeBinaryInsertionSort.h Lib/MergeBinaryInsertionSort.c
+	$(COMPILER) $(FLAGS) -c Lib/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
 
-Build/main.o: Headers/MergeBinaryInsertionSort.h SortLibrary/main.c
-	$(COMPILER) $(FLAGS) -c SortLibrary/main.c -o Build/main.o
+Build/main.o: Lib/MergeBinaryInsertionSort.h Src/main.c
+	$(COMPILER) $(FLAGS) -c Src/main.c -o Build/main.o
 
-debug: Headers/MergeBinaryInsertionSort.h SortLibrary/MergeBinaryInsertionSort.c SortLibrary/main.c
-	$(COMPILER) $(FLAGS) -g -c SortLibrary/main.c -o Build/main.o
-	$(COMPILER) $(FLAGS) -g -c SortLibrary/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
+debug: Lib/MergeBinaryInsertionSort.h Lib/MergeBinaryInsertionSort.c Src/main.c
+	$(COMPILER) $(FLAGS) -g -c Src/main.c -o Build/main.o
+	$(COMPILER) $(FLAGS) -g -c Lib/MergeBinaryInsertionSort.c -o Build/MergeBinaryInsertionSort.o
 	$(COMPILER) Build/MergeBinaryInsertionSort.o Build/main.o -o Build/BinarySortMainExec
 	gdb Build/BinarySortMainExec
 
-UnityTest/unity.o: UnityTest/unity.c UnityTest/unity.h
+Build/unity.o: UnityTest/unity.c UnityTest/unity.h
 	$(COMPILER) $(FLAGSTEST) -c UnityTest/unity.c -o Build/unity.o
 
-unitTest: Headers/MergeBinaryInsertionSort.h SortLibrary/unitTest.c Build/MergeBinaryInsertionSort.o UnityTest/unity.o
-	$(COMPILER) $(FLAGSTEST) -c SortLibrary/unitTest.c -o Build/unitTest.o
+unitTest: Lib/MergeBinaryInsertionSort.h Src/unitTest.c Build/MergeBinaryInsertionSort.o Build/unity.o
+	$(COMPILER) $(FLAGSTEST) -c Src/unitTest.c -o Build/unitTest.o
 	$(COMPILER) Build/MergeBinaryInsertionSort.o Build/unity.o Build/unitTest.o -o Build/BinarySortUnitTest
 	Build/BinarySortUnitTest
 
 verbose: Build/MergeBinaryInsertionSort.o
-	$(COMPILER) $(FLAGS) -c SortLibrary/main.c -o Build/mainVerbose.o -DVERBOSE
+	$(COMPILER) $(FLAGS) -c Src/main.c -o Build/mainVerbose.o -DVERBOSE
 	$(COMPILER) Build/mainVerbose.o Build/MergeBinaryInsertionSort.o -o Build/BinarySortMainExecVerbose
 	Build/BinarySortMainExecVerbose
 
 clear:
 	rm Build/*.o
 	rm Build/BinarySortMainExec
-	rm FloatSorted.csv IntegerSorted.csv StringSorted.csv
+	rm FloatSorted.csv IntegerSorted.csv StringSorted.csv 
 	
