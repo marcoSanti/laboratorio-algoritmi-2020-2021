@@ -196,8 +196,11 @@ int main(int argc, char *argv[])
   fclose(myFile);
   printf("Read completed...\nStorting by integer...\n");
 
+  start = clock();
   MergeBinaryInsertionSort((void **)myRecord, 0, sizeOfArray - 1, (sortingCompareFunction)compareTwoIntegers);
-  printf("Integer sorting completed. saving file as IntegerSorted.csv\n");
+  stop = clock();
+
+  printf("Integer sorting completed in %.2lf seconds. saving file as IntegerSorted.csv\n", (double)(stop - start) / CLOCKS_PER_SEC);
   if ((outputFile = fopen("IntegerSorted.csv", "w")) == NULL)
   {
     printf("Error opening output file...\n Aborting\n");
@@ -208,8 +211,11 @@ int main(int argc, char *argv[])
   fclose(outputFile);
   printf("File saved.\nStarting to sort by float value...\n");
 
+  start = clock();
   MergeBinaryInsertionSort((void **)myRecord, 0, sizeOfArray - 1, (sortingCompareFunction)compareTwoFloats);
-  printf("Float sorting completed. saving file as FloatSorted.csv\n");
+  stop = clock();
+
+  printf("Float sorting completed in %.2lf seconds. saving file as FloatSorted.csv\n", (double)(stop - start) / CLOCKS_PER_SEC);
   if ((outputFile = fopen("FloatSorted.csv", "w")) == NULL)
   {
     printf("Error opening output file...\n Aborting\n");
@@ -221,8 +227,11 @@ int main(int argc, char *argv[])
 
   printf("File saved.\nStarting to sort by String value...\n");
 
+  start=clock();
   MergeBinaryInsertionSort((void **)myRecord, 0, sizeOfArray - 1, (sortingCompareFunction)compareTwoString);
-  printf("Float sorting completed. saving file as FloatSorted.csv\n");
+  stop = clock();
+
+  printf("String sorting completed in %.2lf seconds. saving file as FloatSorted.csv\n", (double)(stop - start) / CLOCKS_PER_SEC);
   if ((outputFile = fopen("StringSorted.csv", "w")) == NULL)
   {
     printf("Error opening output file...\n Aborting\n");
