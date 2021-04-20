@@ -33,13 +33,9 @@ int main(int argc, char *argv[])
 
     tokenizedNumberLines = i;
 
-    for(i=0;i<tokenizedNumberLines;i++){
-        printf("%s\n", tokenizedInputFile[i]);
-    }
-
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
 
-    printf("We have %d elements in dict\n", dictionaryElements);
+    printf("We have %d words to grammar check!\nWe have %d elements in dict\n", tokenizedNumberLines, dictionaryElements);
 
     return 0;
 }
