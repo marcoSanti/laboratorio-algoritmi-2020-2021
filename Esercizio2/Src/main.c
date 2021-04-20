@@ -1,22 +1,39 @@
 #include "editDistance.h"
 
-int main(int argc, char* argv[]) {
+#define SEPARATOR " ,.:;-_\n"
+
+int main(int argc, char *argv[])
+{
     FILE *myFile;
     char myStringInput[200];
-    const char mySeparationChar[4] = "\0";
     char *myToken;
+    char **tokenizedInputFile;
+    int i = 0, tokenizedNumberLines;
 
     myFile = fopen("correctme.txt", "r");
-    if(myFile == NULL) {
+    if (myFile == NULL)
+    {
         exit(EXIT_FAILURE);
     }
 
-    while( fscanf(myFile, "%[^,]\n", myStringInput) != EOF) {
-        myToken = strtok(myStringInput, mySeparationChar);
-        
-            fprintf(stderr, " %s\n", myToken);
+    tokenizedInputFile=malloc(i*sizeof(char *));
+    while (fscanf(myFile, "%s\n", myStringInput) != EOF)
+    {
+        myToken = strtok(myStringInput, SEPARATOR);
+        while (myToken != NULL)
+        {
+            tokenizedInputFile = realloc(tokenizedInputFile, (i + 1) * sizeof(char *));
+            tokenizedInputFile[i] = malloc(strlen(myToken)+1);
+            strcpy(tokenizedInputFile[i], myToken);
+            i++;
+            myToken = strtok(NULL, SEPARATOR);
+        }
+    }
 
-            myToken = strtok(NULL, mySeparationChar);        
+    tokenizedNumberLines = i;
+
+    for(i=0;i<tokenizedNumberLines;i++){
+        printf("%s\n", tokenizedInputFile[i]);
     }
     return 0;
 }
