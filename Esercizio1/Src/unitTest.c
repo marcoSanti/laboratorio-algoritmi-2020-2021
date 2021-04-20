@@ -6,8 +6,7 @@ void setUp(void) {}
 void tearDown(void) {}
 
 /*
-  The following tho methods compares two integer and return the difference between the two numbers
-  It has two forms: the normal one for non decreasing sorting and the "Reverse" one for the non increasing sort
+  The following method compares two integer and return the difference between the two numbers
 */
 int compareTwoIntegers(int *firstRecord, int *secondRecord)
 {
