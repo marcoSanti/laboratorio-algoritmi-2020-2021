@@ -8,3 +8,5 @@
 #endif
 
 int edit_distance(char* s1, char* s2);
+
+char** loadDictionary(char *fileName, int *dictionaryElements);

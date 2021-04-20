@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
     char myStringInput[200];
     char *myToken;
     char **tokenizedInputFile;
-    int i = 0, tokenizedNumberLines;
+    char **dictionary;
+    int i = 0, tokenizedNumberLines, dictionaryElements;
 
     myFile = fopen("correctme.txt", "r");
     if (myFile == NULL)
@@ -35,5 +36,10 @@ int main(int argc, char *argv[])
     for(i=0;i<tokenizedNumberLines;i++){
         printf("%s\n", tokenizedInputFile[i]);
     }
+
+    dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
+
+    printf("We have %d elements in dict\n", dictionaryElements);
+
     return 0;
 }
