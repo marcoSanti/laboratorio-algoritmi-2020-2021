@@ -1,6 +1,6 @@
 #include "editDistance.h"
 
-#define SEPARATOR " ,.:;-_\n"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     char *myToken;
     char **tokenizedInputFile;
     char **dictionary;
-    int i = 0, tokenizedNumberLines, dictionaryElements;
+    int i = 0, tokenizedNumberLines, dictionaryElements, j, minEditDistance = INT_MAX, positionOfMinEditDistance =0, tmp;
 
     myFile = fopen("correctme.txt", "r");
     if (myFile == NULL)
@@ -35,7 +35,21 @@ int main(int argc, char *argv[])
 
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
 
-    printf("We have %d words to grammar check!\nWe have %d elements in dict\n", tokenizedNumberLines, dictionaryElements);
+    for(i=0;i<tokenizedNumberLines;i++){ //scorro le parole dentro il file da correggere
+        minEditDistance = INT_MAX;
+        for(j=0;j<dictionaryElements;j++){
+            tmp = edit_distance(tokenizedInputFile[i], dictionary[j]);
+            if(tmp<minEditDistance){
+                minEditDistance = tmp;
+                positionOfMinEditDistance = j;
+            }
+        }
+        if(minEditDistance != 0){
+            printf("Word %s is probably wrong... Did you mean %s?\n", tokenizedInputFile[i], dictionary[positionOfMinEditDistance]);
+        }else{
+            printf("Word %s is correct.\n", tokenizedInputFile[i]);
+        }
+    }
 
     return 0;
 }

@@ -19,6 +19,11 @@ int edit_distance(char* s1, char* s2) {
     return MIN(noOp, MIN(canc, insert));
 }
 
+int edit_distance_dyn(char* s1, char* s2){
+    return 0;
+}
+
+
 
 
 char** loadDictionary(char *fileName, int *dictionaryElements){
@@ -26,7 +31,7 @@ char** loadDictionary(char *fileName, int *dictionaryElements){
     FILE *dictFP;
     char wordTmp[200];
     char **dictionary;
-    int i;
+    int i=0;
     
     if(fileName == NULL){
         printf("No dictionary available... exiting...\n");
@@ -39,6 +44,7 @@ char** loadDictionary(char *fileName, int *dictionaryElements){
         printf("Unable to open file!\n");
         exit(EXIT_FAILURE);
     }
+
     dictionary = malloc(i*sizeof(char *));
     while(fscanf(dictFP, "%s", wordTmp ) != EOF){
         dictionary = realloc(dictionary, (i+1)*sizeof(void *));
@@ -51,3 +57,5 @@ char** loadDictionary(char *fileName, int *dictionaryElements){
     *dictionaryElements = i;
     return dictionary;
 }
+
+
