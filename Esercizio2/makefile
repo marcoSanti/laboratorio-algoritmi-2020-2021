@@ -19,6 +19,7 @@ debug: Lib/editDistance.h Lib/editDistance.c Src/main.c
 	$(COMPILER) Build/editDistance.o Build/main.o -o Build/editDistance
 	gdb Build/editDistance
 
+
 clear: 
 	rm Build/*.o
 	rm Build/exec
