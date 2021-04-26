@@ -8,7 +8,6 @@
     #define MIN(x, y) (((x) < (y)) ? (x) : (y))
     #define SEPARATOR " ,.:;-_\n"
 
-
     int memoizationHelpMatrix[50][50]; //used for dynamic programming! 
     
 

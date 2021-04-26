@@ -1,22 +1,34 @@
 #include "editDistance.h"
 
-
-
 int main(int argc, char *argv[])
 {
+    /*  
+        Variables declaration   
+    */
     FILE *myFile;
     char myStringInput[200];
     char *myToken;
     char **tokenizedInputFile;
     char **dictionary;
-    int i = 0, tokenizedNumberLines, dictionaryElements, j, minEditDistance = INT_MAX, positionOfMinEditDistance =0, tmp;
+    int tokenizedNumberLines, dictionaryElements, minEditDistance, positionOfMinEditDistance;
+    int i, j, tmp;
+
+    i = 0;
+    minEditDistance = INT_MAX;
+    positionOfMinEditDistance = 0;
 
     myFile = fopen("correctme.txt", "r");
-    if (myFile == NULL)
-    {
+    if (myFile == NULL) {
         exit(EXIT_FAILURE);
     }
-
+    /*
+        File opened: success.
+        Read from the file and create tokens using the text inside the file.
+        "Hello world" will create two tokens: 1) Hello 2) world.
+        tokenIzedInputFile is initialized at 0 so that we can use the realloc funtion.
+        tokenizedInputFile is a double pointer array. Every element of the array is a pointer to a string, 
+        this sring is out token.
+    */
     tokenizedInputFile=malloc(i*sizeof(char *));
     while (fscanf(myFile, "%s\n", myStringInput) != EOF)
     {
@@ -24,11 +36,14 @@ int main(int argc, char *argv[])
         while (myToken != NULL)
         {
             tokenizedInputFile = realloc(tokenizedInputFile, (i + 1) * sizeof(char *));
-            tokenizedInputFile[i] = malloc(strlen(myToken)+1);
+            tokenizedInputFile[i] = malloc(strlen(myToken) + 1);
 
-             if(myToken[0]>=65 && myToken[0]<=90){ //converto prima lettera parola in minuscolo se maiuscola
-                 myToken[0]=myToken[0]+32;
-             }
+            /*
+                Get rid of the uppercased letters.
+            */
+            if(myToken[0] >= 65 && myToken[0] <= 90){ 
+                myToken[0] = myToken[0] + 32;
+            }
                 
             strcpy(tokenizedInputFile[i], myToken);
             i++;
@@ -37,11 +52,14 @@ int main(int argc, char *argv[])
     }
 
     tokenizedNumberLines = i;
-
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
 
 #ifdef PAINFUL
-    for(i=0;i<tokenizedNumberLines;i++){ //scorro le parole dentro il file da correggere
+    /*
+        Solve the problem without memoisation. 
+        In this case we don't use a matrix.
+    */
+    for(i=0;i<tokenizedNumberLines;i++){ 
         minEditDistance = INT_MAX;
         for(j=0;j<dictionaryElements;j++){
             tmp = edit_distance(tokenizedInputFile[i], dictionary[j]);
@@ -57,20 +75,28 @@ int main(int argc, char *argv[])
         }
     }
 #else
- 
+    /*
+        In order to support the memoisation method to solve the problem we need a matrix that will be used
+        to store the progressive results while comparing two strings.
+    */
     for(i=0;i<tokenizedNumberLines;i++){
         minEditDistance = INT_MAX;
         for(j=0;j<dictionaryElements;j++){
 
-            memset(memoizationHelpMatrix, -1, sizeof memoizationHelpMatrix); //init matrice a -1
+            /*
+                memset is used to set every element of our matrix to -1.
+            */
+            memset(memoizationHelpMatrix, -1, sizeof memoizationHelpMatrix); 
             tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j], strlen(tokenizedInputFile[i]), strlen(dictionary[j]));
         
-          
             if(tmp < minEditDistance){
                 minEditDistance = tmp;
                 positionOfMinEditDistance = j;
             }
-
+            /*
+                if minEditDistance is zero it means that my two words are equal, otherwise the loop
+                goes on and the algorithm keeps searching for the edit distance.
+            */
             if(minEditDistance == 0) break;
         }
         if(minEditDistance != 0){
@@ -79,10 +105,6 @@ int main(int argc, char *argv[])
             printf("Word %10s is correct.\n", tokenizedInputFile[i]);
         }
     }
- 
-  
-
 #endif
-
     return 0;
 }
