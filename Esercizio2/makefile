@@ -19,7 +19,14 @@ debug: Lib/editDistance.h Lib/editDistance.c Src/main.c
 	$(COMPILER) Build/editDistance.o Build/main.o -o Build/editDistance
 	gdb Build/editDistance
 
+Build/unity.o: UnityTest/unity.c UnityTest/unity.h
+	$(COMPILER) $(FLAGSTEST) -c UnityTest/unity.c -o Build/unity.o
 
+unitTest: Lib/editDistance.h Src/unitTest.c Build/editDistance.o Build/unity.o
+	$(COMPILER) $(FLAGSTEST) -c Src/unitTest.c -o Build/unitTest.o
+	$(COMPILER) Build/editDistance.o Build/unity.o Build/unitTest.o -o Build/EditDistanceUnitTest
+	Build/EditDistanceUnitTest
+ 
 clear: 
 	rm Build/*.o
 	rm Build/exec
