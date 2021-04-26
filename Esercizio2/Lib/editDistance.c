@@ -1,5 +1,7 @@
 #include "editDistance.h"
 
+
+
 int edit_distance_dyn(char *str1, char *str2, int strlen1, int strlen2)
 {
     int insert, canc, noOp;
@@ -32,6 +34,7 @@ int edit_distance_dyn(char *str1, char *str2, int strlen1, int strlen2)
 
     return memoizationHelpMatrix[strlen1 - 1][strlen2 - 1] = MIN(insert, MIN(noOp, canc));
 }
+
 
 int edit_distance(char *s1, char *s2)
 {
