@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
     myFile = fopen("correctme.txt", "r");
     if (myFile == NULL) {
+        printf("Unable to open source file to correct.\n");
         exit(EXIT_FAILURE);
     }
     /*
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
     }
 
     tokenizedNumberLines = i;
+
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
 
 #ifdef PAINFUL
@@ -83,11 +85,8 @@ int main(int argc, char *argv[])
         minEditDistance = INT_MAX;
         for(j=0;j<dictionaryElements;j++){
 
-            /*
-                memset is used to set every element of our matrix to -1.
-            */
-            memset(memoizationHelpMatrix, -1, sizeof memoizationHelpMatrix); 
-            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j], strlen(tokenizedInputFile[i]), strlen(dictionary[j]));
+             
+            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j]);
         
             if(tmp < minEditDistance){
                 minEditDistance = tmp;

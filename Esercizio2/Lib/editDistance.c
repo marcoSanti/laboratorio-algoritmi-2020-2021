@@ -1,7 +1,11 @@
 #include "editDistance.h"
 
+int edit_distance_dyn(char* str1, char*str2){
+  memset(memoizationHelpMatrix, -1, sizeof memoizationHelpMatrix);
+  return _edit_distance_dyn(str1, str2, strlen(str1), strlen(str2));
+}
 
-int edit_distance_dyn(char * str1, char * str2, int strlen1, int strlen2) {
+int _edit_distance_dyn(char * str1, char * str2, int strlen1, int strlen2) {
   int insert, canc, noOp;
 
   //control to not overflow the space of memoizationHelpMatrix
@@ -18,13 +22,13 @@ int edit_distance_dyn(char * str1, char * str2, int strlen1, int strlen2) {
     return memoizationHelpMatrix[strlen1 - 1][strlen2 - 1];
 
   if (str1[0] == str2[0]) {
-    noOp = edit_distance_dyn(str1 + 1, str2 + 1, strlen1 - 1, strlen2 - 1);
+    noOp = _edit_distance_dyn(str1 + 1, str2 + 1, strlen1 - 1, strlen2 - 1);
   } else {
     noOp = INT_MAX;
   }
 
-  insert = edit_distance_dyn(str1 + 1, str2, strlen1 - 1, strlen2) + 1;
-  canc = edit_distance_dyn(str1, str2 + 1, strlen1, strlen2 - 1) + 1;
+  insert = _edit_distance_dyn(str1 + 1, str2, strlen1 - 1, strlen2) + 1;
+  canc = _edit_distance_dyn(str1, str2 + 1, strlen1, strlen2 - 1) + 1;
 
   return memoizationHelpMatrix[strlen1 - 1][strlen2 - 1] = MIN(insert, MIN(noOp, canc));
 }

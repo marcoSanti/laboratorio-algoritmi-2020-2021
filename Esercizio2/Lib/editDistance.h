@@ -30,4 +30,6 @@ char** loadDictionary(char *fileName, int *dictionaryElements);
     str1, str2: strings of which we calculate the edit distance.
     strlen1, strlen2: lengths respectively of str1, str2. 
 */
-int edit_distance_dyn(char* str1, char* str2, int strlen1, int strlen2);
+int _edit_distance_dyn(char* str1, char* str2, int strlen1, int strlen2);
+
+int edit_distance_dyn(char* str1, char*str2);
