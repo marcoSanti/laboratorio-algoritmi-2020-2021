@@ -26,6 +26,13 @@ unitTest: Lib/editDistance.h Src/unitTest.c Build/EditDistance.o Build/unity.o
 	$(COMPILER) $(FLAGSTEST) -c Src/unitTest.c -o Build/UnitTest.o
 	$(COMPILER) Build/EditDistance.o Build/unity.o Build/UnitTest.o -o Build/EditDistanceUnitTest
 	Build/EditDistanceUnitTest
+
+#target to no memoization
+noMemoization: Build/EditDistance.o Src/main.c Lib/editDistance.h
+	$(COMPILER) $(FLAGS) -c -D noMemoization Src/main.c -o Build/Main.o
+	$(COMPILER) Build/EditDistance.o Build/Main.o -o Build/EditDistanceNoMemoization
+	Build/EditDistanceNoMemoization
+
  
 clear: 
 	rm Build/*.o

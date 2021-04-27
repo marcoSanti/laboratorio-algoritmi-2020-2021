@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
     positionOfMinEditDistance = 0;
 
     myFile = fopen("correctme.txt", "r");
-    if (myFile == NULL) {
+    if (myFile == NULL)
+    {
         printf("Unable to open source file to correct.\n");
         exit(EXIT_FAILURE);
     }
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
         tokenizedInputFile is a double pointer array. Every element of the array is a pointer to a string, 
         this sring is out token.
     */
-    tokenizedInputFile=malloc(i*sizeof(char *));
+    tokenizedInputFile = malloc(i * sizeof(char *));
     while (fscanf(myFile, "%s\n", myStringInput) != EOF)
     {
         myToken = strtok(myStringInput, SEPARATOR);
@@ -42,10 +43,11 @@ int main(int argc, char *argv[])
             /*
                 Get rid of the uppercased letters.
             */
-            if(myToken[0] >= 65 && myToken[0] <= 90){ 
+            if (myToken[0] >= 65 && myToken[0] <= 90)
+            {
                 myToken[0] = myToken[0] + 32;
             }
-                
+
             strcpy(tokenizedInputFile[i], myToken);
             i++;
             myToken = strtok(NULL, SEPARATOR);
@@ -56,23 +58,29 @@ int main(int argc, char *argv[])
 
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
 
-#ifdef PAINFUL
+#ifdef noMemoization
     /*
         Solve the problem without memoisation. 
         In this case we don't use a matrix.
     */
-    for(i=0;i<tokenizedNumberLines;i++){ 
+    for (i = 0; i < tokenizedNumberLines; i++)
+    {
         minEditDistance = INT_MAX;
-        for(j=0;j<dictionaryElements;j++){
+        for (j = 0; j < dictionaryElements; j++)
+        {
             tmp = edit_distance(tokenizedInputFile[i], dictionary[j]);
-            if(tmp<minEditDistance){
+            if (tmp < minEditDistance)
+            {
                 minEditDistance = tmp;
                 positionOfMinEditDistance = j;
             }
         }
-        if(minEditDistance != 0){
+        if (minEditDistance != 0)
+        {
             printf("Word %s is probably wrong... Did you mean %s?\n", tokenizedInputFile[i], dictionary[positionOfMinEditDistance]);
-        }else{
+        }
+        else
+        {
             printf("Word %s is correct.\n", tokenizedInputFile[i]);
         }
     }
@@ -81,14 +89,16 @@ int main(int argc, char *argv[])
         In order to support the memoisation method to solve the problem we need a matrix that will be used
         to store the progressive results while comparing two strings.
     */
-    for(i=0;i<tokenizedNumberLines;i++){
+    for (i = 0; i < tokenizedNumberLines; i++)
+    {
         minEditDistance = INT_MAX;
-        for(j=0;j<dictionaryElements;j++){
+        for (j = 0; j < dictionaryElements; j++)
+        {
 
-             
             tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j]);
-        
-            if(tmp < minEditDistance){
+
+            if (tmp < minEditDistance)
+            {
                 minEditDistance = tmp;
                 positionOfMinEditDistance = j;
             }
@@ -96,11 +106,15 @@ int main(int argc, char *argv[])
                 if minEditDistance is zero it means that my two words are equal, otherwise the loop
                 goes on and the algorithm keeps searching for the edit distance.
             */
-            if(minEditDistance == 0) break;
+            if (minEditDistance == 0)
+                break;
         }
-        if(minEditDistance != 0){
+        if (minEditDistance != 0)
+        {
             printf("Word %10s is probably wrong... Did you mean %s (editDistance=%d)?\n", tokenizedInputFile[i], dictionary[positionOfMinEditDistance], minEditDistance);
-        }else{
+        }
+        else
+        {
             printf("Word %10s is correct.\n", tokenizedInputFile[i]);
         }
     }
