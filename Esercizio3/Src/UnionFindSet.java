@@ -1,45 +1,25 @@
 package src;
 
 public class UnionFindSet<T> {
-    private T value;
-    private int rank;
-    private UnionFindSet<T> parent;
 
-    public UnionFindSet(T x) {
-        this.value = x;
-        this.rank = 0;
-        this.parent = this;
+    public UnionFindSetElement<T> myList;
+
+    public UnionFindSet() {
+        myList = null;
     }
 
-    public T GetValue() {
-        return this.value;
-    }
+    public void MakeSet(T x) {
+        /*
+         *  La testa della lista e' sempre l'ultimo elemento che e' stato aggiunto
+         */
+        myList = new UnionFindSetElement<T>(x, myList);
+    } 
 
-    public int GetRank() {
-        return this.rank;
-    }
-
-    public UnionFindSet<T> GetParent() {
-        return this.parent;
-    }
-
-    public void SetValue(T x) {
-        this.value = x;
-    }
-
-    public void SetRank(int rank) {
-        this.rank = rank;
-    }
-
-    public void SetParent(UnionFindSet<T> newParent) {
-        this.parent = newParent;
-    }
-
-    public void Union(UnionFindSet<T> x, UnionFindSet<T> y) {
+    public void Union(UnionFindSetElement<T> x, UnionFindSetElement<T> y) {
         Link(FindSet(x), FindSet(y));
     }
 
-    private void Link(UnionFindSet<T> x, UnionFindSet<T> y) {
+    private void Link(UnionFindSetElement<T> x, UnionFindSetElement<T> y) {
         if(x.GetRank() > y.GetRank()) {
             y.SetParent(x);
         } else {
@@ -50,7 +30,7 @@ public class UnionFindSet<T> {
         }
     }
 
-    public UnionFindSet<T> FindSet(UnionFindSet<T> x) {
+    public UnionFindSetElement<T> FindSet(UnionFindSetElement<T> x) {
         if(x != x.GetParent()) {
             x.SetParent(FindSet(x.GetParent()));
         }

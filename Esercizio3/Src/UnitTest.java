@@ -7,28 +7,37 @@ import org.junit.Test;
 
 public class UnitTest {
     
-    UnionFindSet<Integer> firstElem;
-    UnionFindSet<Integer> secondElem;
+    UnionFindSet<Integer> mySet;
 
     @Before 
     public void createStruct() {
-        firstElem = new UnionFindSet<>(5);
-        secondElem = new UnionFindSet<>(10);
+        mySet = new UnionFindSet();
+        mySet.MakeSet(5);
+        mySet.MakeSet(10);
+        mySet.MakeSet(15);
     }
 
     @Test 
     public void testNewElement() {
-        assertEquals(0, firstElem.GetRank());
-        assertSame(firstElem, firstElem.GetParent());
+        assertEquals(15, mySet.myList.GetValue().intValue());
+        assertEquals(10, mySet.myList.GetNextInList().GetValue().intValue());
+        assertEquals(5, mySet.myList.GetNextInList().GetNextInList().GetValue().intValue());
     }
 
     @Test
     public void testUnion() {
-        firstElem.Union(firstElem, secondElem);
-        assertSame(secondElem, firstElem.GetParent());
-        assertEquals(0, firstElem.GetRank());
-        assertEquals(1, secondElem.GetRank());
-        assertEquals(5, firstElem.GetValue());
-        assertEquals(10, firstElem.GetParent().GetValue());
+        mySet.Union(mySet.myList, mySet.myList.GetNextInList());
+        mySet.Union(mySet.myList, mySet.myList.GetNextInList().GetNextInList());
+        assertSame(mySet.myList.GetParent(), mySet.myList.GetNextInList().GetParent());
+        assertSame(mySet.myList.GetParent(), mySet.myList.GetNextInList().GetNextInList().GetParent());
     }
+
+    @Test
+    public void flattensTree() {
+        mySet.myList.GetNextInList().SetParent(mySet.myList);
+        mySet.myList.GetNextInList().GetNextInList().SetParent(mySet.myList.GetNextInList());
+        mySet.FindSet(mySet.myList.GetNextInList().GetNextInList());
+        assertSame(mySet.myList, mySet.myList.GetNextInList().GetParent());
+        assertSame(mySet.myList, mySet.myList.GetNextInList().GetNextInList().GetParent());
+    } 
 }
