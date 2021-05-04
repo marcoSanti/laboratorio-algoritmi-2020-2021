@@ -1,3 +1,5 @@
+package src;
+
 public class UnionFindSet<T> {
     private T value;
     private int rank;
@@ -37,7 +39,7 @@ public class UnionFindSet<T> {
         Link(FindSet(x), FindSet(y));
     }
 
-    public void Link(UnionFindSet<T> x, UnionFindSet<T> y) {
+    private void Link(UnionFindSet<T> x, UnionFindSet<T> y) {
         if(x.GetRank() > y.GetRank()) {
             y.SetParent(x);
         } else {
