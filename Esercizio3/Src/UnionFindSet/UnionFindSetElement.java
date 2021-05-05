@@ -1,6 +1,6 @@
-package src;
+package Src.UnionFindSet;
 
-class UnionFindSetElement<T> {
+public class UnionFindSetElement<T> {
 
     private T value;
     private int rank;

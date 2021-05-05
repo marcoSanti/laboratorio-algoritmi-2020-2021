@@ -1,4 +1,6 @@
-package src;
+package Src.UnitTest;
+
+import Src.UnionFindSet.*;
 import java.util.Comparator;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -7,7 +9,7 @@ import org.junit.Test;
 
 public class UnitTest {
     
-    UnionFindSet<Integer> mySet;
+    public UnionFindSet<Integer> mySet;
 
     @Before 
     public void createStruct() {

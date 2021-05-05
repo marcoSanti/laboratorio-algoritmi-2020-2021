@@ -1,4 +1,4 @@
-package src;
+package Src.UnionFindSet;
 
 public class UnionFindSet<T> {
 
