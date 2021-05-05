@@ -15,7 +15,7 @@
 
     <target depends="init" name="compile">
         <mkdir dir="${classes.dir}" />
-        <javac destdir="${classes.dir}" srcdir="${src.dir}">
+        <javac destdir="${classes.dir}" srcdir="${src.dir}" includeantruntime="false">
             <classpath>
                   <pathelement location="${junit}" />
                   <pathelement location="${hamcrest-core}" />
