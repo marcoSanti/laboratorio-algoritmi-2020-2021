@@ -1,10 +1,47 @@
 #include "editDistance.h"
 
+//this function returns the ptr to the dictionary. 
+//the wto parameters are the path of the dict and a integer var wich will be set to the size of the dictionary
+char **loadDictionary(char *fileName, int *dictionaryElements, int *dictMaxSize)
+{
+
+  FILE *dictFP;
+  char wordTmp[200];
+  char **dictionary;
+  int i = 0;
+
+  if (fileName == NULL)
+  {
+    printf("No dictionary available... exiting...\n");
+    exit(EXIT_FAILURE);
+  }
+
+  dictFP = fopen(fileName, "r");
+
+  if (dictFP == NULL)
+  {
+    printf("Unable to open file!\n");
+    exit(EXIT_FAILURE);
+  }
+
+  dictionary = malloc(i * sizeof(char *));
+  while (fscanf(dictFP, "%s", wordTmp) != EOF)
+  {
+    dictionary = realloc(dictionary, (i + 1) * sizeof(void *));
+    dictionary[i] = malloc(strlen(wordTmp) + 1);
+    strcpy(dictionary[i], wordTmp);
+    i++;
+
+    if(strlen(wordTmp) > *dictMaxSize) *dictMaxSize = strlen(wordTmp);
+  }
+
+  fclose(dictFP);
+  *dictionaryElements = i;
+  return dictionary;
+}
+
 int main(int argc, char *argv[])
 {
-    /*  
-        Variables declaration   
-    */
     FILE *myFile;
     char myStringInput[200];
     char *myToken;
@@ -12,6 +49,9 @@ int main(int argc, char *argv[])
     char **dictionary;
     int tokenizedNumberLines, dictionaryElements, minEditDistance, positionOfMinEditDistance;
     int i, j, tmp;
+    int DictMaxSize = 0, correctMeMaxSize = 0;
+    int *memoizationHelpMatrix, memoizationRowSize = 0;
+
 
     i = 0;
     minEditDistance = INT_MAX;
@@ -49,20 +89,31 @@ int main(int argc, char *argv[])
             }
 
             strcpy(tokenizedInputFile[i], myToken);
+
+            if(strlen(myToken) > correctMeMaxSize) correctMeMaxSize = strlen(myToken);
+
             i++;
             myToken = strtok(NULL, SEPARATOR);
+            
+           
         }
     }
 
     tokenizedNumberLines = i;
 
-    dictionary = loadDictionary("dictionary.txt", &dictionaryElements);
+    dictionary = loadDictionary("dictionary.txt", &dictionaryElements, &DictMaxSize);
 
-#ifdef noMemoization
-    /*
-        Solve the problem without memoisation. 
-        In this case we don't use a matrix.
-    */
+    //allocate memoization matrix with max size between dict and correctme
+    if(correctMeMaxSize>DictMaxSize){
+        memoizationHelpMatrix = malloc(correctMeMaxSize * correctMeMaxSize * sizeof(int));
+        memoizationRowSize = correctMeMaxSize;
+    }else{
+        memoizationHelpMatrix = malloc(DictMaxSize * DictMaxSize * sizeof(int));
+        memoizationRowSize = DictMaxSize;
+    }
+
+#ifdef noMemoization //solving the problem without memoization.
+
     for (i = 0; i < tokenizedNumberLines; i++)
     {
         minEditDistance = INT_MAX;
@@ -85,17 +136,14 @@ int main(int argc, char *argv[])
         }
     }
 #else
-    /*
-        In order to support the memoisation method to solve the problem we need a matrix that will be used
-        to store the progressive results while comparing two strings.
-    */
+    
     for (i = 0; i < tokenizedNumberLines; i++)
     {
         minEditDistance = INT_MAX;
         for (j = 0; j < dictionaryElements; j++)
         {
 
-            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j]);
+            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j], memoizationHelpMatrix, memoizationRowSize);
 
             if (tmp < minEditDistance)
             {

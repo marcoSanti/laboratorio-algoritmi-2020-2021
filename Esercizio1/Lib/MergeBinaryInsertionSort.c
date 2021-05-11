@@ -1,40 +1,16 @@
 #include "MergeBinaryInsertionSort.h"
 
-void BinaryInsertionSort(void **array, int l, int r, sortingCompareFunction mySortingCompareFunction)
-{
-    register int i, position, k;
-
-    for (i = l + 1; i <= r; i++)
-    {
-        void *tmp = (void *)array[i];
-        position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction);
-        for (k = i; k > position; k--)
-        {
-            array[k] = array[k - 1];
-        }
-
-        array[position] = tmp;
-    }
-};
-
-int BinarySearchPosition(void **array, void *x, register int l, register int r, sortingCompareFunction mySortingCompareFunction)
-{
-    register int m;
-    while (l <= r)
-    {
-        m = (l + r) >> 1;
-        if (mySortingCompareFunction(x, array[m]) <= 0)
-        {
-            --r;
-        }
-        else
-        {
-            ++l;
-        }
-    }
-    return l;
-};
-
+/*
+    This method proceed to merge two Sub arrays into a single array.
+    Be aware that this is done by using two support arrays wich could cause some swapping if your system is low on memory.
+    The parameters are: 
+        -array: a pointer to the array in wich the sub arrays should be taken
+        -l: the begin index of the first sub array to be merged
+        -m : the mid point wich both function as last index for the first sub array and the begon index for the second sub array
+        -r : the upper bound of the second sub array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+    BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
+*/
 void Merge(void **array, register int l, register int m, register int r, sortingCompareFunction mySortingCompareFunction)
 {
 
@@ -86,6 +62,62 @@ void Merge(void **array, register int l, register int m, register int r, sorting
     free(arrayLeft);
     free(arrayRight);
 };
+
+/*
+    This method returns the position in wich the new element shall be inserted by using the binary dicotomic search algoritm.
+    Parameters are: 
+        -array: a pointer to the array in wich the sub arrays should be taken
+        -x the element that needs to be inserte
+        -i : the beggining index of the array 
+        -j : the end of the array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+    BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
+*/
+int BinarySearchPosition(void **array, void *x, register int l, register int r, sortingCompareFunction mySortingCompareFunction)
+{
+    register int m;
+    while (l <= r)
+    {
+        m = (l + r) >> 1;
+        if (mySortingCompareFunction(x, array[m]) <= 0)
+        {
+            --r;
+        }
+        else
+        {
+            ++l;
+        }
+    }
+    return l;
+};
+
+/*
+    This method implements an insertion sort algorithm with a binary search for the position in wich to insert the new element
+    The parameter are:
+        -array: a pointer to the array in wich the sub arrays should be taken
+        -l : the beggining index of the array 
+        -r : the end of the array to be sorted
+        -mySortingCompareFunction:  This is a pointer to the comparing function to be used into the method
+    BE AWARE THAT THIS FUNCTION IS ONLY MEANT TO BE CALLED BY THE MergeBinaryInsertionSort METHOD
+*/
+void BinaryInsertionSort(void **array, int l, int r, sortingCompareFunction mySortingCompareFunction)
+{
+    register int i, position, k;
+
+    for (i = l + 1; i <= r; i++)
+    {
+        void *tmp = (void *)array[i];
+        position = BinarySearchPosition(array, tmp, l, i, mySortingCompareFunction);
+        for (k = i; k > position; k--)
+        {
+            array[k] = array[k - 1];
+        }
+
+        array[position] = tmp;
+    }
+};
+
+
 
 void MergeBinaryInsertionSort(void **array, register int l, register int r, sortingCompareFunction mySortingCompareFunction)
 {

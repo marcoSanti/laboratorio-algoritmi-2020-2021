@@ -8,7 +8,6 @@
     #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define SEPARATOR " ,.:;-_\n"
 
-int memoizationHelpMatrix[50][50]; //used for dynamic programming!
 
 #endif
 /*
@@ -17,25 +16,13 @@ int memoizationHelpMatrix[50][50]; //used for dynamic programming!
 */
 int edit_distance(char *s1, char *s2);
 
-/*
-    This function imports our dictionary and inside it there are the correct words that will be used to 
-    correct the wrong words. 
-*/
-char **loadDictionary(char *fileName, int *dictionaryElements);
-
-/*
-    This function calculates the edit distance between two strings, by dynamic programming with the memoization technique.
-    The parameters are: 
-    str1, str2: strings of which we calculate the edit distance.
-    strlen1, strlen2: lengths respectively of str1, str2. 
-    This function shall not be called by a programmer. The edit_distance_dyn() must be called instead!
-*/
-int _edit_distance_dyn(char *str1, char *str2, int strlen1, int strlen2);
 
 /*
     this function is a wrapper to the _edit_distance_dyn() and thus this function shall be called insead of the other one.
     into this function, the memoization support matrix is initialized, and the two strings length are called.
     It returns the value calculated by _edit_distance_dyn()
     str1, str2: strings of which we calculate the edit distance.
+    int *memoizationHelpMatrix is an array of dimenion rowSize*rowSize*sizeof(int) where rowSize is the max legth
+    of a word between the dictionary and the correctMe file 
 */
-int edit_distance_dyn(char *str1, char *str2);
+int edit_distance_dyn(char *str1, char *str2, int *memoizationHelpMatrix, int rowSize);
