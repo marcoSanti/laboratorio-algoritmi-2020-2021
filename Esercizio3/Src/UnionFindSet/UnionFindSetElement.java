@@ -26,7 +26,7 @@ public class UnionFindSetElement<T> {
 
     public void SetValue(T x) {  this.value = x;  }
 
-    public void SetRank(int rank) {  this.rank = rank;  }
+    public void incrementRank() {  this.rank++;  }
 
     public void SetParent(UnionFindSetElement<T> newParent) {  this.parent = newParent;  }
 
