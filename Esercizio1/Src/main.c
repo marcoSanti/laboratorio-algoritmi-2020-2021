@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
   MergeBinaryInsertionSort((void **)myRecord, 0, sizeOfArray - 1, (sortingCompareFunction)compareTwoString);
   stop = clock();
 
-  printf("String sorting completed in %.2lf seconds. saving file as FloatSorted.csv\n", (double)(stop - start) / CLOCKS_PER_SEC);
+  printf("String sorting completed in %.2lf seconds. saving file as StringSorted.csv\n", (double)(stop - start) / CLOCKS_PER_SEC);
   if ((outputFile = fopen("StringSorted.csv", "w")) == NULL)
   {
     printf("Error opening output file...\n Aborting\n");
