@@ -81,11 +81,11 @@ int BinarySearchPosition(void **array, void *x, register int l, register int r, 
         m = (l + r) >> 1;
         if (mySortingCompareFunction(x, array[m]) <= 0)
         {
-            --r;
+            r=m-1;
         }
         else
         {
-            ++l;
+            l=m+1;
         }
     }
     return l;
