@@ -74,7 +74,7 @@ public class Graph<T, G> {
     }
 
     public T[] GetNodes() {
-        T nodeList[myHashTable.size()];
+        T[] nodeList = (T[])new Object[myHashTable.size()];
         int k = 0;
         for(T i: myHashTable.keySet()) {
             nodeList[k] = i;
