@@ -115,8 +115,8 @@ public class UnitTest {
         assertTrue("Milano" == myNodes.get(1));
         assertTrue("Genova" == myNodes.get(0));
 
-        //assertFalse("Genova" == myNodes.get(0));
-        //assertFalse("Napoli" == myNodes.get(2));
+        assertFalse("Genova" == myNodes.get(1));
+        assertFalse("Napoli" == myNodes.get(2));
     }
 
     @Test
