@@ -1,5 +1,7 @@
 package Src.UnitTest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Comparator;
 import Src.Graph.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -19,7 +21,7 @@ public class UnitTest {
     public void CreateStruct() throws GraphExceptions {
         myHashmap = new Graph<String, Integer>();
         myHashmapDirect = new Graph<String, Integer>(true);
-        myHashmapDirect = new Graph<String, Integer>(false);
+        myHashmapNotDirect = new Graph<String, Integer>(false);
     }
 
     @Test
@@ -65,7 +67,7 @@ public class UnitTest {
         myHashmap.AddLink("Milano", "Torino", 300);
         myHashmap.DeleteNode("Milano");
         assertFalse(myHashmap.HasNode("Milano"));
-        assertFalse(myHashmap.HasNode("Torino"));
+        assertTrue(myHashmap.HasNode("Torino"));
         //TODO: Test if in the Milano node the node 'Torino' still exists or not. Shouldn't exists.
     }
 
@@ -79,6 +81,7 @@ public class UnitTest {
         myHashmap.AddNode("Torino");
         myHashmap.AddNode("Milano");
         myHashmap.AddNode("Genova");
+
         assertTrue(3 == myHashmap.GetNumberOfNode());
         assertFalse(4 == myHashmap.GetNumberOfNode());
     }
@@ -99,13 +102,21 @@ public class UnitTest {
         myHashmap.AddNode("Torino");
         myHashmap.AddNode("Milano");
         myHashmap.AddNode("Genova");
-        String[] myNodes = new String[3];
-        myNodes = myHashmap.GetNodes();
-        assertTrue("Torino" == myNodes[0]);
-        assertTrue("Milano" == myNodes[1]);
-        assertTrue("Genova" == myNodes[2]);
-        assertFalse("Genova" == myNodes[0]);
-        assertFalse("Napoli" == myNodes[2]);
+
+        ArrayList<String> myNodes = myHashmap.GetNodes();
+
+        //done because the order on insertion is not allways the order of output to arrayList
+        //to resolve this problem, the array list is first sorted and then checked by using a comparator
+        //defined into the comparator class into java.util.Comparator.
+        Comparator<String> c = Comparator.comparing(String::toString);
+        myNodes.sort(c); 
+
+        assertTrue("Torino" == myNodes.get(2));
+        assertTrue("Milano" == myNodes.get(1));
+        assertTrue("Genova" == myNodes.get(0));
+
+        //assertFalse("Genova" == myNodes.get(0));
+        //assertFalse("Napoli" == myNodes.get(2));
     }
 
     @Test
