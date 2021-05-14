@@ -5,7 +5,6 @@ import java.util.HashMap;
  *  Our struct is made by two hashmaps:
  *  ToDos: recupero degli archi dei grafi O(N);
  *  Gestire l'isDirect
- *  UnitTest
  */
 public class Graph<T, G> {
     private HashMap<T, HashMap<T, G>> myHashTable;
@@ -19,10 +18,18 @@ public class Graph<T, G> {
         myHashTable = new HashMap<T, HashMap<T,G>>();
     }
 
+    /* 
+     *  Add a node inside the hashmap that contains the nodes 
+     *  This first hashmap contains keys and for every key one hashmap.
+     *  The second hashmap contains keys and for evrery key one weight.
+     */
     public void AddNode(T key) {
         myHashTable.put(key, new HashMap<T,G>());
     }
 
+    /*
+     *  Add a node inside the second hashmap that containts one key and the weight assosiated with that key. 
+     */
     public void AddLink(T from, T to, G weight) {
         HashMap<T,G> tmpMap = myHashTable.get(from);
         tmpMap.put(to, weight);
@@ -38,6 +45,10 @@ public class Graph<T, G> {
         return myHashTable.containsKey(key);
     }
 
+    /*
+     *  Return the weight of a link. 
+     *  First we get a specific link from a node then we get the weight of the link.
+     */
     public G GetWeight(T from, T to) {
         HashMap<T,G> tmpMap = myHashTable.get(from);
         return tmpMap.get(to);
@@ -48,10 +59,16 @@ public class Graph<T, G> {
     }
 
     /*
-     * Loop through the HashTable for the other nodes 
+     * Loop through the Hashmap and check if the various hashmaps contain the element assosiated with the give key
      */
     public void DeleteNode(T key) {
         myHashTable.remove(key);
+        for(T i: myHashTable.keySet()) {
+            HashMap<T,G> tmpMap = myHashTable.get(i);
+            if(tmpMap.containsKey(key)) {
+                tmpMap.remove(key);
+            }
+        }
     }
 
     public void DeleteLink(T from, T to) {
@@ -62,8 +79,19 @@ public class Graph<T, G> {
         return myHashTable.size();
     }
 
+    public HashMap<T,G>[] GetLinks() {
+        int size = this.GetNumberOfLinks();
+        HashMap<T,G>[] linkList = (HashMap<T,G>[])new Object[size];
+        int k = 0;
+        for(HashMap<T,G> i: myHashTable.values()) {
+            linkList[k] = i;
+            k++;
+        }
+        return linkList;
+    }
+
     /*
-     * Loop through the keys
+     * For each node of the hashmap sum the number of links inside it
      */
     public int GetNumberOfLinks() {
         int sum = 0;
@@ -73,6 +101,9 @@ public class Graph<T, G> {
         return sum;
     }
 
+    /*
+     *  Loop throgh the hashmap and save keys inside an array 
+     */
     public T[] GetNodes() {
         T[] nodeList = (T[])new Object[myHashTable.size()];
         int k = 0;
@@ -82,6 +113,8 @@ public class Graph<T, G> {
         } 
         return nodeList;
     }
+
+    
 
     public boolean IsDirect() {
         return this.isDirect;
