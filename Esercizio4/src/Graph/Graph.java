@@ -1,4 +1,4 @@
-package src.Graph;
+package Src.Graph;
 import java.util.HashMap;
 
 public class Graph<T, G> {
@@ -13,6 +13,6 @@ public class Graph<T, G> {
     }
 
     public void AddLink(T from, T to, G weight) {
-        myHashTable.put(from, new Link<T, G>(to, weight, myHashTable.get(from)));
+        myHashTable.put(from, new Link<T, G>(weight, to, myHashTable.get(from)));
     }
 }

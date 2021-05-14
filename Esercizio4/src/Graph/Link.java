@@ -1,4 +1,4 @@
-package src.Graph;
+package Src.Graph;
 
 public class Link<T, G> {
     private G weight;
