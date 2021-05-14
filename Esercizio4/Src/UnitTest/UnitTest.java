@@ -9,9 +9,13 @@ import org.junit.Test;
 public class UnitTest {
     public Graph<String,Integer> myHashmap; 
 
+    @Before
+    public void CreateStruct() {
+        myHashmap = new Graph<String, Integer>();
+    }
+
     @Test
     public void CreateNullGraph() {
-        myHashmap = new Graph<String, Integer>();
         assertTrue(myHashmap instanceof Graph<?,?>);
     }
 
