@@ -109,7 +109,6 @@ static void arrayWithOrderedElementsMerge()
 
 int main(int argc, char *argv[])
 {
-
   UNITY_BEGIN();
   RUN_TEST(arrayWithZeroElementInsertion);
   RUN_TEST(arrayWithZeroElementMerge);
