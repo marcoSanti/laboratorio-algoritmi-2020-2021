@@ -143,6 +143,24 @@ public class Graph<T, G> {
 
        return tmpHashMap;
     }
+    
+    /**
+     * this is an alternative function based on a different interpretation of what O(n) is: 
+     * given that N is the number o links, then i can duoble loop into the has map without problems
+     * 
+     * @return the arrayList containing all the links in an ordered way
+     */
+    public  ArrayList<Links<T,G>> GetLinks1(){
+        ArrayList<Links<T,G>> myList = new ArrayList<Links<T,G>>();
+
+        for(T i : myHashTable.keySet()){
+            for(T j: myHashTable.get(i).keySet()){
+                myList.add(new Links<T,G>(i, j, myHashTable.get(i).get(j)));
+            }
+        }
+
+        return myList;
+    } 
 
     /**
      * this method returns the number of links into the Graph
