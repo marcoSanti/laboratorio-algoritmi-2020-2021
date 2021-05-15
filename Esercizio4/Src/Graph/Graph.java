@@ -125,8 +125,11 @@ public class Graph<T, G> {
 
     /**
      * This method returns a HashMap containing all the links into the graph
+     * The idea is that we rappresent a node into a graph, by saving its links and not a node itself. So basically, if a
+     * link exists then there is a node into the graph. So, to return all link, i just need to read all the myHasTable, and check if it has other links starting from 
+     * that node. If it has, then i include that into the new hastable and then i return it.
      * 
-     * @return an arraylist containig all elements
+     * @return an HashMap containig all elements
      */
     public HashMap<T, HashMap<T,G>> GetLinks() {
 
