@@ -1,9 +1,10 @@
-package Src.UnitTest;
+package src.unittest;
 
-import Src.UnionFindSet.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import src.unionfindset.*;
 
 
 public class UnitTest {
