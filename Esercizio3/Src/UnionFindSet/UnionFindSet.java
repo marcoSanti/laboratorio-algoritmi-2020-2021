@@ -1,12 +1,13 @@
 package Src.UnionFindSet;
 
+import java.util.HashMap;
 
 public class UnionFindSet<T> {
 
-    private UnionFindSetElement<T> myList;
+    private HashMap<T,UnionFindSetElement<T>>  myHashMap; //arraylist o hashmap
 
     public UnionFindSet() {
-        myList = null;
+        myHashMap = null;
     }
 
     /**
@@ -14,7 +15,7 @@ public class UnionFindSet<T> {
      * @param x the element to be added to the forest.
      */
     public void MakeSet(T x) {
-        myList = new UnionFindSetElement<T>(x, myList);
+        myHashMap.put(x, new UnionFindSetElement<T>(x));
     }
 
     /**
@@ -23,25 +24,14 @@ public class UnionFindSet<T> {
      * @param x subtree to be appended
      * @param y subtree in with x will be appended
      */
-    public void Union(T x, T y) {
-    
-        UnionFindSetElement<T> tmpList1 = myList;
-        UnionFindSetElement<T> tmpList2 = myList;
+    public void Union(T x, T y) throws Error {
         
-        while(tmpList1 != null && tmpList1.GetValue() != x){
-            tmpList1 = tmpList1.GetNextInList();
-        }
+        UnionFindSetElement<T> element1 = myHashMap.get(x);
+        UnionFindSetElement<T> element2 = myHashMap.get(y);
 
-        while(tmpList2 != null && tmpList2.GetValue() != y){
-            tmpList2 = tmpList2.GetNextInList();
-        }
+        if(element1==null || element2==null) throw new Error("Error: item 1 or 2 is not in list");
 
-        if(tmpList1==null || tmpList2==null) throw new Error("Error: item 1 or 2 is not in list");
-
-        /*chiedere se si trova un elemento non nella lista se 
-        lanciare errore o lanciare un makeset e farlo funzionare comunque */
-
-        Link(FindDad(tmpList1), FindDad(tmpList2));
+        Link(FindDad(element1), FindDad(element2));
     }
 
     /**
@@ -50,13 +40,7 @@ public class UnionFindSet<T> {
      * @return X if the element is not in a tree. X.parent otherwise
      */
     public T FindSet(T x){
-        UnionFindSetElement<T> tmpList = myList;
-
-        while(tmpList != null && tmpList.GetValue() != x){
-            tmpList = tmpList.GetNextInList();
-        }
-
-        return FindDad(tmpList).GetValue();
+        return FindDad(myHashMap.get(x)).GetValue();
     }
 
 

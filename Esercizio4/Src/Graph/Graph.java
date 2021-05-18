@@ -140,7 +140,6 @@ public class Graph<T, G> {
                 tmpHashMap.put(i, myHashTable.get(i));
             }
        }
-
        return tmpHashMap;
     }
     
