@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class UnionFindSet<T> {
 
-    private HashMap<T,UnionFindSetElement<T>>  myHashMap; //arraylist o hashmap
+    private HashMap<T,UnionFindSetElement<T>>  myHashMap = null; //arraylist o hashmap
 
     public UnionFindSet() {
-        myHashMap = null;
+        myHashMap = new HashMap<T,UnionFindSetElement<T>>();
     }
 
     /**
