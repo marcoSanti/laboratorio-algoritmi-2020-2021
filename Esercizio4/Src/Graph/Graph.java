@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *  Gestire l'isDirect
  */
 public class Graph<T, G> {
-    private HashMap<T, HashMap<T, G>> myHashTable;
+    private HashMap<T, ArrayList<Links<T,G>>> myGraph;
     private boolean isDirect = true;
 
     /**
@@ -28,7 +28,7 @@ public class Graph<T, G> {
      * instantiates a HashMap to store the graph in memory
      */
     public Graph() {
-        myHashTable = new HashMap<T, HashMap<T, G>>();
+        myGraph = new HashMap<T, ArrayList<Links<T,G>>>();
     }
 
     /**
@@ -37,7 +37,7 @@ public class Graph<T, G> {
      * @param key The name of the node into the graph
      */
     public void AddNode(T key) {
-        myHashTable.put(key, new HashMap<T, G>());
+        myGraph.put(key, new ArrayList<Links<T,G>>());
     }
 
     /**
@@ -49,11 +49,11 @@ public class Graph<T, G> {
      * @param weight the weight of the connection
      */
     public void AddLink(T node1, T node2, G weight) {
-        HashMap<T, G> tmpMap = myHashTable.get(node1);
-        tmpMap.put(node2, weight);
+    
+        myGraph.get(node1).add(new Links<T,G>(node1, node2, weight));
+        
         if (!isDirect) {
-            tmpMap = myHashTable.get(node2);
-            tmpMap.put(node1, weight);
+            myGraph.get(node2).add(new Links<T,G>(node2, node1, weight));
         }
     }
 
@@ -64,7 +64,7 @@ public class Graph<T, G> {
      * @return true if a node is in the graph false otherwise
      */
     public boolean HasNode(T node) {
-        return myHashTable.containsKey(node);
+        return myGraph.containsKey(node);
     }
 
     /**
@@ -75,7 +75,15 @@ public class Graph<T, G> {
      * @return the weight of the link from node1 to node 2
      */
     public G GetWeight(T node1, T node2) {
-        return myHashTable.get(node1).get(node2);
+        ArrayList<Links<T,G>> myNode = myGraph.get(node1);
+
+        if(myNode == null) return null;
+        
+        for(Links<T,G> link: myNode){
+            if(link.node2 == node2) return link.weight;
+        }
+
+        return null;
     }
 
     /**
@@ -84,8 +92,8 @@ public class Graph<T, G> {
      * @param node the node of interest
      * @return the hashtable of the node
      */
-    public HashMap<T, G> GetAdiacentNodes(T node) {
-        return myHashTable.get(node);
+    public ArrayList<Links<T,G>> GetAdiacentNodes(T node) {
+        return myGraph.get(node);
     }
 
     /**
@@ -95,11 +103,14 @@ public class Graph<T, G> {
      * @param node the name of the node to be deleted
      */
     public void DeleteNode(T node) {
-        myHashTable.remove(node);
-        for (T i : myHashTable.keySet()) {
-            HashMap<T, G> tmpMap = myHashTable.get(i);
-            if (tmpMap.containsKey(node)) {
-                tmpMap.remove(node);
+        myGraph.remove(node);
+
+        for (T i : myGraph.keySet()) {
+
+            ArrayList<Links<T,G>> arrayList = myGraph.get(i);
+
+            for(Links<T,G> link: arrayList){
+                if(link.node2 == node) arrayList.remove(link);
             }
         }
     }
@@ -111,7 +122,11 @@ public class Graph<T, G> {
      * @param node2 the ending node of the link
      */
     public void DeleteLink(T node1, T node2) {
-        myHashTable.get(node1).remove(node2);
+        ArrayList<Links<T,G>> arrayList = myGraph.get(node1);
+
+        for(Links<T,G> link: arrayList){
+            if(link.node2 == node2) arrayList.remove(link);
+        }
     }
 
     /**
@@ -120,28 +135,9 @@ public class Graph<T, G> {
      * @return the integer number of nodes
      */
     public int GetNumberOfNode() {
-        return myHashTable.size();
+        return myGraph.size();
     }
 
-    /**
-     * This method returns a HashMap containing all the links into the graph
-     * The idea is that we rappresent a node into a graph, by saving its links and not a node itself. So basically, if a
-     * link exists then there is a node into the graph. So, to return all link, i just need to read all the myHasTable, and check if it has other links starting from 
-     * that node. If it has, then i include that into the new hastable and then i return it.
-     * 
-     * @return an HashMap containig all elements
-     */
-    public HashMap<T, HashMap<T,G>> GetLinks() {
-
-       HashMap<T,HashMap<T,G>> tmpHashMap = new HashMap<T,HashMap<T,G>>();
-    
-       for(T i: myHashTable.keySet()){
-            if(!myHashTable.get(i).isEmpty()){
-                tmpHashMap.put(i, myHashTable.get(i));
-            }
-       }
-       return tmpHashMap;
-    }
     
     /**
      * this is an alternative function based on a different interpretation of what O(n) is: 
@@ -149,12 +145,12 @@ public class Graph<T, G> {
      * 
      * @return the arrayList containing all the links in an ordered way
      */
-    public  ArrayList<Links<T,G>> GetLinks1(){
+    public  ArrayList<Links<T,G>> GetLinks(){
         ArrayList<Links<T,G>> myList = new ArrayList<Links<T,G>>();
 
-        for(T i : myHashTable.keySet()){
-            for(T j: myHashTable.get(i).keySet()){
-                myList.add(new Links<T,G>(i, j, myHashTable.get(i).get(j)));
+        for(T i : myGraph.keySet()){
+            for(Links<T,G> j: myGraph.get(i)){
+                myList.add(j);
             }
         }
 
@@ -168,20 +164,20 @@ public class Graph<T, G> {
      */
     public int GetNumberOfLinks() {
         int sum = 0;
-        for (T i : myHashTable.keySet()) {
-            sum += myHashTable.get(i).size();
+        for (T i : myGraph.keySet()) {
+            sum += myGraph.get(i).size();
         }
         return sum;
     }
 
     /**
-     * This method return all nodes
+     * This method return a list of keys to the hashTable
      * 
      * @return this method returns an ArrayList of all nodes into the graph
      */
     public ArrayList<T> GetNodes() {
         ArrayList<T> nodeList = new ArrayList<T>();
-        for (T i : myHashTable.keySet()) {
+        for (T i : myGraph.keySet()) {
             nodeList.add(i);
         }
         return nodeList;
