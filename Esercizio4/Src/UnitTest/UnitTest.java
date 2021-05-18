@@ -1,7 +1,7 @@
-package Src.UnitTest;
+package src.unittest;
 import java.util.ArrayList;
 import java.util.Comparator;
-import Src.Graph.*;
+import src.graph.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

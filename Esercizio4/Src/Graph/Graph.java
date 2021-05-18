@@ -1,4 +1,4 @@
-package Src.Graph;
+package src.graph;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class Graph<T, G> {
         if(myNode == null) return null;
         
         for(Links<T,G> link: myNode){
-            if(link.node2 == node2) return link.weight;
+            if(link.getNode2() == node2) return link.getWeight();
         }
 
         return null;
@@ -110,7 +110,7 @@ public class Graph<T, G> {
             ArrayList<Links<T,G>> arrayList = myGraph.get(i);
 
             for(Links<T,G> link: arrayList){
-                if(link.node2 == node) arrayList.remove(link);
+                if(link.getNode2() == node) arrayList.remove(link);
             }
         }
     }
@@ -125,7 +125,7 @@ public class Graph<T, G> {
         ArrayList<Links<T,G>> arrayList = myGraph.get(node1);
 
         for(Links<T,G> link: arrayList){
-            if(link.node2 == node2) arrayList.remove(link);
+            if(link.getNode2() == node2) arrayList.remove(link);
         }
     }
 

@@ -1,4 +1,4 @@
-package Src.Graph;
+package src.graph;
 
 /**
  * Custom exeption for the graph class
