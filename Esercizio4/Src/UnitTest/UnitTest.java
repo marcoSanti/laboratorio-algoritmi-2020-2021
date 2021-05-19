@@ -132,8 +132,8 @@ public class UnitTest {
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
         myGraph.AddLink("Milano", "Torino", 300);
-        Comparator<Integer> c = (w1,w2)->w1.intValue()-w2.intValue();
-        Kruskal<String, Integer> myKruskal = new Kruskal<String, Integer>(myGraph, c);
+       // Comparator<Integer> c = (w1,w2)->w1.intValue()-w2.intValue();
+        Kruskal<String, Integer> myKruskal = new Kruskal<String, Integer>(myGraph, Comparator.comparing(Integer::intValue));
         myKruskal.begin();
         UnionFindSet<String> myNodes = myKruskal.getMstNodes();
         ArrayList<Links<String, Integer>> myArrayList = myKruskal.getMstLinks();

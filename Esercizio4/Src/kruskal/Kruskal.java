@@ -23,7 +23,7 @@ public class Kruskal<T, G> {
      * @param c       the comparator used to sort the links. It must be a comparator
      *                for the type of data the weight of the links are expressed in
      */
-    public Kruskal(Graph<T, G> myGraph, Comparator<? super Links<T, G>> c) {
+    public Kruskal(Graph<T, G> myGraph, Comparator c) {
         this.myGraph = myGraph;
         this.myUnionFindSet = new UnionFindSet<T>();
         this.c = c;
