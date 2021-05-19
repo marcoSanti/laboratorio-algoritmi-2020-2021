@@ -24,14 +24,16 @@ public class UnionFindSet<T> {
      * @param x subtree to be appended
      * @param y subtree in with x will be appended
      */
-    public void Union(T x, T y) throws Error {
+    public void Union(T x, T y) throws UnionFindSetError {
         
         UnionFindSetElement<T> element1 = myHashMap.get(x);
         UnionFindSetElement<T> element2 = myHashMap.get(y);
 
-        if(element1==null || element2==null) throw new Error("Error: item 1 or 2 is not in list");
+        if(element1==null || element2==null){
+            throw new UnionFindSetError("Error: one of the item is not into the graph!");
+        }
 
-        Link(FindDad(element1), FindDad(element2));
+        Link(FindRapresentative(element1), FindRapresentative(element2));
     }
 
     /**
@@ -40,10 +42,14 @@ public class UnionFindSet<T> {
      * @return X if the element is not in a tree. X.parent otherwise
      */
     public T FindSet(T x){
-        return FindDad(myHashMap.get(x)).GetValue();
+        return FindRapresentative(myHashMap.get(x)).GetValue();
     }
 
-
+    /**
+     * This method connets two different tree into a single one
+     * @param x the first tree
+     * @param y the second tree
+     */
     private void Link(UnionFindSetElement<T> x, UnionFindSetElement<T> y) {
         if (x.GetRank() > y.GetRank()) {
             y.SetParent(x);
@@ -55,9 +61,14 @@ public class UnionFindSet<T> {
         }
     }
 
-    private UnionFindSetElement<T> FindDad(UnionFindSetElement<T> x) {
+    /**
+     * This method is a private method to be able to reuse this function in various part of the code
+     * @param x The UnionFindSet<T> element to work with
+     * @return the parent of x
+     */
+    private UnionFindSetElement<T> FindRapresentative(UnionFindSetElement<T> x) {
         if ( !x.equals(x.GetParent()) ) {
-            x.SetParent(FindDad(x.GetParent()));
+            x.SetParent(FindRapresentative(x.GetParent()));
         }
         return x.GetParent();
     }

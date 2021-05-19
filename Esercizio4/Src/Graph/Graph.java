@@ -48,12 +48,18 @@ public class Graph<T, G> {
      * @param node2  the destination node
      * @param weight the weight of the connection
      */
-    public void AddLink(T node1, T node2, G weight) {
-    
-        myGraph.get(node1).add(new Links<T,G>(node1, node2, weight));
+    public void AddLink(T node1, T node2, G weight) throws GraphExceptions{
+        ArrayList<Links<T, G>> nodeTmp = myGraph.get(node1);
+        ArrayList<Links<T, G>> nodeTmp1 = myGraph.get(node2);
+
+        if(nodeTmp == null || nodeTmp1 == null){
+            throw new GraphExceptions("Error: node does not exist in graph!");
+        }
+
+        nodeTmp.add(new Links<T,G>(node1, node2, weight));
         
         if (!isDirect) {
-            myGraph.get(node2).add(new Links<T,G>(node2, node1, weight));
+            nodeTmp1.add(new Links<T,G>(node2, node1, weight));
         }
     }
 
@@ -74,16 +80,18 @@ public class Graph<T, G> {
      * @param node2 the destination node
      * @return the weight of the link from node1 to node 2
      */
-    public G GetWeight(T node1, T node2) {
+    public G GetWeight(T node1, T node2) throws GraphExceptions{
         ArrayList<Links<T,G>> myNode = myGraph.get(node1);
 
-        if(myNode == null) return null;
+        if(myNode == null){
+            throw new GraphExceptions("Error: Node 1 does not exist into your graph!");
+        }
         
         for(Links<T,G> link: myNode){
             if(link.getNode2() == node2) return link.getWeight();
         }
 
-        return null;
+        throw new GraphExceptions("Error: node 2 does not exists in graph or a link does not eists between node1 and node2");
     }
 
     /**
@@ -92,8 +100,12 @@ public class Graph<T, G> {
      * @param node the node of interest
      * @return the hashtable of the node
      */
-    public ArrayList<Links<T,G>> GetAdiacentNodes(T node) {
-        return myGraph.get(node);
+    public ArrayList<Links<T,G>> GetAdiacentNodes(T node) throws GraphExceptions {
+        ArrayList<Links<T, G>> arrayListTmp =  myGraph.get(node);
+
+        if(arrayListTmp == null) throw new GraphExceptions("Error: the node does not exists into the graph");
+
+        return arrayListTmp;
     }
 
     /**
