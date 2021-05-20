@@ -51,6 +51,30 @@
       </exec>
     </target>
 
+    <target name="demo" depends="compile">
+      <mkdir dir="build"/>
+        <jar destfile="build/Graph.jar" basedir="classes">
+          <manifest>
+                  <!--qua indico quale classe ha il main-->
+            <attribute name="Main-Class" value="src/Graph"/> 
+          </manifest>
+        </jar>
+
+         <mkdir dir="build"/>
+        <jar destfile="build/GraphDemo.jar" basedir="classes">
+          <zipgroupfileset dir="lib" includes="*.jar" excludes=""/>
+          <manifest>
+            <attribute name="Main-Class" value="src/main/demo"/>
+            <attribute name="Class-Path" value="${classpath}"/>
+          </manifest>
+        </jar>
+        <exec executable="java">
+          <arg value="-jar" />
+          <arg value="build/GraphDemo.jar" />
+          <arg value="italian_dist_graph.csv" />
+      </exec>
+    </target>
+
     <!--Ant esegue questa serie di target in successione-->
     <target depends="clean,init,compile,jar,junit,exec" name="all" /> 
 

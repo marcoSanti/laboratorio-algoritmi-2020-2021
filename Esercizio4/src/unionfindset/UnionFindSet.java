@@ -72,4 +72,8 @@ public class UnionFindSet<T> {
         }
         return x.GetParent();
     }
+
+    public int GetNumberOfNode(){
+        return myHashMap.size();
+    }
 }

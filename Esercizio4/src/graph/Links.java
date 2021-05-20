@@ -1,11 +1,12 @@
 package src.graph;
 
-public class Links<T,G> {
+
+public class Links<T> implements Comparable<Links<T>> {
     private T node1;
     private T node2;
-    private G weight;
+    private double weight;
 
-    public Links(T node1, T node2, G weight){
+    public Links(T node1, T node2, double weight){
         this.node1 = node1;
         this.node2 = node2;
         this.weight = weight;
@@ -15,6 +16,14 @@ public class Links<T,G> {
 
     public T getNode2(){ return this.node2; }
     
-    public G getWeight(){ return this.weight; }
+    public Double getWeight(){ return this.weight; }
 
+    @Override
+    public int compareTo(Links<T> o) {
+
+        if(this.weight == o.getWeight()) return 0;
+        else if(this.weight > o.getWeight()) return 1;
+        else return -1;
+        
+    }
 }
