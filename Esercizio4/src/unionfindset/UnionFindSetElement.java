@@ -4,7 +4,7 @@ public class UnionFindSetElement<T> {
 
     private T value;
     private int rank;
-    private UnionFindSetElement<T> parent; 
+    private UnionFindSetElement<T> parent;
 
     public UnionFindSetElement(T value) {
         this.value = value;
@@ -12,18 +12,28 @@ public class UnionFindSetElement<T> {
         this.rank = 0;
     }
 
-    
-    public T GetValue() {  return this.value;  }
+    public T GetValue(){
+        return this.value;
+    }
 
-    public int GetRank() {  return this.rank;  }
+    public int GetRank() {
+        return this.rank;
+    }
 
-    public UnionFindSetElement<T> GetParent() {  return this.parent;  }
+    public UnionFindSetElement<T> GetParent() {
+        return this.parent;
+    }
 
+    public void SetValue(T x) {
+        this.value = x;
+    }
 
-    public void SetValue(T x) {  this.value = x;  }
+    public void incrementRank() {
+        this.rank++;
+    }
 
-    public void incrementRank() {  this.rank++;  }
+    public void SetParent(UnionFindSetElement<T> newParent) {
+        this.parent = newParent;
+    }
 
-    public void SetParent(UnionFindSetElement<T> newParent) {  this.parent = newParent;  }
-    
 }

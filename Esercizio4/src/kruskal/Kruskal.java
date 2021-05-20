@@ -11,7 +11,6 @@ public class Kruskal<T> {
     private UnionFindSet<T> myUnionFindSet = null;
     private ArrayList<Links<T>> graphLinks = null;
 
-
     private ArrayList<Links<T>> mstGraphLinks = null;
 
     /**
@@ -29,6 +28,7 @@ public class Kruskal<T> {
 
     /**
      * This method executes the Kruskal algoritm
+     * 
      * @return return the list of links that generates the MST graph
      */
     public ArrayList<Links<T>> run() {
@@ -60,6 +60,5 @@ public class Kruskal<T> {
     public UnionFindSet<T> getMstNodes() {
         return this.myUnionFindSet;
     }
-
 
 }

@@ -1,4 +1,5 @@
 package src.unittest;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import src.graph.*;
@@ -7,14 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 import src.kruskal.*;
 
-
-
 /* 
  *  Tests for: GetAdiacentNodes(), DeleteLink() are missing 
  */
 
 public class UnitTest {
-    public Graph<String> myGraph; 
+    public Graph<String> myGraph;
     public Graph<String> myGraphDirect;
     public Graph<String> myGraphNotDirect;
 
@@ -26,12 +25,12 @@ public class UnitTest {
     }
 
     @Test
-    public void CreateNullGraph() throws Exception{
+    public void CreateNullGraph() throws Exception {
         assertTrue(myGraph instanceof Graph<?>);
     }
 
     @Test
-    public void AddNodes() throws Exception{
+    public void AddNodes() throws Exception {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
@@ -41,13 +40,13 @@ public class UnitTest {
         assertFalse(myGraph.HasNode("Venezia"));
     }
 
-    @Test 
+    @Test
     public void AddLinks() throws Exception {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Torino", "Milano", (double)150);
-        myGraph.AddLink("Torino", "Genova", (double)100);
+        myGraph.AddLink("Torino", "Milano", (double) 150);
+        myGraph.AddLink("Torino", "Genova", (double) 100);
         assertTrue(150 == myGraph.GetWeight("Torino", "Milano"));
         assertTrue(100 == myGraph.GetWeight("Torino", "Genova"));
         assertFalse(100000 == myGraph.GetWeight("Torino", "Milano"));
@@ -65,7 +64,7 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Milano", "Torino", (double)300);
+        myGraph.AddLink("Milano", "Torino", (double) 300);
         myGraph.DeleteNode("Milano");
         assertFalse(myGraph.HasNode("Milano"));
         assertTrue(myGraph.HasNode("Torino"));
@@ -76,12 +75,12 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        try{
-            myGraph.AddLink("Milano", "Torino", (double)300);
+        try {
+            myGraph.AddLink("Milano", "Torino", (double) 300);
             myGraph.DeleteLink("Milano", "Torino");
             ArrayList<Links<String>> tmpArrList = myGraph.GetLinks();
             assertTrue(tmpArrList.size() == 0);
-        }catch(GraphExceptions e){
+        } catch (GraphExceptions e) {
             e.printStackTrace();
         }
     }
@@ -101,8 +100,8 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Torino", "Milano", (double)150);
-        myGraph.AddLink("Torino", "Genova", (double)100);
+        myGraph.AddLink("Torino", "Milano", (double) 150);
+        myGraph.AddLink("Torino", "Genova", (double) 100);
         assertTrue(2 == myGraph.GetNumberOfLinks());
         assertFalse(3 == myGraph.GetNumberOfLinks());
     }
@@ -115,11 +114,13 @@ public class UnitTest {
 
         ArrayList<String> myNodes = myGraph.GetNodes();
 
-        //done because the order on insertion is not allways the order of output to arrayList
-        //to resolve this problem, the array list is first sorted and then checked by using a comparator
-        //defined into the comparator class into java.util.Comparator.
+        // done because the order on insertion is not allways the order of output to
+        // arrayList
+        // to resolve this problem, the array list is first sorted and then checked by
+        // using a comparator
+        // defined into the comparator class into java.util.Comparator.
         Comparator<String> c = Comparator.comparing(String::toString);
-        myNodes.sort(c); 
+        myNodes.sort(c);
 
         assertTrue("Torino" == myNodes.get(2));
         assertTrue("Milano" == myNodes.get(1));
@@ -140,13 +141,13 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Milano", "Torino", (double)300);
-        
+        myGraph.AddLink("Milano", "Torino", (double) 300);
+
         Kruskal<String> myKruskal = new Kruskal<String>(myGraph);
         ArrayList<Links<String>> myArrayList = myKruskal.run();
 
         Links<String> l = myArrayList.get(0);
-        assertTrue(l.getNode1()=="Milano");
-        assertTrue(l.getNode2()=="Torino");
+        assertTrue(l.getNode1() == "Milano");
+        assertTrue(l.getNode2() == "Torino");
     }
 }
