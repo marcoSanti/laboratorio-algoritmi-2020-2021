@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import src.kruskal.*;
-import src.unionfindset.*;
+
 
 
 /* 
@@ -69,12 +69,21 @@ public class UnitTest {
         myGraph.DeleteNode("Milano");
         assertFalse(myGraph.HasNode("Milano"));
         assertTrue(myGraph.HasNode("Torino"));
-        //TODO: Test if in the Milano node the node 'Torino' still exists or not. Shouldn't exists.
     }
 
     @Test
     public void CheckDeleteLink() {
-        //ADD
+        myGraph.AddNode("Torino");
+        myGraph.AddNode("Milano");
+        myGraph.AddNode("Genova");
+        try{
+            myGraph.AddLink("Milano", "Torino", 300);
+            myGraph.DeleteLink("Milano", "Torino");
+            ArrayList<Links<String, Integer>> tmpArrList = myGraph.GetLinks();
+            assertTrue(tmpArrList.size() == 0);
+        }catch(GraphExceptions e){
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -134,9 +143,8 @@ public class UnitTest {
         myGraph.AddLink("Milano", "Torino", 300);
         
         Kruskal<String, Integer> myKruskal = new Kruskal<String, Integer>(myGraph, Comparator.comparing(Integer::intValue));
-        myKruskal.begin();
-        UnionFindSet<String> myNodes = myKruskal.getMstNodes();
-        ArrayList<Links<String, Integer>> myArrayList = myKruskal.getMstLinks();
+        ArrayList<Links<String, Integer>> myArrayList = myKruskal.run();
+
         Links<String, Integer> l = myArrayList.get(0);
         assertTrue(l.getNode1()=="Milano");
         assertTrue(l.getNode2()=="Torino");

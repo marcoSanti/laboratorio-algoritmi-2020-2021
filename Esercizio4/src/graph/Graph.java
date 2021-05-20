@@ -135,9 +135,20 @@ public class Graph<T, G> {
      */
     public void DeleteLink(T node1, T node2) {
         ArrayList<Links<T,G>> arrayList = myGraph.get(node1);
-
+        ArrayList<Links<T,G>> arrayListTmp = new ArrayList<Links<T,G>>();
+         
         for(Links<T,G> link: arrayList){
-            if(link.getNode2() == node2) arrayList.remove(link);
+            if(link.getNode2() == node2) arrayListTmp.add(link);
+        }
+
+        /**
+         * this operation must be completed in two steps with complexity O(n) otherwise
+         * if i delete wile i am reading a concurrentmodificationexception is thrown.
+         * So in the first for loop i gett all nodes to be deleted and in the second i delete them from 
+         * the original list. the complexity is O(2n) = O(n) so there is no change in the complexity
+         */
+        for(Links<T,G> link: arrayListTmp){
+            arrayList.remove(link);
         }
     }
 
