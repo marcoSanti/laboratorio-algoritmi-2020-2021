@@ -36,9 +36,10 @@ public class Kruskal<T, G>{
             myUnionFindSet.MakeSet(e);
         }
 
-        // getting all the links and sorting them with the smallest weight first
+        // getting all the links and sorting them with the smallest weight first.
+        //If the data type is not allowed for sorting, an exeption is raised and the process is stopped
         graphLinks = myGraph.GetLinks();
-        graphLinks.sort(Links::compareTo);
+        graphLinks.sort(Links::compareTo); 
 
         for (Links<T, G> l : graphLinks) {
             if (myUnionFindSet.FindSet(l.getNode1()) != myUnionFindSet.FindSet(l.getNode2())) {

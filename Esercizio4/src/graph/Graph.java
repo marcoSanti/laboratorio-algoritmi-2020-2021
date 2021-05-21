@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 /* 
- *  Our struct is made by two hashmaps:
- *  ToDos: recupero degli archi dei grafi O(N);
- *  Gestire l'isDirect
+ *  This class requires two generic types:
+ * T: The type of the node label
+ * G: The type of the link label 
  */
 public class Graph<T, G> {
     private HashMap<T, ArrayList<Links<T, G>>> myGraph;
@@ -138,7 +138,12 @@ public class Graph<T, G> {
     }
 
     /**
-     * This method deletes a link from node1 to node2
+     * This method deletes a link from node1 to node2. This must be completed in two
+     * steps with complexity O(n) otherwise if i delete wile i am reading, a
+     * concurrentmodificationexception is thrown. So in the first for loop i retrive
+     * all nodes to be deleted and in the second i delete them from the original
+     * list. the complexity is O(2n) = O(n) so there is no change in the complexity.
+     * The algoritm is run twice if the graph is not direct
      * 
      * @param node1 the starting node of the link
      * @param node2 the ending node of the link
@@ -151,16 +156,20 @@ public class Graph<T, G> {
             if (link.getNode2() == node2)
                 arrayListTmp.add(link);
         }
-
-        /**
-         * this operation must be completed in two steps with complexity O(n) otherwise
-         * if i delete wile i am reading a concurrentmodificationexception is thrown. So
-         * in the first for loop i gett all nodes to be deleted and in the second i
-         * delete them from the original list. the complexity is O(2n) = O(n) so there
-         * is no change in the complexity
-         */
         for (Links<T, G> link : arrayListTmp) {
             arrayList.remove(link);
+        }
+
+        if (!isDirect) {
+            arrayList = myGraph.get(node2);
+            arrayListTmp = new ArrayList<Links<T, G>>();
+            for (Links<T, G> link : arrayList) {
+                if (link.getNode2() == node1)
+                    arrayListTmp.add(link);
+            }
+            for (Links<T, G> link : arrayListTmp) {
+                arrayList.remove(link);
+            }
         }
     }
 
@@ -174,11 +183,10 @@ public class Graph<T, G> {
     }
 
     /**
-     * this is an alternative function based on a different interpretation of what
-     * O(n) is: given that N is the number o links, then i can duoble loop into the
-     * has map without problems
+     * This method returns All links into a graph. Given that N is the number of
+     * links, then i can duoble loop into the hashmap to get all links
      * 
-     * @return the arrayList containing all the links in an ordered way
+     *@return the arrayList containing all the links. Those links are not sorted.
      */
     public ArrayList<Links<T, G>> GetLinks() {
         ArrayList<Links<T, G>> myList = new ArrayList<Links<T, G>>();
