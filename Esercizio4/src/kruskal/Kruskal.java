@@ -5,13 +5,13 @@ import src.unionfindset.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Kruskal<T> {
+public class Kruskal<T, G extends Comparable>{
 
-    private Graph<T> myGraph = null;
+    private Graph<T, G> myGraph = null;
     private UnionFindSet<T> myUnionFindSet = null;
-    private ArrayList<Links<T>> graphLinks = null;
+    private ArrayList<Links<T, G>> graphLinks = null;
 
-    private ArrayList<Links<T>> mstGraphLinks = null;
+    private ArrayList<Links<T, G>> mstGraphLinks = null;
 
     /**
      * This method instantiates the kruskal algorith class
@@ -20,10 +20,10 @@ public class Kruskal<T> {
      * @param c       the comparator used to sort the links. It must be a comparator
      *                for the type of data the weight of the links are expressed in
      */
-    public Kruskal(Graph<T> myGraph) {
+    public Kruskal(Graph<T, G> myGraph) {
         this.myGraph = myGraph;
         this.myUnionFindSet = new UnionFindSet<T>();
-        this.mstGraphLinks = new ArrayList<Links<T>>();
+        this.mstGraphLinks = new ArrayList<Links<T, G>>();
     }
 
     /**
@@ -31,7 +31,7 @@ public class Kruskal<T> {
      * 
      * @return return the list of links that generates the MST graph
      */
-    public ArrayList<Links<T>> run() {
+    public ArrayList<Links<T, G>> run() {
         // add nodes to the unionfindset
         for (T e : myGraph.GetNodes()) {
             myUnionFindSet.MakeSet(e);
@@ -41,13 +41,13 @@ public class Kruskal<T> {
         graphLinks = myGraph.GetLinks();
         Collections.sort(graphLinks);
 
-        for (Links<T> l : graphLinks) {
+        for (Links<T, G> l : graphLinks) {
             if (myUnionFindSet.FindSet(l.getNode1()) != myUnionFindSet.FindSet(l.getNode2())) {
 
-                mstGraphLinks.add(new Links<T>(l.getNode1(), l.getNode2(), l.getWeight()));
+                mstGraphLinks.add(new Links<T,G>(l.getNode1(), l.getNode2(), l.getWeight()));
 
                 if (!myGraph.IsDirect()) {
-                    mstGraphLinks.add(new Links<T>(l.getNode2(), l.getNode1(), l.getWeight()));
+                    mstGraphLinks.add(new Links<T, G>(l.getNode2(), l.getNode1(), l.getWeight()));
                 }
 
                 myUnionFindSet.Union(l.getNode1(), l.getNode2());

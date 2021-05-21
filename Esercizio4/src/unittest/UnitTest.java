@@ -13,20 +13,20 @@ import src.kruskal.*;
  */
 
 public class UnitTest {
-    public Graph<String> myGraph;
-    public Graph<String> myGraphDirect;
-    public Graph<String> myGraphNotDirect;
+    public Graph<String, Float> myGraph;
+    public Graph<String, Float> myGraphDirect;
+    public Graph<String, Float> myGraphNotDirect;
 
     @Before
     public void CreateStruct() throws GraphExceptions {
-        myGraph = new Graph<String>();
-        myGraphDirect = new Graph<String>(true);
-        myGraphNotDirect = new Graph<String>(false);
+        myGraph = new Graph<String, Float>();
+        myGraphDirect = new Graph<String, Float>(true);
+        myGraphNotDirect = new Graph<String, Float>(false);
     }
 
     @Test
     public void CreateNullGraph() throws Exception {
-        assertTrue(myGraph instanceof Graph<?>);
+        assertTrue(myGraph instanceof Graph<?,?>);
     }
 
     @Test
@@ -45,8 +45,8 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Torino", "Milano", (double) 150);
-        myGraph.AddLink("Torino", "Genova", (double) 100);
+        myGraph.AddLink("Torino", "Milano", (float) 150);
+        myGraph.AddLink("Torino", "Genova", (float) 100);
         assertTrue(150 == myGraph.GetWeight("Torino", "Milano"));
         assertTrue(100 == myGraph.GetWeight("Torino", "Genova"));
         assertFalse(100000 == myGraph.GetWeight("Torino", "Milano"));
@@ -64,7 +64,7 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Milano", "Torino", (double) 300);
+        myGraph.AddLink("Milano", "Torino", (float) 300);
         myGraph.DeleteNode("Milano");
         assertFalse(myGraph.HasNode("Milano"));
         assertTrue(myGraph.HasNode("Torino"));
@@ -76,9 +76,9 @@ public class UnitTest {
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
         try {
-            myGraph.AddLink("Milano", "Torino", (double) 300);
+            myGraph.AddLink("Milano", "Torino", (float) 300);
             myGraph.DeleteLink("Milano", "Torino");
-            ArrayList<Links<String>> tmpArrList = myGraph.GetLinks();
+            ArrayList<Links<String, Float>> tmpArrList = myGraph.GetLinks();
             assertTrue(tmpArrList.size() == 0);
         } catch (GraphExceptions e) {
             e.printStackTrace();
@@ -100,8 +100,8 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Torino", "Milano", (double) 150);
-        myGraph.AddLink("Torino", "Genova", (double) 100);
+        myGraph.AddLink("Torino", "Milano", (float) 150);
+        myGraph.AddLink("Torino", "Genova", (float) 100);
         assertTrue(2 == myGraph.GetNumberOfLinks());
         assertFalse(3 == myGraph.GetNumberOfLinks());
     }
@@ -141,12 +141,12 @@ public class UnitTest {
         myGraph.AddNode("Torino");
         myGraph.AddNode("Milano");
         myGraph.AddNode("Genova");
-        myGraph.AddLink("Milano", "Torino", (double) 300);
+        myGraph.AddLink("Milano", "Torino", (float) 300);
 
-        Kruskal<String> myKruskal = new Kruskal<String>(myGraph);
-        ArrayList<Links<String>> myArrayList = myKruskal.run();
+        Kruskal<String, Float> myKruskal = new Kruskal<String, Float>(myGraph);
+        ArrayList<Links<String, Float>> myArrayList = myKruskal.run();
 
-        Links<String> l = myArrayList.get(0);
+        Links<String, Float> l = myArrayList.get(0);
         assertTrue(l.getNode1() == "Milano");
         assertTrue(l.getNode2() == "Torino");
     }

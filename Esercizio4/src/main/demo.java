@@ -10,8 +10,8 @@ import src.kruskal.*;
 
 public class demo {
 
-    public static Graph<String> ReadFromFile(String fileName) throws IOException, GraphExceptions {
-        Graph<String> myGraph = new Graph<String>();
+    public static Graph<String, Float> ReadFromFile(String fileName) throws IOException, GraphExceptions {
+        Graph<String, Float> myGraph = new Graph<String, Float>();
         BufferedReader myBF = new BufferedReader(new FileReader(fileName));
         String[] parts;
         String row;
@@ -23,31 +23,31 @@ public class demo {
             if (!myGraph.HasNode(parts[1])) {
                 myGraph.AddNode(parts[1]);
             }
-            myGraph.AddLink(parts[0], parts[1], Double.valueOf(parts[2]));
+            myGraph.AddLink(parts[0], parts[1], Float.valueOf(parts[2]));
         }
         myBF.close();
         return myGraph;
     }
 
     public static void main(String[] args) {
-        Graph<String> myGraphWithCities = null;
+        Graph<String, Float> myGraphWithCities = null;
         try {
             myGraphWithCities = ReadFromFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Kruskal<String> myKruskal = null;
+        Kruskal<String, Float> myKruskal = null;
         try {
-            myKruskal = new Kruskal<String>(myGraphWithCities);
+            myKruskal = new Kruskal<String, Float>(myGraphWithCities);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ArrayList<Links<String>> mstLinks = myKruskal.run();
+        ArrayList<Links<String, Float>> mstLinks = myKruskal.run();
 
         double somma = 0;
-        for (Links<String> l : mstLinks) {
+        for (Links<String, Float> l : mstLinks) {
             somma += l.getWeight();
         }
         System.out.printf("Somma totale archi: %.3f Km\n", somma / 1000);

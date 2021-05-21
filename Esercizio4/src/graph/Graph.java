@@ -8,8 +8,8 @@ import java.util.ArrayList;
  *  ToDos: recupero degli archi dei grafi O(N);
  *  Gestire l'isDirect
  */
-public class Graph<T> {
-    private HashMap<T, ArrayList<Links<T>>> myGraph;
+public class Graph<T, G> {
+    private HashMap<T, ArrayList<Links<T, G>>> myGraph;
     private boolean isDirect = true;
 
     /**
@@ -28,7 +28,7 @@ public class Graph<T> {
      * instantiates a HashMap to store the graph in memory
      */
     public Graph() {
-        myGraph = new HashMap<T, ArrayList<Links<T>>>();
+        myGraph = new HashMap<T, ArrayList<Links<T, G>>>();
     }
 
     /**
@@ -37,7 +37,7 @@ public class Graph<T> {
      * @param key The name of the node into the graph
      */
     public void AddNode(T key) {
-        myGraph.put(key, new ArrayList<Links<T>>());
+        myGraph.put(key, new ArrayList<Links<T, G>>());
     }
 
     /**
@@ -48,18 +48,18 @@ public class Graph<T> {
      * @param node2  the destination node
      * @param weight the weight of the connection
      */
-    public void AddLink(T node1, T node2, double weight) throws GraphExceptions {
-        ArrayList<Links<T>> nodeTmp = myGraph.get(node1);
-        ArrayList<Links<T>> nodeTmp1 = myGraph.get(node2);
+    public void AddLink(T node1, T node2, G weight) throws GraphExceptions {
+        ArrayList<Links<T, G>> nodeTmp = myGraph.get(node1);
+        ArrayList<Links<T, G>> nodeTmp1 = myGraph.get(node2);
 
         if (nodeTmp == null || nodeTmp1 == null) {
             throw new GraphExceptions("Error: node does not exist in graph!");
         }
 
-        nodeTmp.add(new Links<T>(node1, node2, weight));
+        nodeTmp.add(new Links<T, G>(node1, node2, weight));
 
         if (!isDirect) {
-            nodeTmp1.add(new Links<T>(node2, node1, weight));
+            nodeTmp1.add(new Links<T, G>(node2, node1, weight));
         }
     }
 
@@ -80,14 +80,14 @@ public class Graph<T> {
      * @param node2 the destination node
      * @return the weight of the link from node1 to node 2
      */
-    public Double GetWeight(T node1, T node2) throws GraphExceptions {
-        ArrayList<Links<T>> myNode = myGraph.get(node1);
+    public G GetWeight(T node1, T node2) throws GraphExceptions {
+        ArrayList<Links<T, G>> myNode = myGraph.get(node1);
 
         if (myNode == null) {
             throw new GraphExceptions("Error: Node 1 does not exist into your graph!");
         }
 
-        for (Links<T> link : myNode) {
+        for (Links<T, G> link : myNode) {
             if (link.getNode2() == node2)
                 return link.getWeight();
         }
@@ -102,8 +102,8 @@ public class Graph<T> {
      * @param node the node of interest
      * @return the hashtable of the node
      */
-    public ArrayList<Links<T>> GetAdiacentNodes(T node) throws GraphExceptions {
-        ArrayList<Links<T>> arrayListTmp = myGraph.get(node);
+    public ArrayList<Links<T, G>> GetAdiacentNodes(T node) throws GraphExceptions {
+        ArrayList<Links<T, G>> arrayListTmp = myGraph.get(node);
 
         if (arrayListTmp == null)
             throw new GraphExceptions("Error: the node does not exists into the graph");
@@ -122,7 +122,7 @@ public class Graph<T> {
 
         for (T i : myGraph.keySet()) {
 
-            ArrayList<Links<T>> arrayList = myGraph.get(i);
+            ArrayList<Links<T, G>> arrayList = myGraph.get(i);
 
             /**
              * Since the list of link for each node is small, it is possible to immagine
@@ -130,7 +130,7 @@ public class Graph<T> {
              * list with more connections, a hashmap is maybe a better solution so that a
              * delete can be done in O(1) whatever the size will be
              */
-            for (Links<T> link : arrayList) {
+            for (Links<T, G> link : arrayList) {
                 if (link.getNode2() == node)
                     arrayList.remove(link);
             }
@@ -144,10 +144,10 @@ public class Graph<T> {
      * @param node2 the ending node of the link
      */
     public void DeleteLink(T node1, T node2) {
-        ArrayList<Links<T>> arrayList = myGraph.get(node1);
-        ArrayList<Links<T>> arrayListTmp = new ArrayList<Links<T>>();
+        ArrayList<Links<T, G>> arrayList = myGraph.get(node1);
+        ArrayList<Links<T, G>> arrayListTmp = new ArrayList<Links<T, G>>();
 
-        for (Links<T> link : arrayList) {
+        for (Links<T, G> link : arrayList) {
             if (link.getNode2() == node2)
                 arrayListTmp.add(link);
         }
@@ -159,7 +159,7 @@ public class Graph<T> {
          * delete them from the original list. the complexity is O(2n) = O(n) so there
          * is no change in the complexity
          */
-        for (Links<T> link : arrayListTmp) {
+        for (Links<T, G> link : arrayListTmp) {
             arrayList.remove(link);
         }
     }
@@ -180,11 +180,11 @@ public class Graph<T> {
      * 
      * @return the arrayList containing all the links in an ordered way
      */
-    public ArrayList<Links<T>> GetLinks() {
-        ArrayList<Links<T>> myList = new ArrayList<Links<T>>();
+    public ArrayList<Links<T, G>> GetLinks() {
+        ArrayList<Links<T, G>> myList = new ArrayList<Links<T, G>>();
 
         for (T i : myGraph.keySet()) {
-            for (Links<T> j : myGraph.get(i)) {
+            for (Links<T, G> j : myGraph.get(i)) {
                 myList.add(j);
             }
         }
