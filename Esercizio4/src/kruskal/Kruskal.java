@@ -5,7 +5,7 @@ import src.unionfindset.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Kruskal<T, G extends Comparable>{
+public class Kruskal<T, G>{
 
     private Graph<T, G> myGraph = null;
     private UnionFindSet<T> myUnionFindSet = null;
@@ -39,6 +39,7 @@ public class Kruskal<T, G extends Comparable>{
 
         // getting all the links and sorting them with the smallest weight first
         graphLinks = myGraph.GetLinks();
+
         Collections.sort(graphLinks);
 
         for (Links<T, G> l : graphLinks) {
