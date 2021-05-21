@@ -5,16 +5,9 @@ import src.unionfindset.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * This class implements the Kruskal algorithm to find a MST into a graph. T is
- * the type of the key of the nodes; G is the type of the nodes, wich must
- * extend the class GraphNodes<T> as some fundamental variables and methods are
- * defined there
- * 
- */
-public class Kruskal<T, G extends GraphNodes<T>> {
+public class Kruskal<T> {
 
-    private Graph<T, G> myGraph = null;
+    private Graph<T> myGraph = null;
     private UnionFindSet<T> myUnionFindSet = null;
     private ArrayList<Links<T>> graphLinks = null;
 
@@ -27,7 +20,7 @@ public class Kruskal<T, G extends GraphNodes<T>> {
      * @param c       the comparator used to sort the links. It must be a comparator
      *                for the type of data the weight of the links are expressed in
      */
-    public Kruskal(Graph<T, G> myGraph) {
+    public Kruskal(Graph<T> myGraph) {
         this.myGraph = myGraph;
         this.myUnionFindSet = new UnionFindSet<T>();
         this.mstGraphLinks = new ArrayList<Links<T>>();
@@ -64,11 +57,6 @@ public class Kruskal<T, G extends GraphNodes<T>> {
         return this.mstGraphLinks;
     }
 
-    /**
-     * This method returns the UnionFindSet containing the keys of the MST nodes
-     * 
-     * @return a unionFindSet conaining the MST nodes
-     */
     public UnionFindSet<T> getMstNodes() {
         return this.myUnionFindSet;
     }

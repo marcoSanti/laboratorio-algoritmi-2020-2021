@@ -4,13 +4,12 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 /* 
- *  T is the type of the label of the node
- *  G is the type of the node wich must extend the GraphNodes class. 
- *  the parameter of the generic class graph nodes must be the same as the parameter T as it is the key used to identify the destination node of the link
- *  If no particular data structure is required for the node, G can be GraphNodes<T>.
+ *  Our struct is made by two hashmaps:
+ *  ToDos: recupero degli archi dei grafi O(N);
+ *  Gestire l'isDirect
  */
-public class Graph<T, G extends GraphNodes<T>> {
-    private HashMap<T, G> myGraph;
+public class Graph<T> {
+    private HashMap<T, ArrayList<Links<T>>> myGraph;
     private boolean isDirect = true;
 
     /**
@@ -24,21 +23,21 @@ public class Graph<T, G extends GraphNodes<T>> {
         this.isDirect = isDirect;
     }
 
-    
+    /**
+     * This method is a constructor that sets the value to the isDirect to false and
+     * instantiates a HashMap to store the graph in memory
+     */
     public Graph() {
-        myGraph = new HashMap<T, G>();
+        myGraph = new HashMap<T, ArrayList<Links<T>>>();
     }
 
     /**
      * This method adds a node to the GRaph
      * 
-     * @param key         The name of the node into the graph
-     * @param nodeContent The node that need to be stored into the graph. This node
-     *                    contains general informations as well as a ArrayList
-     *                    containing the links to other nodes
+     * @param key The name of the node into the graph
      */
-    public void AddNode(T key, G nodeContent) {
-        myGraph.put(key, nodeContent);
+    public void AddNode(T key) {
+        myGraph.put(key, new ArrayList<Links<T>>());
     }
 
     /**
@@ -50,8 +49,8 @@ public class Graph<T, G extends GraphNodes<T>> {
      * @param weight the weight of the connection
      */
     public void AddLink(T node1, T node2, double weight) throws GraphExceptions {
-        ArrayList<Links<T>> nodeTmp = myGraph.get(node1).getLinkList();
-        ArrayList<Links<T>> nodeTmp1 = myGraph.get(node2).getLinkList();
+        ArrayList<Links<T>> nodeTmp = myGraph.get(node1);
+        ArrayList<Links<T>> nodeTmp1 = myGraph.get(node2);
 
         if (nodeTmp == null || nodeTmp1 == null) {
             throw new GraphExceptions("Error: node does not exist in graph!");
@@ -82,7 +81,7 @@ public class Graph<T, G extends GraphNodes<T>> {
      * @return the weight of the link from node1 to node 2
      */
     public Double GetWeight(T node1, T node2) throws GraphExceptions {
-        ArrayList<Links<T>> myNode = myGraph.get(node1).getLinkList();
+        ArrayList<Links<T>> myNode = myGraph.get(node1);
 
         if (myNode == null) {
             throw new GraphExceptions("Error: Node 1 does not exist into your graph!");
@@ -104,7 +103,7 @@ public class Graph<T, G extends GraphNodes<T>> {
      * @return the hashtable of the node
      */
     public ArrayList<Links<T>> GetAdiacentNodes(T node) throws GraphExceptions {
-        ArrayList<Links<T>> arrayListTmp = myGraph.get(node).getLinkList();
+        ArrayList<Links<T>> arrayListTmp = myGraph.get(node);
 
         if (arrayListTmp == null)
             throw new GraphExceptions("Error: the node does not exists into the graph");
@@ -123,7 +122,7 @@ public class Graph<T, G extends GraphNodes<T>> {
 
         for (T i : myGraph.keySet()) {
 
-            ArrayList<Links<T>> arrayList = myGraph.get(i).getLinkList();
+            ArrayList<Links<T>> arrayList = myGraph.get(i);
 
             /**
              * Since the list of link for each node is small, it is possible to immagine
@@ -139,40 +138,30 @@ public class Graph<T, G extends GraphNodes<T>> {
     }
 
     /**
-     * This method deletes a link from node1 to node2. This must be completed in two
-     * steps with complexity O(n) otherwise if i delete wile i am reading, a
-     * concurrentmodificationexception is thrown. So in the first for loop i retrive
-     * all nodes to be deleted and in the second i delete them from the original
-     * list. the complexity is O(2n) = O(n) so there is no change in the complexity.
-     * The algoritm is run twice if the graph is not direct
+     * This method deletes a link from node1 to node2
      * 
      * @param node1 the starting node of the link
      * @param node2 the ending node of the link
      */
     public void DeleteLink(T node1, T node2) {
-        ArrayList<Links<T>> arrayList = myGraph.get(node1).getLinkList();
+        ArrayList<Links<T>> arrayList = myGraph.get(node1);
         ArrayList<Links<T>> arrayListTmp = new ArrayList<Links<T>>();
 
         for (Links<T> link : arrayList) {
             if (link.getNode2() == node2)
                 arrayListTmp.add(link);
         }
+
+        /**
+         * this operation must be completed in two steps with complexity O(n) otherwise
+         * if i delete wile i am reading a concurrentmodificationexception is thrown. So
+         * in the first for loop i gett all nodes to be deleted and in the second i
+         * delete them from the original list. the complexity is O(2n) = O(n) so there
+         * is no change in the complexity
+         */
         for (Links<T> link : arrayListTmp) {
             arrayList.remove(link);
         }
-
-        if (!isDirect) {
-            arrayList = myGraph.get(node2).getLinkList();
-            arrayListTmp = new ArrayList<Links<T>>();
-            for (Links<T> link : arrayList) {
-                if (link.getNode2() == node1)
-                    arrayListTmp.add(link);
-            }
-            for (Links<T> link : arrayListTmp) {
-                arrayList.remove(link);
-            }
-        }
-
     }
 
     /**
@@ -185,16 +174,17 @@ public class Graph<T, G extends GraphNodes<T>> {
     }
 
     /**
-     * This method returns All links into a graph. Given that N is the number of
-     * links, then i can duoble loop into the has map without problems
+     * this is an alternative function based on a different interpretation of what
+     * O(n) is: given that N is the number o links, then i can duoble loop into the
+     * has map without problems
      * 
-     * @return the arrayList containing all the links. Those links are not sorted.
+     * @return the arrayList containing all the links in an ordered way
      */
     public ArrayList<Links<T>> GetLinks() {
         ArrayList<Links<T>> myList = new ArrayList<Links<T>>();
 
         for (T i : myGraph.keySet()) {
-            for (Links<T> j : myGraph.get(i).getLinkList()) {
+            for (Links<T> j : myGraph.get(i)) {
                 myList.add(j);
             }
         }
@@ -210,7 +200,7 @@ public class Graph<T, G extends GraphNodes<T>> {
     public int GetNumberOfLinks() {
         int sum = 0;
         for (T i : myGraph.keySet()) {
-            sum += myGraph.get(i).getLinkList().size();
+            sum += myGraph.get(i).size();
         }
         return sum;
     }

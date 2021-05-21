@@ -10,18 +10,18 @@ import src.kruskal.*;
 
 public class demo {
 
-    public static Graph<String, GraphNodes<String>> ReadFromFile(String fileName) throws IOException, GraphExceptions {
-        Graph<String, GraphNodes<String>> myGraph = new Graph<String, GraphNodes<String>>();
+    public static Graph<String> ReadFromFile(String fileName) throws IOException, GraphExceptions {
+        Graph<String> myGraph = new Graph<String>();
         BufferedReader myBF = new BufferedReader(new FileReader(fileName));
         String[] parts;
         String row;
         while ((row = myBF.readLine()) != null) {
             parts = row.split(",");
             if (!myGraph.HasNode(parts[0])) {
-                myGraph.AddNode(parts[0], new GraphNodes<String>());
+                myGraph.AddNode(parts[0]);
             }
             if (!myGraph.HasNode(parts[1])) {
-                myGraph.AddNode(parts[1], new GraphNodes<String>());
+                myGraph.AddNode(parts[1]);
             }
             myGraph.AddLink(parts[0], parts[1], Double.valueOf(parts[2]));
         }
@@ -30,20 +30,16 @@ public class demo {
     }
 
     public static void main(String[] args) {
-        Graph<String, GraphNodes<String>> myGraphWithCities = null;
+        Graph<String> myGraphWithCities = null;
         try {
-            if(args.length == 0){
-                myGraphWithCities = ReadFromFile("italian_dist_graph.csv");
-            }else{
-                myGraphWithCities = ReadFromFile(args[0]);
-            }
+            myGraphWithCities = ReadFromFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Kruskal<String, GraphNodes<String>> myKruskal = null;
+        Kruskal<String> myKruskal = null;
         try {
-            myKruskal = new Kruskal<String, GraphNodes<String>>(myGraphWithCities);
+            myKruskal = new Kruskal<String>(myGraphWithCities);
         } catch (Exception e) {
             e.printStackTrace();
         }
