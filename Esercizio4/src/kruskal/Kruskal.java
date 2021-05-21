@@ -38,7 +38,6 @@ public class Kruskal<T, G>{
 
         // getting all the links and sorting them with the smallest weight first
         graphLinks = myGraph.GetLinks();
-
         graphLinks.sort(Links::compareTo);
 
         for (Links<T, G> l : graphLinks) {

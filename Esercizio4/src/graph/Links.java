@@ -23,6 +23,12 @@ public class Links<T, G>{
         return this.weight;
     }
 
+    /**
+     * This method first chech if the weight var is an instance of a type in wich is possible to run a comparson
+     * the if it is it compares the two elements otherwise it throws a classCastException
+     * @param o the other to compare this element with
+     * @return 0 if they are equals, 1 if o is smaller than this; -1 otherwise
+     */
     public int compareTo(Links<T, G> o) throws ClassCastException{
             if(weight instanceof Integer){
                return (Integer)o.getWeight() - (Integer)this.weight;   
