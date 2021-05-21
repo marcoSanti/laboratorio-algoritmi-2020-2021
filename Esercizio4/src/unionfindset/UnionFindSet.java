@@ -2,6 +2,10 @@ package src.unionfindset;
 
 import java.util.HashMap;
 
+/**
+ * This class implements the unionFindSet data structure. T is the parameter of
+ * the key of the node in the graph
+ */
 public class UnionFindSet<T> {
 
     private HashMap<T, UnionFindSetElement<T>> myHashMap = null; // arraylist o hashmap

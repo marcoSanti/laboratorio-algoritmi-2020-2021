@@ -1,39 +1,38 @@
 package src.unittest;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import src.graph.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+
+import src.graph.*;
 import src.kruskal.*;
 
-/* 
- *  Tests for: GetAdiacentNodes(), DeleteLink() are missing 
- */
 
 public class UnitTest {
-    public Graph<String> myGraph;
-    public Graph<String> myGraphDirect;
-    public Graph<String> myGraphNotDirect;
+    public Graph<String, GraphNodes<String>> myGraph;
+    public Graph<String, GraphNodes<String>> myGraphDirect;
+    public Graph<String, GraphNodes<String>> myGraphNotDirect;
 
     @Before
     public void CreateStruct() throws GraphExceptions {
-        myGraph = new Graph<String>();
-        myGraphDirect = new Graph<String>(true);
-        myGraphNotDirect = new Graph<String>(false);
+        myGraph = new Graph<String, GraphNodes<String>>();
+        myGraphDirect = new Graph<String, GraphNodes<String>>(true);
+        myGraphNotDirect = new Graph<String, GraphNodes<String>>(false);
     }
 
     @Test
     public void CreateNullGraph() throws Exception {
-        assertTrue(myGraph instanceof Graph<?>);
+        assertTrue(myGraph instanceof Graph<?, ?>);
     }
 
     @Test
     public void AddNodes() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         assertTrue(myGraph.HasNode("Torino"));
         assertTrue(myGraph.HasNode("Milano"));
         assertTrue(myGraph.HasNode("Genova"));
@@ -42,9 +41,9 @@ public class UnitTest {
 
     @Test
     public void AddLinks() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         myGraph.AddLink("Torino", "Milano", (double) 150);
         myGraph.AddLink("Torino", "Genova", (double) 100);
         assertTrue(150 == myGraph.GetWeight("Torino", "Milano"));
@@ -54,16 +53,16 @@ public class UnitTest {
 
     @Test
     public void CheckForNodes() throws Exception {
-        myGraph.AddNode("Torino");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
         assertTrue(myGraph.HasNode("Torino"));
         assertFalse(myGraph.HasNode("Genova"));
     }
 
     @Test
     public void CheckDeleteNode() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         myGraph.AddLink("Milano", "Torino", (double) 300);
         myGraph.DeleteNode("Milano");
         assertFalse(myGraph.HasNode("Milano"));
@@ -72,9 +71,9 @@ public class UnitTest {
 
     @Test
     public void CheckDeleteLink() {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         try {
             myGraph.AddLink("Milano", "Torino", (double) 300);
             myGraph.DeleteLink("Milano", "Torino");
@@ -87,9 +86,9 @@ public class UnitTest {
 
     @Test
     public void CheckNumberOfNodes() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
 
         assertTrue(3 == myGraph.GetNumberOfNode());
         assertFalse(4 == myGraph.GetNumberOfNode());
@@ -97,9 +96,9 @@ public class UnitTest {
 
     @Test
     public void CheckNumberOfLinks() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         myGraph.AddLink("Torino", "Milano", (double) 150);
         myGraph.AddLink("Torino", "Genova", (double) 100);
         assertTrue(2 == myGraph.GetNumberOfLinks());
@@ -108,9 +107,9 @@ public class UnitTest {
 
     @Test
     public void CheckGetNodes() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
 
         ArrayList<String> myNodes = myGraph.GetNodes();
 
@@ -138,12 +137,12 @@ public class UnitTest {
 
     @Test
     public void CheckKruskal() throws Exception {
-        myGraph.AddNode("Torino");
-        myGraph.AddNode("Milano");
-        myGraph.AddNode("Genova");
+        myGraph.AddNode("Torino", new GraphNodes<String>());
+        myGraph.AddNode("Milano", new GraphNodes<String>());
+        myGraph.AddNode("Genova", new GraphNodes<String>());
         myGraph.AddLink("Milano", "Torino", (double) 300);
 
-        Kruskal<String> myKruskal = new Kruskal<String>(myGraph);
+        Kruskal<String, GraphNodes<String>> myKruskal = new Kruskal<String, GraphNodes<String>>(myGraph);
         ArrayList<Links<String>> myArrayList = myKruskal.run();
 
         Links<String> l = myArrayList.get(0);

@@ -1,5 +1,11 @@
 package src.graph;
 
+/**
+ * This class is the rappresentation of a link between two nodes, where T is the
+ * type of the key used to access the HashMap containing the nodes. The class
+ * implements Comparable<> in order to make it possible to use the method sort()
+ * on an ArrayList<Links<T>>
+ */
 public class Links<T> implements Comparable<Links<T>> {
     private T node1;
     private T node2;
