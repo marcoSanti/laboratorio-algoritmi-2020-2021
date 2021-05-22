@@ -150,4 +150,27 @@ public class UnitTest {
         assertTrue(l.getNode1() == "Milano");
         assertTrue(l.getNode2() == "Torino");
     }
+
+    /**
+     * This test check for an error generated if the Graph is of a type wich cannot be 
+     * used to run the kruskal algoritm
+     */
+    @Test
+    public void CheckKruskalError(){
+        try{
+
+            Graph<String,String> testGraphError = new Graph<String, String>();
+            testGraphError.AddNode("Torino");
+            testGraphError.AddNode("Genova");
+            testGraphError.AddNode("Milano");
+            testGraphError.AddLink("Torino", "Genova", "AB");
+            testGraphError.AddLink("Torino", "Milano", "BC");
+            testGraphError.AddLink("Milano", "Genova", "CD");
+
+            Kruskal<String, String> errorKTest = new Kruskal<String, String>(testGraphError);
+            errorKTest.run();
+        }catch (Exception e){
+            assertTrue(e instanceof ClassCastException);
+        }
+    }
 }

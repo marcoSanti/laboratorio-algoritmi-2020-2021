@@ -30,22 +30,34 @@ public class Links<T, G>{
      * @return 0 if they are equals, 1 if o is smaller than this; -1 otherwise
      */
     public int compareTo(Links<T, G> o) throws ClassCastException{
-            if(weight instanceof Integer){
-               return (Integer)o.getWeight() - (Integer)this.weight;   
-            }
-            else if (weight instanceof Float){
-                if(o.getWeight() == this.weight) return 0;
-                else if((Float)o.getWeight() > (Float)this.weight) return -1;
-                else return 1;
-            }
-            else if(weight instanceof Short){
-                return (Short)o.getWeight() - (Short)this.weight;   
-            }
-            else if(weight instanceof Double){
-                if(o.getWeight() == this.weight) return 0;
-                else if((Double)o.getWeight() > (Double)this.weight) return -1;
-                else return 1;
-            }
-            else throw new ClassCastException("G type is not applicable to comparable!");
+        if(weight instanceof Byte){
+            if(o.getWeight() == this.weight) return 0;
+            else if((Byte)o.getWeight() > (Byte)this.weight) return -1;
+            else return 1;
+        }
+        else if(weight instanceof Short){
+            return (Short)o.getWeight() - (Short)this.weight;   
+        }
+        else if(weight instanceof Integer){
+            if(o.getWeight() == this.weight) return 0;
+            else if((Integer)o.getWeight() > (Integer)this.weight) return -1;
+            else return 1;
+        }
+        else if(weight instanceof Long){
+            if(o.getWeight() == this.weight) return 0;
+            else if((Long)o.getWeight() > (Long)this.weight) return -1;
+            else return 1;
+        }
+        else if (weight instanceof Float){
+            if(o.getWeight() == this.weight) return 0;
+            else if((Float)o.getWeight() > (Float)this.weight) return -1;
+            else return 1;
+        }
+        else if(weight instanceof Double){
+            if(o.getWeight() == this.weight) return 0;
+            else if((Double)o.getWeight() > (Double)this.weight) return -1;
+            else return 1;
+        }  
+        else throw new ClassCastException("G type is not applicable to comparable!");
     }
 }
