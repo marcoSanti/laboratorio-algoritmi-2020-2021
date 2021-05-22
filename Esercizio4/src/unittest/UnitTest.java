@@ -158,7 +158,6 @@ public class UnitTest {
     @Test
     public void CheckKruskalError(){
         try{
-
             Graph<String,String> testGraphError = new Graph<String, String>();
             testGraphError.AddNode("Torino");
             testGraphError.AddNode("Genova");

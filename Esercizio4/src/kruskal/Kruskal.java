@@ -4,6 +4,10 @@ import src.graph.*;
 import src.unionfindset.*;
 import java.util.ArrayList;
 
+/**
+ * T is the type of the node of the graph
+ * G is the type of the link of the graph
+ */
 public class Kruskal<T, G>{
 
     private Graph<T, G> myGraph = null;
