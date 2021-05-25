@@ -188,15 +188,37 @@ public class Graph<T, G> {
      * 
      *@return the arrayList containing all the links. Those links are not sorted.
      */
+
+    //aggiungere per il grafo non diretto
+
     public ArrayList<Links<T, G>> GetLinks() {
         ArrayList<Links<T, G>> myList = new ArrayList<Links<T, G>>();
+        HashMap<T,T> visitedNodes = new HashMap<T,T>();
 
-        for (T i : myGraph.keySet()) {
-            for (Links<T, G> j : myGraph.get(i)) {
-                myList.add(j);
+        if(isDirect){
+            for (T i : myGraph.keySet()) {
+                for (Links<T, G> j : myGraph.get(i)) {
+                    myList.add(j);
+                }
             }
+        }else{
+            /**
+             * This is a modified version of the visit of a BFS visit of th graph
+             * When a node key is inserted into the VisitedNodes, the node is colored
+             * black. in the inner loop the node is gray. Before adding a link
+             * we check that the node is no already visited and if it is we do not add 
+             * it to the list of links
+             */
+            for (T i : myGraph.keySet()) {
+                for (Links<T, G> j : myGraph.get(i)) {
+                    if(!visitedNodes.containsKey(j.getNode2())){
+                        myList.add(j);
+                    }
+                }
+                visitedNodes.put(i, i);
+            } 
         }
-
+        
         return myList;
     }
 

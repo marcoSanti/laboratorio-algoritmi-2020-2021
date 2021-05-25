@@ -172,4 +172,22 @@ public class UnitTest {
             assertTrue(e instanceof ClassCastException);
         }
     }
+
+
+    @Test
+    public void checkLinkListNotDirect(){
+        myGraphNotDirect.AddNode("Pippo");
+        myGraphNotDirect.AddNode("Pluto");
+        myGraphNotDirect.AddNode("Topolino");
+
+        try{
+            myGraphNotDirect.AddLink("Pippo", "Pluto", (float)5);
+            myGraphNotDirect.AddLink("Topolino", "Pluto", (float)3);
+            myGraphNotDirect.AddLink("Topolino", "Pippo", (float)4);
+            
+            assertTrue(myGraphNotDirect.GetLinks().size() == 3);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
