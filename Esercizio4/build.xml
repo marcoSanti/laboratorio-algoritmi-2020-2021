@@ -68,11 +68,11 @@
             <attribute name="Class-Path" value="${classpath}"/>
           </manifest>
         </jar>
-        <exec executable="java">
+       <!-- <exec executable="java">
           <arg value="-jar" />
           <arg value="build/GraphDemo.jar" />
           <arg value="italian_dist_graph.csv" />
-      </exec>
+      </exec>-->
     </target>
 
     <!--Ant esegue questa serie di target in successione-->
