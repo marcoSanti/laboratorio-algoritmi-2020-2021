@@ -32,7 +32,10 @@ public class demo {
     public static void main(String[] args) {
         Graph<String, Float> myGraphWithCities = null;
         try {
-            if (args.length == 0) ReadFromFile("italian_dist_graph.csv");
+            if (args.length == 0){
+                System.out.println("No sourge graph provided. Aborting execution...");
+                System.exit(-1);
+            }
             else myGraphWithCities = ReadFromFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
