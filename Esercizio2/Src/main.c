@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
     int tokenizedNumberLines, dictionaryElements, minEditDistance, positionOfMinEditDistance;
     int i, j, tmp;
     int DictMaxSize = 0, correctMeMaxSize = 0;
-    int *memoizationHelpMatrix, memoizationRowSize = 0;
 
 
     i = 0;
@@ -103,14 +102,7 @@ int main(int argc, char *argv[])
 
     dictionary = loadDictionary("dictionary.txt", &dictionaryElements, &DictMaxSize);
 
-    //allocate memoization matrix with max size between dict and correctme
-    if(correctMeMaxSize>DictMaxSize){
-        memoizationHelpMatrix = malloc(correctMeMaxSize * correctMeMaxSize * sizeof(int));
-        memoizationRowSize = correctMeMaxSize;
-    }else{
-        memoizationHelpMatrix = malloc(DictMaxSize * DictMaxSize * sizeof(int));
-        memoizationRowSize = DictMaxSize;
-    }
+    
 
 #ifdef noMemoization //solving the problem without memoization.
 
@@ -143,7 +135,7 @@ int main(int argc, char *argv[])
         for (j = 0; j < dictionaryElements; j++)
         {
 
-            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j], memoizationHelpMatrix, memoizationRowSize);
+            tmp = edit_distance_dyn(tokenizedInputFile[i], dictionary[j]);
 
             if (tmp < minEditDistance)
             {

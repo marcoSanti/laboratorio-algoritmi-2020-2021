@@ -46,10 +46,6 @@ static void longestWordonEarth(){
     TEST_ASSERT_EQUAL(90, edit_distance_dyn("pneumonoultramicroscopicsilicovolcanoconiosis", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"));
 }
 
-static void runOverFlow(){
-    //test overflow. on error expecting a warning message and INT_MAX as return value!
-    TEST_ASSERT_EQUAL(INT_MAX, edit_distance_dyn("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"));
-}
 
 int main(int argc, char *argv[]) {
     RUN_TEST(twoStringsEmpty);
@@ -63,5 +59,4 @@ int main(int argc, char *argv[]) {
     RUN_TEST(slideExample3);
     RUN_TEST(slideExample4);
     RUN_TEST(longestWordonEarth);
-    RUN_TEST(runOverFlow);
 }

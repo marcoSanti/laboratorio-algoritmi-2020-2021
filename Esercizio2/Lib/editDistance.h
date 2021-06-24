@@ -25,4 +25,4 @@ int edit_distance(char *s1, char *s2);
     int *memoizationHelpMatrix is an array of dimenion rowSize*rowSize*sizeof(int) where rowSize is the max legth
     of a word between the dictionary and the correctMe file 
 */
-int edit_distance_dyn(char *str1, char *str2, int *memoizationHelpMatrix, int rowSize);
+int edit_distance_dyn(char *str1, char *str2);
